@@ -46,13 +46,6 @@ class MainNavbar extends React.Component {
 
     }
 
-    renderScripts () {
-
-        const scripts = this.props.scripts || []
-        return scripts.map( script => <script type="text/javascript" src={ script }></script> )
-
-    }
-
     /**
      * The main component render method
      *

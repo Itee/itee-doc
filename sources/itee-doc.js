@@ -7,16 +7,18 @@ require( 'babel-register' )( {
     presets: [ 'react' ]
 } )
 
+const path           = require( 'path' )
+const fs             = require( 'fs' )
+const { v4: uuidv4 } = require( 'uuid' )
+
 const React          = require( 'react' )
 const ReactDOMServer = require( 'react-dom/server' )
 const Page           = require( './components/Page' )
 const LoremIpsum     = require( './components/LoremIpsum' )
 
-const { v4: uuidv4 } = require( 'uuid' )
-const env            = require( 'jsdoc/env' )
-const helper         = require( 'jsdoc/util/templateHelper' )
-const path           = require( 'path' )
-const fs             = require( 'fs' )
+const env    = require( 'jsdoc/env' )
+const helper = require( 'jsdoc/util/templateHelper' )
+const logger = require( 'jsdoc/util/logger' )
 
 const linkRegex        = RegExp( '@link' )
 const squaredLinkRegex = RegExp( '\\[(.*)\\]{@link (.*)}' )
@@ -115,7 +117,7 @@ function getFilesInDirectory ( directoryPath, recursive = true ) {
 
     } catch ( error ) {
 
-        console.error( error )
+        logger.error( error )
 
     }
 
@@ -248,6 +250,10 @@ function parseTaffyDatas ( taffyData ) {
 
         // Keep reference of doclet
         datas.indexes.set( uuid, docletData )
+
+        if ( datas.longNameToUuid.has( longName ) ) {
+            logger.warn( '%s', `Long name collision on "${ longName }".` )
+        }
         datas.longNameToUuid.set( longName, uuid )
 
     } )
@@ -270,7 +276,7 @@ function parseLink ( link = '' ) {
                 const simpleLink = link.match( simpleLinkRegex, 's' )
                 if ( isNotDefined( simpleLink ) || simpleLink.length < 2 ) {
 
-                    console.error( `Invalide link matching: ${ link }` )
+                    logger.error( `Invalide link matching: ${ link }` )
 
                 } else {
                     linkMatchs = {
@@ -423,7 +429,7 @@ function parseParameters ( parameters = [] ) {
                 if ( propertyElement && propertyElement.length > 0 ) {
                     target = propertyElement[ 0 ]
                 } else {
-                    console.error( `Intermediate property ${ currentPropertyName } does not exist in path: ${ parameterName }` )
+                    logger.error( `Intermediate property ${ currentPropertyName } does not exist in path: ${ parameterName }` )
                     break
                 }
 
@@ -530,7 +536,7 @@ function processDatas ( datas ) {
         const parentUuid = datas.longNameToUuid.get( memberOf )
         const parent     = datas.indexes.get( parentUuid )
         if ( isNotDefined( parent ) ) {
-            console.error( `Unable to bind member [${ member.name }] to ${ memberOf }. ${ memberOf } is not defined !` )
+            logger.warn( `Unable to bind member [${ member.name }] to ${ memberOf }. ${ memberOf } is not defined !` )
             continue
         }
 
@@ -567,7 +573,7 @@ function outputStaticFiles ( outputPath ) {
 
             const success = fs.mkdirSync( finalOutputDirectory, { recursive: true } )
             if ( isNotDefined( success ) ) {
-                console.error( `Unable to create directory structure: ${ finalOutputDirectory }` )
+                logger.error( `Unable to create directory structure: ${ finalOutputDirectory }` )
                 continue
             }
 
@@ -576,7 +582,7 @@ function outputStaticFiles ( outputPath ) {
         const fileName       = path.basename( inputFilePath )
         const outputFilePath = path.join( finalOutputDirectory, fileName )
         fs.copyFileSync( inputFilePath, outputFilePath )
-        console.log( `Copying ${ inputFilePath } to ${ outputFilePath }` )
+        logger.info( `Copying static file ${ inputFilePath } to ${ outputFilePath }` )
 
     }
 

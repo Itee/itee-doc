@@ -1,8 +1,3 @@
-/**
- * @author [Tristan Valcke]{@link https://github.com/Itee}
- * @license [BSD-3-Clause]{@link https://opensource.org/licenses/BSD-3-Clause}
- */
-
 const React       = require( 'react' )
 const MainNavbar  = require( './MainNavbar' )
 const MainContent = require( './MainContent' )
@@ -10,10 +5,19 @@ const MainFooter  = require( './MainFooter' )
 
 /**
  * @class
- * @classdesc The root component for page generation
+ * @classdesc The root component for HTML page generation, it allow to add your own static styles and scritps
+ * @augments React.Component
+ * @author [Tristan Valcke]{@link https://github.com/Itee}
+ * @license [BSD-3-Clause]{@link https://opensource.org/licenses/BSD-3-Clause}
  */
 class Page extends React.Component {
 
+    /**
+     * This methods will map this.props.stylesheets to html link elements
+     *
+     * @returns {JSX.Element}
+     * @private
+     */
     _renderStylesheets () {
 
         const stylesheets = this.props.stylesheets || []
@@ -21,6 +25,12 @@ class Page extends React.Component {
 
     }
 
+    /**
+     * This methods will map this.props.scripts to html script elements
+     *
+     * @returns {JSX.Element}
+     * @private
+     */
     _renderScripts () {
 
         const scripts = this.props.scripts || []
@@ -28,6 +38,11 @@ class Page extends React.Component {
 
     }
 
+    /**
+     * The main component render method
+     *
+     * @returns {JSX.Element}
+     */
     render () {
 
         return (

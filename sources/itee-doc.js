@@ -14,6 +14,7 @@ const { v4: uuidv4 } = require( 'uuid' )
 const React          = require( 'react' )
 const ReactDOMServer = require( 'react-dom/server' )
 const Page           = require( './components/Page' )
+const Class          = require( './components/Class' )
 const LoremIpsum     = require( './components/LoremIpsum' )
 
 const env    = require( 'jsdoc/env' )
@@ -611,7 +612,7 @@ function renderClasses ( pageProps, classes, outputPath ) {
         const fileName = classData.destination.fileName
         const filePath = path.join( outputPath, fileName )
         const pageHtml = renderPage( pageProps, [
-            React.createElement( LoremIpsum, classData )
+            React.createElement( Class, classData )
         ] )
 
         fs.writeFileSync( filePath, pageHtml )

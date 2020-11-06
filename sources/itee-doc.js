@@ -514,23 +514,8 @@ function parseMeta ( meta = {} ) {
 
 function processDatas ( datas ) {
 
-    const templateDatas = {
-        navbar:  {
-            brand: 'Itee-Doc',
-            menus: [ {
-                align: 'left',
-                items: [ 'foo', 'bar', 'baz' ]
-            } ]
-        },
-        content: {},
-        footer:  {
-            bg:      'dark',
-            variant: 'dark',
-            sticky:  true
-        }
-    }
 
-    // Affect members to parent
+    // Assign members to parent
     for ( const member of datas.members.values() ) {
 
         const memberOf   = member.memberOf
@@ -549,7 +534,64 @@ function processDatas ( datas ) {
 
     }
 
-    return templateDatas
+    ////////////////////////////////////////
+
+    const navbar = {
+        bg:      'dark',
+        variant: 'dark',
+        items:   []
+    }
+
+    const navbarBrand = {
+        type:  'brand',
+        link:  'index.html',
+        label: 'Itee-Doc'
+    }
+    navbar.items.push( navbarBrand )
+
+    const nav = {
+        type:  'nav',
+        align: 'left',
+        items: []
+    }
+    navbar.items.push( nav )
+
+    // Compute Modules list
+
+
+    // Compute Classes list
+    const classDropdown = {
+        type:  'dropdown',
+        title: 'Classes',
+        items: []
+    }
+    nav.items.push( classDropdown )
+
+    datas.classes.forEach( ( classValue, classKey ) => {
+
+        classDropdown.items.push( {
+            type:  'item',
+            href:  classValue.destination.fileName,
+            label: classKey
+        } )
+
+    } )
+
+
+    // Compute Externals list
+    // Compute Globals list
+    // Compute Tutorials list
+    // Compute Graphics list
+
+    return {
+        navbar:  navbar,
+        content: {},
+        footer:  {
+            bg:      'dark',
+            variant: 'dark',
+            sticky:  true
+        }
+    }
 
 }
 

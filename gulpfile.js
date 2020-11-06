@@ -211,13 +211,16 @@ gulp.task( 'copy-publish', () => {
 
 gulp.task( 'bundle-scripts', () => {
 
-    const scriptsToCopy = [
+    const scriptsToCopy   = [
         './node_modules/jquery/dist/jquery.js',
         './node_modules/bootstrap/dist/js/bootstrap.js'
     ]
+    const outputFileName  = 'itee-doc.js'
+    const outputDirectory = './builds/statics/scripts'
 
     return gulp.src( scriptsToCopy )
-               .pipe( gulp.dest( './builds/statics/scripts' ) )
+               .pipe( concat( outputFileName ) )
+               .pipe( gulp.dest( outputDirectory ) )
 
 } )
 

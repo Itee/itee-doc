@@ -202,12 +202,26 @@ gulp.task( 'build-style', () => {
 
 } )
 
-gulp.task( 'build-script', () => {
+gulp.task( 'copy-publish', () => {
 
     return gulp.src( './sources/scripts/publish.js' )
                .pipe( gulp.dest( './builds' ) )
 
 } )
+
+gulp.task( 'bundle-scripts', () => {
+
+    const scriptsToCopy = [
+        './node_modules/jquery/dist/jquery.js',
+        './node_modules/bootstrap/dist/js/bootstrap.js'
+    ]
+
+    return gulp.src( scriptsToCopy )
+               .pipe( gulp.dest( './builds/statics/scripts' ) )
+
+} )
+
+gulp.task( 'build-script', gulp.parallel( 'copy-publish', 'bundle-scripts' ) )
 
 /**
  * @method npm run build

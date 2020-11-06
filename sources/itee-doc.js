@@ -155,12 +155,11 @@ function parseTaffyDatas ( taffyData ) {
             uuid = uuidv4()
         }
 
-
         // Parse doclet data
         const docletKind = doclet.kind
         const longName   = doclet.longname
         let docletData   = {
-            uuid:        uuidv4(),
+            uuid:        uuid,
             type:        docletKind,
             name:        doclet.name,
             longName:    doclet.longname,

@@ -1,13 +1,11 @@
-/**
- * @author [Tristan Valcke]{@link https://github.com/Itee}
- * @license [BSD-3-Clause]{@link https://opensource.org/licenses/BSD-3-Clause}
- */
-
 const React = require( 'react' )
 
 /**
  * @class
- * @classdesc The root component for page generation
+ * @classdesc The root component for documenting class
+ * @augments React.Component
+ * @author [Tristan Valcke]{@link https://github.com/Itee}
+ * @license [BSD-3-Clause]{@link https://opensource.org/licenses/BSD-3-Clause}
  */
 class Class extends React.Component {
 
@@ -40,6 +38,11 @@ class Class extends React.Component {
 //    }
 //}
 
+    /**
+     * The main component render method
+     *
+     * @returns {JSX.Element}
+     */
     render () {
 
         return (

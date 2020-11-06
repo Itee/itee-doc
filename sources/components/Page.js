@@ -14,14 +14,14 @@ const MainFooter  = require( './MainFooter' )
  */
 class Page extends React.Component {
 
-    renderStylesheets () {
+    _renderStylesheets () {
 
         const stylesheets = this.props.stylesheets || []
         return stylesheets.map( stylesheet => <link rel="stylesheet" href={ stylesheet } /> )
 
     }
 
-    renderScripts () {
+    _renderScripts () {
 
         const scripts = this.props.scripts || []
         return scripts.map( script => <script type="text/javascript" src={ script }></script> )
@@ -37,7 +37,7 @@ class Page extends React.Component {
                     <meta name="viewport" content="width=device-width, initial-scale=1" />
                     <title>{ this.props.title }</title>
                     <link rel="stylesheet" type="text/css" href="styles/style.css" />
-                    { this.renderStylesheets() }
+                    { this._renderStylesheets() }
                 </head>
                 <body className="h-100 overflow-hidden">
                     <div className="d-flex flex-column h-100 overflow-hidden">
@@ -50,7 +50,7 @@ class Page extends React.Component {
                         </MainFooter>
                     </div>
                     {/*<script type="text/javascript" src="scripts/app.js" />*/ }
-                    { this.renderScripts() }
+                    { this._renderScripts() }
                 </body>
             </html>
         )

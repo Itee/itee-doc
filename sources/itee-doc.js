@@ -648,7 +648,7 @@ function renderClasses ( pageProps, classes, outputPath ) {
 
     for ( const classData of classes ) {
 
-        // Avoir jsdoc warning on render even if there is only one rendered class per file
+        // Avoid jsdoc warning on render even if there is only one rendered class per file
         classData.key = classData.uuid
 
         const fileName = classData.destination.fileName

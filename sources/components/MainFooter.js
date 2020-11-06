@@ -1,3 +1,6 @@
+const React  = require( 'react' )
+const Navbar = require( 'react-bootstrap/Navbar' )
+
 /**
  * @class
  * @classdesc The main footer of html page, that allow to display copyright and others stuffs
@@ -5,10 +8,6 @@
  * @author [Tristan Valcke]{@link https://github.com/Itee}
  * @license [BSD-3-Clause]{@link https://opensource.org/licenses/BSD-3-Clause}
  */
-
-const React  = require( 'react' )
-const Navbar = require( 'react-bootstrap/Navbar' )
-
 class MainFooter extends React.Component {
 
     /**

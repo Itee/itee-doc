@@ -1,6 +1,5 @@
-
-const React = require('react')
-const Card = require('react-bootstrap/Card')
+const React = require( 'react' )
+const Card  = require( 'react-bootstrap/Card' )
 
 /**
  * @class

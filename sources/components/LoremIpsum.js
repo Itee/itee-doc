@@ -118,6 +118,7 @@ class LoremIpsum extends React.Component {
             </div>
         )
     }
+
 }
 
 module.exports = LoremIpsum

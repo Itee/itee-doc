@@ -1,7 +1,7 @@
-const React  = require( 'react' )
-const Col  = require( 'react-bootstrap/Col' )
-const Row  = require( 'react-bootstrap/Row' )
-const ErrorBoundary  = require( './ErrorBoundary' )
+const React         = require( 'react' )
+const Col           = require( 'react-bootstrap/Col' )
+const Row           = require( 'react-bootstrap/Row' )
+const ErrorBoundary = require( './ErrorBoundary' )
 
 /**
  * @class
@@ -28,7 +28,7 @@ class MainContent extends React.Component {
                 </Col>
                 <Col md={ 10 } className="mh-100 overflow-auto nodes-board p-1 bg-secondary">
                     <ErrorBoundary>
-                        {this.props.children}
+                        { this.props.children }
                     </ErrorBoundary>
                 </Col>
             </Row>

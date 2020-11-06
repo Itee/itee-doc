@@ -1,8 +1,3 @@
-/**
- * @author [Tristan Valcke]{@link https://github.com/Itee}
- * @license [BSD-3-Clause]{@link https://opensource.org/licenses/BSD-3-Clause}
- */
-
 const { v4: uuidv4 } = require( 'uuid' )
 const React          = require( 'react' )
 const Navbar         = require( 'react-bootstrap/Navbar' )
@@ -11,7 +6,10 @@ const isString       = require( '../scripts/utils' )
 
 /**
  * @class
- * @classdesc The root component for page generation
+ * @classdesc The main navbar component, that will generate menus and sub menus
+ * @augments React.Component
+ * @author [Tristan Valcke]{@link https://github.com/Itee}
+ * @license [BSD-3-Clause]{@link https://opensource.org/licenses/BSD-3-Clause}
  */
 class MainNavbar extends React.Component {
 
@@ -55,6 +53,11 @@ class MainNavbar extends React.Component {
 
     }
 
+    /**
+     * The main component render method
+     *
+     * @returns {JSX.Element}
+     */
     render () {
 
         return (

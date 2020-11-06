@@ -21,10 +21,10 @@ function CreateJsdocConfiguration () {
             dictionaries:     [ 'jsdoc', 'closure' ]
         },
         source:       {
-            include:        [ 'tests/examples/' ],
+            include:        [ './sources' ],
             includePattern: '.+\\.js(doc|x)?$',
             excludePattern: '(node_modules|documentation|builds)',
-            exclude:        []
+            exclude:        [ './sources/components/others' ]
         },
         sourceType:   'module',
         plugins:      [],
@@ -38,14 +38,13 @@ function CreateJsdocConfiguration () {
             verbose:     true,
             private:     true,
             //            'tutorials':   'documentation/tutorials',
-                        template:    './builds'
-//            template:    'node_modules/jsdoc-react'
+            template:    './builds'
             //            'template':    'node_modules/ink-docstrap/template'
         },
         templates:    {
             default:           {
                 staticFiles:       {
-                    include:        [ 'documentation' ],
+                    include:        [ './builds/statics' ],
                     includePattern: '',
                     excludePattern: '',
                     exclude:        [

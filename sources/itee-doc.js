@@ -61,6 +61,7 @@ function getUniqueFilename ( longName ) {
     let counter  = 0
     while ( usedFileNames.includes( fileName ) ) {
         fileName = `${ basename }_${ counter }.html`
+        counter++
     }
 
     // Keep reference on it

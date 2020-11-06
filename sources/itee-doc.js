@@ -10,7 +10,7 @@ require( 'babel-register' )( {
 const React          = require( 'react' )
 const ReactDOMServer = require( 'react-dom/server' )
 const Page           = require( './components/Page' )
-const LoremIpsum     = require( './components/others/LoremIpsum' )
+const LoremIpsum     = require( './components/LoremIpsum' )
 
 const { v4: uuidv4 } = require( 'uuid' )
 const env            = require( 'jsdoc/env' )

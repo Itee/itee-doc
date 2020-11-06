@@ -2,7 +2,7 @@ const { v4: uuidv4 } = require( 'uuid' )
 const React          = require( 'react' )
 const Navbar         = require( 'react-bootstrap/Navbar' )
 const Nav            = require( 'react-bootstrap/Nav' )
-const isString       = require( '../scripts/utils' )
+const NavDropdown    = require( 'react-bootstrap/NavDropdown' )
 
 /**
  * @class
@@ -13,39 +13,6 @@ const isString       = require( '../scripts/utils' )
  */
 class MainNavbar extends React.Component {
 
-    renderMenuItems ( items = [] ) {
-
-        return items.map( item => {
-
-            let menuItem
-
-            if ( isString( item ) ) {
-                menuItem = <Nav.Link key={ uuidv4() } href={ `#${ item }` }>{ item }</Nav.Link>
-            } else {
-                // todo: dropdown
-            }
-
-            return menuItem
-
-        } )
-
-    }
-
-    renderMenus ( menus = [] ) {
-
-        return menus.map( menu => {
-
-            return (
-                <Nav key={ uuidv4() } className="mr-auto">
-                    { this.renderMenuItems( menu.items ) }
-                </Nav>
-            )
-
-
-        } )
-
-    }
-
     /**
      * The main component render method
      *
@@ -53,32 +20,221 @@ class MainNavbar extends React.Component {
      */
     render () {
 
+        const uuid = this.props.id || uuidv4()
+
         return (
-            <Navbar bg="dark" variant="dark">
-                <Navbar.Brand href="index.html">{ this.props.brand }</Navbar.Brand>
-                { this.renderMenus( this.props.menus ) }
-                {/*<Nav className="mr-auto">*/ }
-                {/*    <Nav.Link href="#home">Home</Nav.Link>*/ }
-                {/*    <Nav.Link href="#features">Features</Nav.Link>*/ }
-                {/*    <Nav.Link href="#pricing">Pricing</Nav.Link>*/ }
-                {/*</Nav>*/ }
-                {/*<Form inline>*/ }
-                {/*    <FormControl type="text" placeholder="Search" className="mr-sm-2" />*/ }
-                {/*    <Button variant="outline-info">Search</Button>*/ }
-                {/*</Form>*/ }
+            <Navbar id={ uuid } bg={ this.props.bg } variant={ this.props.variant } >
+                { this._renderNavbarItems( this.props.items ) }
             </Navbar>
         )
 
     }
 
-}
+    /**
+     * Render all navbar item types
+     * @param {Array<Object>} [navbarItems=[]] - An array of navbar items properties
+     * @returns {Array<JSX.Element>}
+     * @private
+     */
+    _renderNavbarItems ( navbarItems = [] ) {
 
-MainNavbar.defaultProps = {
-    brand: 'MyBrand',
-    menus: [ {
-        align: 'left',
-        items: [ 'foo', 'bar', 'baz' ]
-    } ]
+        return navbarItems.map( navbarItem => {
+
+            let renderedNavbarItem
+
+            switch ( navbarItem.type ) {
+
+                case 'brand':
+                    renderedNavbarItem = this._renderNavbarBrand( navbarItem )
+                    break
+
+                case 'nav':
+                    renderedNavbarItem = this._renderNavbarNav( navbarItem )
+                    break
+
+                default:
+                    throw new RangeError( `Invalid navbar item type: ${ navbarItem.type }` )
+
+            }
+
+            return renderedNavbarItem
+
+        } )
+
+    }
+
+    /**
+     * Render a navbar brand
+     * @param {Object} brand - The brand properties
+     * @returns {JSX.Element}
+     * @private
+     */
+    _renderNavbarBrand ( brand ) {
+
+        const uuid = brand.id || uuidv4()
+
+        return <Navbar.Brand key={ uuid } id={ uuid } href={ brand.link }>{ brand.label }</Navbar.Brand>
+
+    }
+
+    /**
+     * Render a navbar nav
+     * @param {Object} nav - The nav properties
+     * @returns {JSX.Element}
+     * @private
+     */
+    _renderNavbarNav ( nav ) {
+
+        const uuid = nav.id || uuidv4()
+
+        return (
+            <Nav key={ uuid } id={ uuid } className="mr-auto">
+                { this._renderNavItems( nav.items ) }
+            </Nav>
+        )
+
+    }
+
+    /**
+     * Render all nav items type
+     * @param {Array<Object>} [navItems=[]] - An array of nav items properties
+     * @returns {Array<JSX.Element>}
+     * @private
+     */
+    _renderNavItems ( navItems = [] ) {
+
+        return navItems.map( navItem => {
+
+            let renderedNavItem
+
+            switch ( navItem.type ) {
+
+                case 'link':
+                    renderedNavItem = this._renderNavLink( navItem )
+                    break
+
+                case 'dropdown':
+                    renderedNavItem = this._renderNavDropdown( navItem )
+                    break
+
+                default:
+                    throw new RangeError( `Invalid item type: ${ navItem.type }` )
+
+            }
+
+            return renderedNavItem
+
+        } )
+
+    }
+
+    /**
+     * Render a nav link
+     * @param {Object} link - The link properties
+     * @returns {JSX.Element}
+     * @private
+     */
+    _renderNavLink ( link ) {
+
+        const uuid = link.id || uuidv4()
+
+        return (
+            <Nav.Link key={ uuid } id={ uuid } href={ link.href }>{ link.label }</Nav.Link>
+        )
+
+    }
+
+    /**
+     * Render a nav dropdown
+     * @param {Object} navDropdown - The nav dropdown properties
+     * @returns {JSX.Element}
+     * @private
+     */
+    _renderNavDropdown ( navDropdown ) {
+
+        const uuid = navDropdown.id || uuidv4()
+
+        // NavDropdown is not able to render dropdownItems as static content...
+        //        <NavDropdown key={ uuid } title={ navDropdown.title }>
+        //            { this._renderNavDropdownItems( navDropdown.items ) }
+        //        </NavDropdown>
+        // So defaulting to real bootstrap component
+
+        return (
+            <li key={ uuid } className="nav-item dropdown">
+                <a className="nav-link dropdown-toggle" href="#" id={ uuid } role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    { navDropdown.title }
+                </a>
+                <div className="dropdown-menu" aria-labelledby={ uuid }>
+                    { this._renderNavDropdownItems( navDropdown.items ) }
+                </div>
+            </li>
+        )
+
+
+    }
+
+    /**
+     * Render all nav dropdown items types
+     * @param {Array<Object>} [navDropdownItems=[]] - An array of nav dropdown items properties
+     * @returns {Array<JSX.Element>}
+     * @private
+     */
+    _renderNavDropdownItems ( navDropdownItems = [] ) {
+
+        return navDropdownItems.map( ( navDropdownItem ) => {
+
+            let renderedNavDropdownItem
+
+            switch ( navDropdownItem.type ) {
+
+                case 'item':
+                    renderedNavDropdownItem = this._renderNavDropdownItem( navDropdownItem )
+                    break
+
+                case 'divider':
+                    renderedNavDropdownItem = this._renderNavDropdownDivider( navDropdownItem )
+                    break
+
+                default:
+                    throw new RangeError( `Invalid nav dropdown item type: ${ navDropdownItem.type }` )
+
+            }
+
+            return renderedNavDropdownItem
+
+        } )
+
+    }
+
+    /**
+     * Render a nav dropdown item
+     * @param {Object} navDropdownItem - The nav dropdown item properties
+     * @returns {JSX.Element}
+     * @private
+     */
+    _renderNavDropdownItem ( navDropdownItem ) {
+
+        const uuid = navDropdownItem.id || uuidv4()
+
+        return <NavDropdown.Item key={ uuid } id={ uuid } href={ navDropdownItem.href }>{ navDropdownItem.label }</NavDropdown.Item>
+
+    }
+
+    /**
+     * Render a nav dropdown divider
+     * @param {Object} divider - The nav dropdown divider properties
+     * @returns {JSX.Element}
+     * @private
+     */
+    _renderNavDropdownDivider ( divider ) {
+
+        const uuid = divider.id || uuidv4()
+
+        return <div key={ uuid } id={ uuid } className="dropdown-divider"></div>
+
+    }
+
 }
 
 module.exports = MainNavbar

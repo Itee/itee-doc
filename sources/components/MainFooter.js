@@ -1,9 +1,9 @@
 /**
+ * @class
+ * @classdesc The main footer of html page, that allow to display copyright and others stuffs
+ * @augments React.Component
  * @author [Tristan Valcke]{@link https://github.com/Itee}
  * @license [BSD-3-Clause]{@link https://opensource.org/licenses/BSD-3-Clause}
- *
- * @see [IFC Standard]{@link http://standards.buildingsmart.org/IFC/RELEASE/IFC4_1/FINAL/HTML/}
- *
  */
 
 const React  = require( 'react' )
@@ -11,7 +11,11 @@ const Navbar = require( 'react-bootstrap/Navbar' )
 
 class MainFooter extends React.Component {
 
-    // Renderers
+    /**
+     * The main component render method
+     *
+     * @returns {JSX.Element}
+     */
     render () {
         return (
             <Navbar

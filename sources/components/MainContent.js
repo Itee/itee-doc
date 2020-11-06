@@ -3,9 +3,20 @@ const Col  = require( 'react-bootstrap/Col' )
 const Row  = require( 'react-bootstrap/Row' )
 const ErrorBoundary  = require( './ErrorBoundary' )
 
+/**
+ * @class
+ * @classdesc The page main content that allow to specify a template type
+ * @augments React.Component
+ * @author [Tristan Valcke]{@link https://github.com/Itee}
+ * @license [BSD-3-Clause]{@link https://opensource.org/licenses/BSD-3-Clause}
+ */
 class MainContent extends React.Component {
 
-    // Renderers
+    /**
+     * The main component render method
+     *
+     * @returns {JSX.Element}
+     */
     render () {
 
         return (

@@ -60,7 +60,6 @@
     "install": "^0.13.0",
     "jquery": "^3.5.1",
     "jsdoc": "^3.6.6",
-    "jsdoc-react": "^1.0.0",
     "npm": "^6.14.8",
     "semantic-release": "^17.2.2"
   },

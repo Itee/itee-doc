@@ -46,7 +46,7 @@ class Class extends React.Component {
     render () {
 
         return (
-            <section id={this.props.uuid} class="class">
+            <section id={this.props.uuid} className="class">
                 <div>{this.props.name}</div>
                 <div>{this.props.description}</div>
                 <div></div>

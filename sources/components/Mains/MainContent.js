@@ -1,7 +1,6 @@
 const React         = require( 'react' )
 const Col           = require( 'react-bootstrap/Col' )
 const Row           = require( 'react-bootstrap/Row' )
-const ErrorBoundary = require( './ErrorBoundary' )
 
 /**
  * @class
@@ -20,16 +19,12 @@ class MainContent extends React.Component {
     render () {
 
         return (
-            <Row noGutters className="flex-fill mh-0 bg-dark" style={ { border: '4px solid #343a40' } }>
-                <Col md={ 2 } className="mh-100 overflow-auto nodes-library p-1 bg-secondary">
-                    <ErrorBoundary>
-                        right menu side
-                    </ErrorBoundary>
+            <Row noGutters className="flex-fill mh-0">
+                <Col md={ 2 } className="mh-100 overflow-auto">
+                    right menu side
                 </Col>
-                <Col md={ 10 } className="mh-100 overflow-auto nodes-board p-1 bg-secondary">
-                    <ErrorBoundary>
-                        { this.props.children }
-                    </ErrorBoundary>
+                <Col md={ 10 } className="mh-100 overflow-auto">
+                    { this.props.children }
                 </Col>
             </Row>
         )

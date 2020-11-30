@@ -3,14 +3,15 @@
  * @license [BSD-3-Clause]{@link https://opensource.org/licenses/BSD-3-Clause}
  */
 
-require( 'babel-register' )( {
-    presets: [ 'react' ]
+require( '@babel/register' )( {
+    presets: [ '@babel/preset-react' ]
 } )
 
-const env      = require( '../node_modules/jsdoc/lib/jsdoc/env.js' )
-const helper   = require( '../node_modules/jsdoc/lib/jsdoc/util/templateHelper.js' )
 const Parser   = require( './scripts/parser' )
 const Renderer = require( './scripts/renderer' )
+const env      = require( '../node_modules/jsdoc/lib/jsdoc/env.js' )
+const helper   = require( '../node_modules/jsdoc/lib/jsdoc/util/templateHelper.js' )
+
 
 exports.publish = function ( taffyData, jsdocOpts ) {
 

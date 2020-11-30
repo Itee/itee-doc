@@ -6,7 +6,7 @@
   "scripts": {
     "doc": "jsdoc --configure ./configs/jsdoc.config.js",
     "idoc": "jsdoc --configure ./configs/jsdoc.config.js -t sources/itee-doc.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jsdoc --configure ./tests/test.conf.json"
   },
   "repository": {
     "type": "git",

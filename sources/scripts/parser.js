@@ -28,38 +28,46 @@ function isLink ( string ) {
  */
 class Parser {
 
+    /**
+     *
+     * @param options
+     */
     constructor ( options = {} ) {
 
+        /**
+         * The options to use
+         * @type {Object}
+         */
         this.options = options
 
         // todo: Who is the faster between { a: true, b: true... }[key] and [a,b,...].includes(key)
-        this._usedFileNames = []
-        this._datas         = {
-            indexes:        new Map(),
-            longNameToUuid: new Map(),
 
-            classes:    new Map(),
-            constants:  new Map(),
-            externals:  new Map(),
-            files:      new Map(),
-            functions:  new Map(),
-            globals:    new Map(),
-            graphs:     new Map(),
-            interfaces: new Map(),
-            members:    new Map(),
-            mixins:     new Map(),
-            modules:    new Map(),
-            namespaces: new Map(),
-            packages:   new Map(),
-            statics:    new Map(),
-            tutorials:  new Map(),
-            typedefs:   new Map()
+        /**
+         * An array containing used file names to check collision and allow to generate some alternatives
+         * @type {Array<String>}
+         * @private
+         */
+        this._usedFileNames = []
+
+        /**
+         * The internal map of parsed data
+         * @type {Object}
+         * @private
+         */
+        this._datas = {
+            indexes:        new Map(),
+            longNameToUuid: new Map()
         }
 
     }
 
     // Utils
 
+    /**
+     *
+     * @param longName
+     * @returns {String}
+     */
     getUniqueFilename ( longName ) {
 
         let basename = longName.replace( /[\\/?*:|'"<>]/g, '_' )// replace characters that can cause problems on some filesystems
@@ -89,136 +97,366 @@ class Parser {
 
     // Parsers
 
+    /**
+     * @param taffyData
+     * @returns {Object}
+     */
     parse ( taffyData ) {
 
-        taffyData().each( doclet => {
+        taffyData().each( ( doclet ) => {
 
-            let uuid = uuidv4()
-            while ( this._datas.indexes.has( uuid ) ) {
-                uuid = uuidv4()
-            }
 
-            // Parse doclet data
-            const docletKind = doclet.kind
-            const longName   = doclet.longname
-            let docletData   = {
-                uuid:        uuid,
-                type:        docletKind,
-                name:        doclet.name,
-                longName:    doclet.longname,
-                description: doclet.description || doclet.classdesc,
-                scope:       doclet.scope,
-                readOnly:    doclet.readonly,
-                virtual:     doclet.virtual,
-                contant:     doclet.contant,
-                abstract:    doclet.abstract,
-                augments:    doclet.augments,
-                memberOf:    doclet.memberof,
-                inherited:   doclet.inherited,
-                inherits:    doclet.inherits,
-                members:     doclet.members || [],
-                see:         this.parseSee( doclet.see ),
-                examples:    this.parseExamples( doclet.example ),
-                license:     this.parseLicense( doclet.license ),
-                requires:    this.parseRequires( doclet.requires ),
-                parameters:  this.parseParameters( doclet.params ),
-                exceptions:  this.parseExceptions( doclet.exceptions ),
-                author:      this.parseAuthors( doclet.author ),
-                source:      this.parseMeta( doclet.meta ),
-                destination: {
-                    fileName: this.getUniqueFilename( longName )
-                }
-            }
+            this.parseDoclet( doclet )
 
-            switch ( docletKind ) {
-
-                case 'module':
-                    this._datas.modules.set( longName, docletData )
-                    break
-
-                case 'class':
-                    this._datas.classes.set( longName, docletData )
-                    break
-
-                case 'member':
-                    this._datas.members.set( longName, docletData )
-                    break
-
-                case 'typedef':
-                    this._datas.typedefs.set( longName, docletData )
-                    break
-
-                case 'file':
-                    this._datas.files.set( longName, docletData )
-                    break
-
-                case 'namespace':
-                    this._datas.namespaces.set( longName, docletData )
-                    break
-
-                case 'mixin':
-                    this._datas.mixins.set( longName, docletData )
-                    break
-
-                case 'interface':
-                    this._datas.interfaces.set( longName, docletData )
-                    break
-
-                case 'global':
-                    this._datas.globals.set( longName, docletData )
-                    break
-
-                case 'package':
-                    this._datas.packages.set( longName, docletData )
-                    break
-
-                case 'external':
-                    this._datas.externals.set( longName, docletData )
-                    break
-
-                case 'constant':
-                    this._datas.constants.set( longName, docletData )
-                    break
-
-                case 'function':
-                    this._datas.functions.set( longName, docletData )
-                    break
-
-                default: //todo allow invalid tag ?
-                    throw new RangeError( `Invalid switch parameter: ${ docletKind }` )
-
-            }
-
-            // Keep reference of doclet
-            this._datas.indexes.set( uuid, docletData )
-
-            if ( this._datas.longNameToUuid.has( longName ) ) {
-                logger.warn( '%s', `Long name collision on "${ longName }".` )
-            }
-            this._datas.longNameToUuid.set( longName, uuid )
 
         } )
 
-        // Assign members to parent
-        for ( const member of this._datas.members.values() ) {
-
-            const memberOf   = member.memberOf
-            const parentUuid = this._datas.longNameToUuid.get( memberOf )
-            const parent     = this._datas.indexes.get( parentUuid )
-            if ( isNotDefined( parent ) ) {
-                logger.warn( `Unable to bind member [${ member.name }] to ${ memberOf }. ${ memberOf } is not defined !` )
-                continue
-            }
-
-            if ( isNotDefined( parent.members ) ) {
-                parent.members = []
-            }
-
-            parent.members.push( member )
-
-        }
+        this.assignConstants()
+        this.assignMembers()
+        this.assignFunctions()
 
         return this._datas
+
+    }
+
+    parseDoclet ( doclet ) {
+
+        delete doclet.___s
+        delete doclet.comment
+
+        const uuid = doclet.___id
+        delete doclet.___id
+        if ( this._datas.indexes.has( uuid ) ) {
+            logger.warn( `Id collision on "${ doclet.longname }" in ${ doclet.meta.path }\\${ doclet.meta.filename }. Ignoring doclet !` )
+            return
+        }
+
+        const longName = doclet.longname
+        delete doclet.longname
+        if ( this._datas.longNameToUuid.has( longName ) ) {
+            logger.warn( `Long name collision on "${ longName }" in ${ doclet.meta.path }\\${ doclet.meta.filename }. Ignoring doclet !` )
+            return
+        }
+
+        const sources = this.parseMeta( doclet.meta )
+        delete doclet.meta
+
+        const destination = {
+            fileName: this.getUniqueFilename( longName )
+        }
+        const docletKind  = doclet.kind
+        delete doclet.kind
+        const commonDocletProperties = {
+            uuid:        uuid,
+            longName:    longName,
+            sources:     sources,
+            destination: destination,
+            kind:        docletKind
+        }
+
+        let parsedDoclet = {
+            abstract:     doclet.abstract,
+            access:       doclet.access,
+            alias:        doclet.alias,
+            async:        doclet.async,
+            augments:     doclet.augments,
+            authors:      this.parseAuthors( doclet.author ),
+            contant:      doclet.contant,
+            defaultValue: doclet.defaultvalue,
+            description:  doclet.description || doclet.classdesc,
+            examples:     this.parseExamples( doclet.examples ),
+            exceptions:   this.parseExceptions( doclet.exceptions ),
+            files:        doclet.files,
+            generator:    doclet.generator,
+            inherited:    doclet.inherited,
+            inherits:     ( doclet.inherits ) ? [ doclet.inherits ] : undefined,
+            licenses:     this.parseLicense( doclet.license ),
+            memberOf:     doclet.memberof,
+            name:         doclet.name,
+            overrides:    doclet.overrides,
+            parameters:   this.parseParameters( doclet.params ),
+            preserveName: doclet.preserveName,
+            properties:   doclet.properties,
+            readOnly:     doclet.readonly,
+            requires:     this.parseRequires( doclet.requires ),
+            returns:      this.parseReturns( doclet.returns ),
+            scope:        doclet.scope,
+            sees:         this.parseSee( doclet.see ),
+            type:         this.parseType( doclet.type ),
+            virtual:      doclet.virtual,
+            yields:       doclet.yields
+        }
+
+        delete doclet.abstract
+        delete doclet.access
+        delete doclet.alias
+        delete doclet.async
+        delete doclet.augments
+        delete doclet.author
+        delete doclet.contant
+        delete doclet.defaultvalue
+        delete doclet.classdesc
+        delete doclet.description
+        delete doclet.examples
+        delete doclet.exceptions
+        delete doclet.files
+        delete doclet.generator
+        delete doclet.inherited
+        delete doclet.inherits
+        delete doclet.license
+        delete doclet.memberof
+        delete doclet.name
+        delete doclet.overrides
+        delete doclet.params
+        delete doclet.preserveName
+        delete doclet.properties
+        delete doclet.readonly
+        delete doclet.requires
+        delete doclet.returns
+        delete doclet.scope
+        delete doclet.see
+        delete doclet.type
+        delete doclet.virtual
+        delete doclet.yields
+
+        /*
+                // @formatter:off
+                switch ( docletKind ) {
+                    case 'class':     parsedDoclet = this.parseClass( doclet );     break
+                    case 'constant':  parsedDoclet = this.parseConstant( doclet );  break
+                    case 'external':  parsedDoclet = this.parseExternal( doclet );  break
+                    case 'file':      parsedDoclet = this.parseFile( doclet );      break
+                    case 'function':  parsedDoclet = this.parseFunction( doclet );  break
+                    case 'global':    parsedDoclet = this.parseGlobal( doclet );    break
+                    case 'interface': parsedDoclet = this.parseInterface( doclet ); break
+                    case 'member':    parsedDoclet = this.parseMember( doclet );    break
+                    case 'mixin':     parsedDoclet = this.parseMixin( doclet );     break
+                    case 'module':    parsedDoclet = this.parseModule( doclet );    break
+                    case 'namespace': parsedDoclet = this.parseNamespace( doclet ); break
+                    case 'package':   parsedDoclet = this.parsePackage( doclet );   break
+                    case 'typedef':   parsedDoclet = this.parseTypeDef( doclet );   break
+                    default: throw new RangeError( `Invalid doclet kind: ${ docletKind }` )
+                }
+        */
+        // @formatter:on
+
+        // Debug unprocessed doclet properties
+        for ( let property in doclet ) {
+            logger.warn( `Unprocessed doclet property ${ property }` )
+        }
+
+        // Merge common and specific
+        const docletDatas = {
+            ...commonDocletProperties,
+            ...parsedDoclet
+        }
+
+        // Keep reference of doclet
+        // Create entry in data if not already exist
+        if ( !this._datas[ docletKind ] ) {
+            this._datas[ docletKind ] = new Map()
+        }
+        this._datas[ docletKind ].set( longName, docletDatas )
+        this._datas.indexes.set( uuid, docletDatas )
+        this._datas.longNameToUuid.set( longName, uuid )
+
+    }
+
+    parseModule ( doclet ) {
+
+        const result = {
+            name:         doclet.name,
+            description:  doclet.description,
+            preserveName: doclet.preserveName,
+            authors:      this.parseAuthors( doclet.author ),
+            requires:     this.parseRequires( doclet.requires ),
+            licenses:     this.parseLicense( doclet.license )
+        }
+
+        delete doclet.name
+        delete doclet.description
+        delete doclet.preserveName
+        delete doclet.author
+        delete doclet.requires
+        delete doclet.license
+
+        return result
+    }
+
+    parseClass ( doclet ) {
+
+        //                type:        this.parseType( doclet.type ),
+        //                name:        doclet.name,
+        //                description: doclet.description || doclet.classdesc,
+        //                scope:       doclet.scope,
+        //                readOnly:    doclet.readonly,
+        //                access:      doclet.access,
+        //                virtual:     doclet.virtual,
+        //                contant:     doclet.contant,
+        //                abstract:    doclet.abstract,
+        //                inner:       doclet.inner,
+        //                private:     doclet.private,
+        //                generator:   doclet.generator,
+        //                async:       doclet.async,
+        //                        augments:    doclet.augments,
+        //                memberOf:    doclet.memberof,
+        //                inherited:   doclet.inherited,
+        //                inherits:    doclet.inherits,
+        //                members:     doclet.members || [],
+        //                sees:        this.parseSee( doclet.see ),
+        //                examples:    this.parseExamples( doclet.example ),
+        //                licenses:    this.parseLicense( doclet.license ),
+        //                requires:    this.parseRequires( doclet.requires ),
+        //                parameters:  this.parseParameters( doclet.params ),
+        //                exceptions:  this.parseExceptions( doclet.exceptions ),
+        //                authors:     this.parseAuthors( doclet.author ),
+        //                returns:     this.parseReturns( doclet.returns )
+
+        const result = {
+            alias:       doclet.alias,
+            augments:    doclet.augments,
+            description: doclet.description || doclet.classdesc,
+            name:        doclet.name,
+            memberOf:    doclet.memberof,
+            parameters:  this.parseParameters( doclet.params ),
+            scope:       doclet.scope
+        }
+
+        delete doclet.alias
+        delete doclet.augments
+        delete doclet.classdesc
+        delete doclet.description
+        delete doclet.name
+        delete doclet.memberof
+        delete doclet.params
+        delete doclet.scope
+
+        return result
+
+    }
+
+    parseMember ( doclet ) {
+
+        const result = {
+            defaultValue: doclet.defaultvalue,
+            description:  doclet.description,
+            examples:     this.parseExamples( doclet.examples ),
+            memberOf:     doclet.memberof,
+            name:         doclet.name,
+            parameters:   this.parseParameters( doclet.params ),
+            returns:      this.parseReturns( doclet.returns ),
+            scope:        doclet.scope,
+            see:          this.parseSee( doclet.see ),
+            type:         this.parseType( doclet.type )
+        }
+
+        delete doclet.defaultvalue
+        delete doclet.description
+        delete doclet.examples
+        delete doclet.memberof
+        delete doclet.name
+        delete doclet.params
+        delete doclet.returns
+        delete doclet.scope
+        delete doclet.see
+        delete doclet.type
+
+        return result
+
+    }
+
+    parseTypeDef ( doclet ) {
+
+        return {}
+
+    }
+
+    parseFile ( doclet ) {
+
+        return {}
+
+    }
+
+    parseNamespace ( doclet ) {
+
+        return {}
+
+    }
+
+    parseMixin ( doclet ) {
+
+        return {}
+
+    }
+
+    parseInterface ( doclet ) {
+
+        return {}
+
+    }
+
+    parseGlobal ( doclet ) {
+
+        return {}
+
+    }
+
+    parsePackage ( doclet ) {
+
+        return {
+            files: doclet.files
+        }
+
+    }
+
+    parseExternal ( doclet ) {
+
+        return {}
+
+    }
+
+    parseConstant ( doclet ) {
+
+        const result = {
+            description: doclet.description,
+            name:        doclet.name,
+            scope:       doclet.scope,
+            parameters:  this.parseParameters( doclet.params ),
+            type:        this.parseType( doclet.type )
+        }
+
+        delete doclet.description
+        delete doclet.name
+        delete doclet.scope
+        delete doclet.params
+        delete doclet.type
+
+        return result
+    }
+
+    parseFunction ( doclet ) {
+
+        const result = {
+            name:        doclet.name,
+            description: doclet.description,
+            parameters:  this.parseParameters( doclet.params ),
+            see:         this.parseSee( doclet.see ),
+            returns:     this.parseReturns( doclet.returns ),
+            memberOf:    doclet.memberof,
+            scope:       doclet.scope,
+            overrides:   doclet.overrides
+        }
+
+        delete doclet.name
+        delete doclet.description
+        delete doclet.params
+        delete doclet.see
+        delete doclet.memberof
+        delete doclet.returns
+        delete doclet.scope
+        delete doclet.overrides
+
+        return result
 
     }
 
@@ -279,29 +517,34 @@ class Parser {
 
     }
 
-    parseLicense ( license = '' ) {
-        let result = ''
+    parseLicense ( license ) {
 
-        if ( isDefined( license ) ) {
+        if ( isNotDefined( license ) ) { return }
 
-            if ( isLink( license ) ) {
-                result = this.parseLink( license )
-            } else {
-                result = license
-            }
-
+        let result
+        if ( isLink( license ) ) {
+            result = this.parseLink( license )
+        } else {
+            result = license
         }
 
-        return result
+        return [ result ]
     }
 
+    /**
+     * Parse a doclet type and return an array of type as string
+     * @param {Object} [type={}] The type to parse
+     * @returns {Array<String>}
+     */
     parseType ( type = {} ) {
         let result = []
 
         if ( isDefined( type.names ) ) {
             result = type.names
-        } else if ( isDefined( type.parsedType ) ) {
-            result = type.parsedType.name
+        } else if ( isDefined( type.parsedType ) && type.parsedType.name ) {
+            result = [ type.parsedType.name ]
+        } else if ( isDefined( type.parsedType ) && type.parsedType.elements ) {
+            result = type.parsedType.elements.map( element => element.name )
         }
 
         return result
@@ -372,7 +615,7 @@ class Parser {
             const parameterName = parameter.name
             target              = null
 
-            if ( parameterName.includes( '.' ) ) {
+            if ( parameterName && parameterName.includes( '.' ) ) {
 
                 const parameterKeyPath  = parameterName.split( '.' )
                 let currentPropertyName = null
@@ -408,12 +651,12 @@ class Parser {
                         const propertyName = parameterKeyPath[ 0 ]
 
                         target.properties.push( {
-                            name:         propertyName,
-                            optional:     parameter.optional,
-                            defaultValue: parameter.defaultvalue,
-                            description:  parameter.description,
-                            type:         this.parseType( parameter.type ),
-                            properties:   []
+                            name:        propertyName,
+                            optional:    parameter.optional,
+                            default:     parameter.defaultvalue,
+                            description: parameter.description,
+                            type:        this.parseType( parameter.type ),
+                            properties:  []
                         } )
 
                         break
@@ -453,6 +696,12 @@ class Parser {
         } )
     }
 
+    parseReturns ( returns = [] ) {
+
+        return returns.map( ret => this.parseType( ret.type ) ).flat()
+
+    }
+
     parseExceptions ( exceptions = [] ) {
         const results = []
 
@@ -467,12 +716,185 @@ class Parser {
     }
 
     parseMeta ( meta = {} ) {
-        return {
+
+        const source = [ {
             path:         meta.path || '',
             filename:     meta.filename || '',
             lineNumber:   meta.lineno || 0,
             columnNumber: meta.columnno || 0
+        } ]
+
+        return source
+    }
+
+    /////
+
+    assignConstants () {
+
+        const constants = this._datas[ 'constant' ]
+        if ( !constants ) { return }
+
+        for ( const constant of constants.values() ) {
+
+            const memberOf = constant.memberOf
+            if ( isDefined( memberOf ) ) {
+
+                const parentUuid = this._datas.longNameToUuid.get( memberOf )
+                if ( isNotDefined( parentUuid ) ) {
+                    logger.warn( `Unable to bind constant [${ constant.name }] to ${ memberOf }. Parent uuid is not defined !` )
+                    continue
+                }
+
+                const parent = this._datas.indexes.get( parentUuid )
+                if ( isNotDefined( parent ) ) {
+                    logger.warn( `Unable to bind constant [${ constant.name }] to ${ memberOf }. Parent with uuid ${ parentUuid } is not defined !` )
+                    continue
+                }
+
+                if ( isNotDefined( parent.constants ) ) {
+                    parent.constants = []
+                }
+
+                parent.constants.push( constant )
+
+            } else if ( constant.scope === 'global' ) {
+
+                if ( isNotDefined( this._datas[ 'global' ] ) ) {
+                    this._datas[ 'global' ] = new Map()
+                    this._datas[ 'global' ].set( 'GlobalUuid', {
+                        destination: {
+                            fileName: 'globals.html'
+                        }
+                    } )
+                }
+
+                const parent = this._datas[ 'global' ].get( 'GlobalUuid' )
+                if ( isNotDefined( parent.constants ) ) {
+                    parent.constants = []
+                }
+
+                parent.constants.push( constant )
+
+            } else {
+
+                logger.warn( `Unable to bind constant [${ constant.name }] to ${ memberOf }. ${ memberOf } is not defined !` )
+
+            }
+
         }
+
+    }
+
+    assignMembers () {
+
+        const members = this._datas[ 'member' ]
+        if ( !members ) { return }
+
+        for ( const member of members.values() ) {
+
+            const memberOf = member.memberOf
+            if ( isDefined( memberOf ) ) {
+
+                const parentUuid = this._datas.longNameToUuid.get( memberOf )
+                if ( isNotDefined( parentUuid ) ) {
+                    logger.warn( `Unable to bind member [${ member.name }] to ${ memberOf }. Parent uuid is not defined !` )
+                    continue
+                }
+
+                const parent = this._datas.indexes.get( parentUuid )
+                if ( isNotDefined( parent ) ) {
+                    logger.warn( `Unable to bind member [${ member.name }] to ${ memberOf }. Parent with uuid ${ parentUuid } is not defined !` )
+                    continue
+                }
+
+                if ( isNotDefined( parent.members ) ) {
+                    parent.members = []
+                }
+
+                parent.members.push( member )
+
+            } else if ( member.scope === 'global' ) {
+
+                if ( isNotDefined( this._datas[ 'global' ] ) ) {
+                    this._datas[ 'global' ] = new Map()
+                    this._datas[ 'global' ].set( 'GlobalUuid', {
+                        destination: {
+                            fileName: 'globals.html'
+                        }
+                    } )
+                }
+
+                const parent = this._datas[ 'global' ].get( 'GlobalUuid' )
+                if ( isNotDefined( parent.members ) ) {
+                    parent.members = []
+                }
+
+                parent.members.push( member )
+
+            } else {
+
+                logger.warn( `Unable to bind member [${ member.name }] to ${ memberOf }. ${ memberOf } is not defined !` )
+
+            }
+
+        }
+
+    }
+
+    assignFunctions () {
+
+        const functions = this._datas[ 'function' ]
+        if ( !functions ) { return }
+
+        for ( const method of functions.values() ) {
+
+            const memberOf = method.memberOf
+            if ( isDefined( memberOf ) ) {
+
+                const parentUuid = this._datas.longNameToUuid.get( memberOf )
+                if ( isNotDefined( parentUuid ) ) {
+                    logger.warn( `Unable to bind method [${ method.name }] to ${ memberOf }. Parent uuid is not defined !` )
+                    continue
+                }
+
+                const parent = this._datas.indexes.get( parentUuid )
+                if ( isNotDefined( parent ) ) {
+                    logger.warn( `Unable to bind method [${ method.name }] to ${ memberOf }. Parent with uuid ${ parentUuid } is not defined !` )
+                    continue
+                }
+
+                if ( isNotDefined( parent.methods ) ) {
+                    parent.methods = []
+                }
+
+                parent.methods.push( method )
+
+            } else if ( method.scope === 'global' ) {
+
+                if ( isNotDefined( this._datas[ 'global' ] ) ) {
+                    this._datas[ 'global' ] = new Map()
+                    this._datas[ 'global' ].set( 'GlobalUuid', {
+                        destination: {
+                            fileName: 'globals.html'
+                        }
+                    } )
+                }
+
+                const parent = this._datas[ 'global' ].get( 'GlobalUuid' )
+                if ( isNotDefined( parent.methods ) ) {
+                    parent.methods = []
+                }
+
+                parent.methods.push( method )
+
+            } else {
+
+                logger.warn( `Unable to bind method [${ method.name }] to ${ memberOf }. ${ memberOf } is not defined !` )
+
+            }
+
+        }
+
     }
 
 }

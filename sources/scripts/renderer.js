@@ -23,6 +23,55 @@ class Renderer {
 
         this.options = options
 
+        this.availableCategories = [
+            {
+                key:       'class',
+                label:     'Classes',
+                component: Class
+            },
+            {
+                key:       'external',
+                label:     'Externals',
+                component: Class
+            },
+            {
+                key:       'file',
+                label:     'Files',
+                component: Class
+            },
+            {
+                key:       'global',
+                label:     'Globals',
+                component: Class
+            },
+            {
+                key:       'interface',
+                label:     'Interfaces',
+                component: Class
+            },
+            {
+                key:       'mixin',
+                label:     'Mixins',
+                component: Class
+            },
+            {
+                key:       'module',
+                label:     'Modules',
+                component: Class
+            },
+            {
+                key:       'namespace',
+                label:     'Namespaces',
+                component: Class
+            },
+            {
+                key:       'package',
+                label:     'Packages',
+                component: Package
+            }
+        ]
+
+
     }
 
     computeTemplateDatas ( datas ) {
@@ -50,30 +99,14 @@ class Renderer {
         }
         navbar.items.push( nav )
 
-        // Compute Modules list
+        // Compute main categories list
+        for ( let availableCategory of this.availableCategories ) {
 
+            const categoryDropdown = this.computeCategoryList( availableCategory.label, datas[ availableCategory.key ] )
+            if ( categoryDropdown ) { nav.items.push( categoryDropdown ) }
 
-        // Compute Classes list
-        const classDropdown = {
-            type:  'dropdown',
-            title: 'Classes',
-            items: []
         }
-        nav.items.push( classDropdown )
 
-        datas.classes.forEach( ( classValue, classKey ) => {
-
-            classDropdown.items.push( {
-                type:  'item',
-                href:  classValue.destination.fileName,
-                label: classKey
-            } )
-
-        } )
-
-
-        // Compute Externals list
-        // Compute Globals list
         // Compute Tutorials list
         // Compute Graphics list
 
@@ -86,6 +119,29 @@ class Renderer {
                 sticky:  true
             }
         }
+
+    }
+
+    computeCategoryList ( label, datas ) {
+        if ( !datas ) { return }
+
+        const categoryDropdown = {
+            type:  'dropdown',
+            title: label,
+            items: []
+        }
+
+        datas.forEach( ( value, key ) => {
+
+            categoryDropdown.items.push( {
+                type:  'item',
+                href:  value.destination.fileName,
+                label: key
+            } )
+
+        } )
+
+        return categoryDropdown
 
     }
 
@@ -129,28 +185,49 @@ class Renderer {
 
     }
 
-    renderPage ( props, children = [] ) {
+    render ( datas, options ) {
 
-        // Throws : FATAL: Unable to load template: Unexpected token '<'
-        //    const html = ReactDOMServer.renderToStaticMarkup(<LoremIpsum name="Yougourt" />)
-        const html = ReactDOMServer.renderToStaticMarkup(
-            React.createElement( Page, props, children )
-        )
-        return `<!DOCTYPE html>${ html }`
+        const outputPath    = options.destination
+        const templateDatas = this.computeTemplateDatas( datas )
+
+        this.outputStaticFiles( outputPath )
+        this.renderIndex( templateDatas, {
+            indexOpt: 'This is the index'
+        }, outputPath )
+
+        for ( let availableCategory of this.availableCategories ) {
+
+            const dataMap = datas[ availableCategory.key ]
+            if ( dataMap ) {
+                this.renderCategory( templateDatas, availableCategory.component, dataMap.values(), outputPath )
+            }
+
+        }
 
     }
 
-    renderClasses ( pageProps, classes, outputPath ) {
+    renderIndex ( pageProps, indexData, outputPath ) {
 
-        for ( const classData of classes ) {
+        const pageHtml = this.renderPage( pageProps, [
+            React.createElement( Index, indexData )
+        ] )
+
+        const filePath = path.join( outputPath, 'index.html' )
+        fs.writeFileSync( filePath, pageHtml )
+
+    }
+
+    renderCategory ( pageProps, Component, datas, outputPath ) {
+
+        for ( const data of datas ) {
 
             // Avoid jsdoc warning on render even if there is only one rendered class per file
-            classData.key = classData.uuid
+            data.key = data.uuid
 
-            const fileName = classData.destination.fileName
+            const fileName = data.destination.fileName
             const filePath = path.join( outputPath, fileName )
             const pageHtml = this.renderPage( pageProps, [
-                React.createElement( Class, classData )
+                React.createElement( Component, data )
             ] )
 
             fs.writeFileSync( filePath, pageHtml )
@@ -159,13 +236,14 @@ class Renderer {
 
     }
 
-    render ( datas, options ) {
+    renderPage ( props, children = [] ) {
 
-        const outputPath    = options.destination
-        const templateDatas = this.computeTemplateDatas( datas )
-
-        this.outputStaticFiles( outputPath )
-        this.renderClasses( templateDatas, datas.classes.values(), outputPath )
+        // Throws : FATAL: Unable to load template: Unexpected token '<'
+        //    const html = ReactDOMServer.renderToStaticMarkup(<LoremIpsum name="Yougourt" />)
+        const html = ReactDOMServer.renderToStaticMarkup(
+            React.createElement( Page, props, children )
+        )
+        return `<!DOCTYPE html>${ html }`
 
     }
 

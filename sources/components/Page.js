@@ -1,7 +1,7 @@
 const React       = require( 'react' )
-const MainNavbar  = require( './MainNavbar' )
-const MainContent = require( './MainContent' )
-const MainFooter  = require( './MainFooter' )
+const MainNavbar  = require( './Mains/MainNavbar' )
+const MainContent = require( './Mains/MainContent' )
+const MainFooter  = require( './Mains/MainFooter' )
 
 /**
  * @class

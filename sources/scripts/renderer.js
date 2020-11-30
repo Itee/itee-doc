@@ -1,12 +1,15 @@
-const path                    = require( 'path' )
-const fs                      = require( 'fs' )
-const { getFilesInDirectory } = require( './utils' )
-const logger                  = require( '../../node_modules/jsdoc/lib/jsdoc/util/logger.js' )
+const path                                  = require( 'path' )
+const fs                                    = require( 'fs' )
+const { getFilesInDirectory, isNotDefined } = require( './utils' )
+const logger                                = require( '../../node_modules/jsdoc/lib/jsdoc/util/logger.js' )
 
 const React          = require( 'react' )
 const ReactDOMServer = require( 'react-dom/server' )
 const Page           = require( '../components/Page' )
-const Class          = require( '../components/Class' )
+const Index          = require( '../components/Index' )
+const Class          = require( '../components/Class/Class' )
+const Package        = require( '../components/Packages/Package' )
+const LoremIpsum     = require( '../components/Others/LoremIpsum' )
 
 /**
  * @class

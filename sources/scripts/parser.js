@@ -1,4 +1,4 @@
-const logger                      = require( '../../node_modules/jsdoc/lib/jsdoc/util/logger.js' )
+const logger = require( '../../node_modules/jsdoc/lib/jsdoc/util/logger.js' )
 
 const { v4: uuidv4 }              = require( 'uuid' )
 const { isNotDefined, isDefined } = require( './utils' )

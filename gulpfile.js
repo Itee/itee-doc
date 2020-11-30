@@ -178,6 +178,19 @@ gulp.task( 'doc', ( done ) => {
 
 } )
 
+gulp.task( 'test-doc', ( done ) => {
+
+    const config     = require( './tests/test.conf.json' )
+    const filesToDoc = [ './', '!./' ]
+
+    gulp.src( filesToDoc, {
+            read:       false,
+            allowEmpty: true
+        } )
+        .pipe( jsdoc( config, done ) )
+
+} )
+
 /**
  * @description Build less/sass files from assets, and concat them into one file by application
  */

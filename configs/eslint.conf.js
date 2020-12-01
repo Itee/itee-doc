@@ -58,8 +58,9 @@ function CreateEslintConfiguration () {
                         'on':          'value'
                     }
                 }
-            ]
+            ],
 
+            'react/prop-types': 'warn'
         },
         settings: {
             react: {

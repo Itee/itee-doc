@@ -1,4 +1,7 @@
 "use strict";
+
+/* global sys */
+
 /**
  * @fileOverview This is base definition for all composed classes defined by the system
  * @module base

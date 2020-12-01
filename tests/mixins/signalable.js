@@ -50,99 +50,99 @@ var sys = require( "lodash" );
  * @param {?string} name The name of the signal
  * @type module:mixins/signalable.SignalOptions
  */
-var Signal = Base.compose( [Base, signals.Signal], /** @lends module:mixins/signalable~Signal# */{
-	declaredClass : "mixins/Signal",
+var Signal = Base.compose( [ Base, signals.Signal ], /** @lends module:mixins/signalable~Signal# */{
+    declaredClass: 'mixins/Signal',
 
-	constructor : function ( host, name, options ) {
-		options = options || {};
-		this.memorize = options.memorize === true;
-		this.host = host;
-		this.trigger = this.fire = this.raise = this.dispatch;
-		this.name = name || sys.uniqueId( "signal" );
-		this.params = options.params;
-		this.defaultContext = options.context;
-	},
+    constructor: function ( host, name, options ) {
+        options             = options || {}
+        this.memorize       = options.memorize === true
+        this.host           = host
+        this.trigger        = this.fire = this.raise = this.dispatch
+        this.name           = name || sys.uniqueId( 'signal' )
+        this.params         = options.params
+        this.defaultContext = options.context
+    },
 
-	/**
-	 * Cleans up
-	 * @private
-	 */
-	destroy : function () {
-		this.removeAll();
-		this.dispose();
-		this.host = null;
-	},
+    /**
+     * Cleans up
+     * @private
+     */
+    destroy: function () {
+        this.removeAll()
+        this.dispose()
+        this.host = null
+    },
 
-	/**
-	 * Ties a listener to a signal.
-	 * @param {function} listener The function to call when the signal is raised
-	 * @param {?object} listenerContext A context to set for the listener. The event host may set a default for this value, but you may override that here.
-	 * @param {?number} priority A priority for the listener.
-	 * @returns {SignalBinding}
-	 */
-	on       : function ( listener, listenerContext, priority ) {
-		if ( sys.isNumber( listenerContext ) ) {
-			priority = listenerContext;
-			listenerContext = null;
-		}
-		listenerContext = listenerContext || this.defaultContext || this.host;
-		var binding = this.add( listener, listenerContext, priority );
-		if ( this.options.params ) {
-			binding.params = this.arams;
-		}
-		return binding;
-	},
-	/**
-	 * Ties a listener to for a signal for one execution.
-	 * @param {function} listener The function to call when the signal is raised
-	 * @param {?object} listenerContext A context to set for the listener. The event host may set a default for this value, but you may override that here.
-	 * @param {?number} priority A priority for the listener.
-	 * @returns {SignalBinding}
-	 */
-	once     : function ( listener, listenerContext, priority ) {
-		if ( sys.isNumber( listenerContext ) ) {
-			priority = listenerContext;
-			listenerContext = null;
-		}
-		listenerContext = listenerContext || this.defaultContext || this.host;
-		var binding = this.addOnce( listener, listenerContext, priority );
-		if ( this.options.params ) {
-			binding.params = this.params;
-		}
-		return binding;
-	},
-	/**
-	 * Unbinds a listener to a signal.
-	 * @param {function} listener The function to unbind
-	 * @param {?object} listenerContext The context that was bound
-	 * @returns {function}
-	 */
-	off      : function ( listener, listenerContext ) {
-		listenerContext = listenerContext || this.host;
-		return this.remove( listener, listenerContext );
-	},
-	/**
-	 * Check if listener was attached to Signal.
-	 * @param {function} listener The function to check
-	 * @param {?object} listenerContext The context that was bound
-	 * @returns {boolean}
-	 */
-	has      : function ( listener, listenerContext ) {
-		listenerContext = listenerContext || this.defaultContext || this.host;
-		return this.remove( listener, listenerContext );
-	},
-	/**
-	 * Strings!
-	 */
-	toString : function () {
-		return  format( "{0}\nname:{1}\nlisteners:{2}",
-			this.declaredClass,
-			this.name,
-			this.getNumListeners()
-		);
-	}
+    /**
+     * Ties a listener to a signal.
+     * @param {function} listener The function to call when the signal is raised
+     * @param {?object} listenerContext A context to set for the listener. The event host may set a default for this value, but you may override that here.
+     * @param {?number} priority A priority for the listener.
+     * @returns {SignalBinding}
+     */
+    on: function ( listener, listenerContext, priority ) {
+        if ( sys.isNumber( listenerContext ) ) {
+            priority        = listenerContext
+            listenerContext = null
+        }
+        listenerContext = listenerContext || this.defaultContext || this.host
+        var binding     = this.add( listener, listenerContext, priority )
+        if ( this.options.params ) {
+            binding.params = this.arams
+        }
+        return binding
+    },
+    /**
+     * Ties a listener to for a signal for one execution.
+     * @param {function} listener The function to call when the signal is raised
+     * @param {?object} listenerContext A context to set for the listener. The event host may set a default for this value, but you may override that here.
+     * @param {?number} priority A priority for the listener.
+     * @returns {SignalBinding}
+     */
+    once: function ( listener, listenerContext, priority ) {
+        if ( sys.isNumber( listenerContext ) ) {
+            priority        = listenerContext
+            listenerContext = null
+        }
+        listenerContext = listenerContext || this.defaultContext || this.host
+        var binding     = this.addOnce( listener, listenerContext, priority )
+        if ( this.options.params ) {
+            binding.params = this.params
+        }
+        return binding
+    },
+    /**
+     * Unbinds a listener to a signal.
+     * @param {function} listener The function to unbind
+     * @param {?object} listenerContext The context that was bound
+     * @returns {function}
+     */
+    off: function ( listener, listenerContext ) {
+        listenerContext = listenerContext || this.host
+        return this.remove( listener, listenerContext )
+    },
+    /**
+     * Check if listener was attached to Signal.
+     * @param {function} listener The function to check
+     * @param {?object} listenerContext The context that was bound
+     * @returns {boolean}
+     */
+    has: function ( listener, listenerContext ) {
+        listenerContext = listenerContext || this.defaultContext || this.host
+        return this.remove( listener, listenerContext )
+    },
+    /**
+     * Strings!
+     */
+    toString: function () {
+        return format( '{0}\nname:{1}\nlisteners:{2}',
+            this.declaredClass,
+            this.name,
+            this.getNumListeners()
+        )
+    }
 
-} );
+} )
 
 /**
  * @classDesc Make an object capable of handling a signal. Or many signals.

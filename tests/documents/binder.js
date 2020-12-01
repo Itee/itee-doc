@@ -1,4 +1,7 @@
 "use strict";
+
+/* eslint no-unused-vars: "off" */
+
 /**
  * @fileOverview allows you to bind a change watcher that looks for get and set operations on an arbitrary
  * property of an object at at any depth. This allows you to look for changes or intercept values asynchronously or otherwise.

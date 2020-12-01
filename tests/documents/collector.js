@@ -1,4 +1,7 @@
 "use strict";
+
+/* global Destroyable */
+
 /**
  @fileOverview An object and array collector
  @module documents/collector

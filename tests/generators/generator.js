@@ -16,3 +16,4 @@
     [current, next] = [next, current + next];
   }
 }
+module.exports = fibonacci

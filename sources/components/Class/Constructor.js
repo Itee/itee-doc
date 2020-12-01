@@ -1,10 +1,7 @@
 const React       = require( 'react' )
 const Card        = require( 'react-bootstrap/Card' )
 const Parameters  = require( '../Commons/Parameters' )
-const Description = require( '../Commons/Description' )
 const SourcesList = require( '../Metas/SourcesList' )
-const Authors     = require( '../Metas/AuthorsList' )
-const License     = require( '../Metas/LicensesList' )
 
 /**
  * @class
@@ -72,7 +69,7 @@ class Constructor extends React.Component {
         if ( parameters.length === 0 ) {
             return '()'
         } else {
-            return `( ${ parameters.map( ( parameter, index, array ) => {
+            return `( ${ parameters.map( ( parameter, index ) => {
 
                 if ( index === 0 ) {
                     return parameter.name

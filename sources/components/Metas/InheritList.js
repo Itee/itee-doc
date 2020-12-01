@@ -36,7 +36,7 @@ class InheritList extends React.Component {
 
             } else if ( inherit.link ) {
 
-                renderedValue = <a href={ inherit.link } target="_blank">{ inherit.description }</a>
+                renderedValue = <a href={ inherit.link } target="_blank" rel="noreferrer">{ inherit.description }</a>
 
             } else {
 

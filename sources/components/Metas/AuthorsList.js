@@ -43,7 +43,7 @@ class AuthorsList extends React.Component {
 
             } else {
 
-                licenseLink = <a className="author-link" href={ url } target="_blank">{ labelWithUrl }</a>
+                licenseLink = <a className="author-link" href={ url } target="_blank" rel="noreferrer">{ labelWithUrl }</a>
 
             }
 

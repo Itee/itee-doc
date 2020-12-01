@@ -25,7 +25,7 @@ class SeeList extends React.Component {
 
         return this.props.sees.map( see => {
 
-            return <a href={ see.link } target="_blank">{ see.description }</a>
+            return <a key={ see.link } href={ see.link } target="_blank" rel="noreferrer">{ see.description }</a>
 
         } )
 

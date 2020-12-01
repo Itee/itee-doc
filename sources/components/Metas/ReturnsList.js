@@ -40,7 +40,7 @@ class ReturnsList extends React.Component {
 
             } else if ( return_.link ) {
 
-                renderedValue = <a href={ return_.link } target="_blank">{ return_.label }</a>
+                renderedValue = <a href={ return_.link } target="_blank" rel="noreferrer">{ return_.label }</a>
 
             } else {
 

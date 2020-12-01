@@ -1,4 +1,6 @@
 "use strict";
+/* eslint no-unused-vars: "off" */
+
 /**
  * @fileOverview Enables a schema and validation feature set to your document or other object.
  * @module documents/schema

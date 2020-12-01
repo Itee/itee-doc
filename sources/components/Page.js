@@ -21,7 +21,7 @@ class Page extends React.Component {
     _renderStylesheets () {
 
         const stylesheets = this.props.stylesheets || []
-        return stylesheets.map( stylesheet => <link rel="stylesheet" href={ stylesheet } /> )
+        return stylesheets.map( stylesheet => <link key={ stylesheet } rel="stylesheet" href={ stylesheet } /> )
 
     }
 
@@ -34,7 +34,7 @@ class Page extends React.Component {
     _renderScripts () {
 
         const scripts = this.props.scripts || []
-        return scripts.map( script => <script type="text/javascript" src={ script }></script> )
+        return scripts.map( script => <script key={ script } type="text/javascript" src={ script }></script> )
 
     }
 

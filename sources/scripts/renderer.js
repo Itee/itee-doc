@@ -10,7 +10,6 @@ const Page           = require( '../components/Page' )
 const Index          = require( '../components/Index' )
 const Class          = require( '../components/Class/Class' )
 const Package        = require( '../components/Packages/Package' )
-const LoremIpsum     = require( '../components/Others/LoremIpsum' )
 
 /**
  * @class

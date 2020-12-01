@@ -46,11 +46,11 @@ class RequiresList extends React.Component {
 
             } else if ( url && !label ) {
 
-                licenseLink = <a href={ url } target="_blank">{ url }</a>
+                licenseLink = <a href={ url } target="_blank" rel="noreferrer">{ url }</a>
 
             } else {
 
-                licenseLink = <a href={ url } target="_blank">{ label }</a>
+                licenseLink = <a href={ url } target="_blank" rel="noreferrer">{ label }</a>
 
             }
 

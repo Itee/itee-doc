@@ -84,13 +84,6 @@ class Parameters extends React.Component {
 
     }
 
-    _renderHeader () {
-
-        const nameColumn = <th>Name</th>
-
-
-    }
-
     _haveNames () {
 
         let haveNames = false

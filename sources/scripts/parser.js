@@ -157,7 +157,7 @@ class Parser {
             async:        doclet.async,
             augments:     doclet.augments,
             authors:      this.parseAuthors( doclet.author ),
-            contant:      doclet.contant,
+            constant:     doclet.constant,
             defaultValue: doclet.defaultvalue,
             description:  doclet.description || doclet.classdesc,
             examples:     this.parseExamples( doclet.examples ),
@@ -189,7 +189,7 @@ class Parser {
         delete doclet.async
         delete doclet.augments
         delete doclet.author
-        delete doclet.contant
+        delete doclet.constant
         delete doclet.defaultvalue
         delete doclet.classdesc
         delete doclet.description

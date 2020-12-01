@@ -105,11 +105,7 @@ class Parser {
      */
     parse ( taffyData ) {
 
-        taffyData().each( ( doclet ) => {
-
-            this.parseDoclet( doclet )
-
-        } )
+        taffyData().each( this.parseDoclet.bind( this ) )
 
         this.assignConstants()
         this.assignMembers()

@@ -98,6 +98,17 @@ gulp.task( 'help', ( done ) => {
 } )
 
 /**
+ * @method npm run patch
+ * @global
+ * @description Will apply some patch/replacements in dependencies
+ */
+gulp.task( 'patch', ( done ) => {
+
+    done()
+
+} )
+
+/**
  * @method npm run clean
  * @global
  * @description Will delete builds and temporary folders

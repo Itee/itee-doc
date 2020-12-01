@@ -6,6 +6,7 @@
   "scripts": {
     "help": "gulp help",
     "clean": "gulp clean",
+    "patch": "gulp patch",
     "lint": "gulp lint",
     "doc": "gulp doc",
     "test": "gulp test",

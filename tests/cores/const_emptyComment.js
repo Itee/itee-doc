@@ -1,4 +1,4 @@
 /**
  *
  */
-const const_emptyComment = undefined
+const const_emptyComment = undefined // eslint-disable-line

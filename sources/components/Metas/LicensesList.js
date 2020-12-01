@@ -1,4 +1,5 @@
 const React       = require( 'react' )
+const PropTypes   = require( 'prop-types' )
 const LabeledList = require( '../Commons/LabeledList' )
 
 /**
@@ -46,11 +47,11 @@ class LicensesList extends React.Component {
 
             } else if ( url && !label ) {
 
-                licenseLink = <a href={ url } target="_blank">{ url }</a>
+                licenseLink = <a href={ url } target="_blank" rel="noreferrer">{ url }</a>
 
             } else {
 
-                licenseLink = <a href={ url } target="_blank">{ label }</a>
+                licenseLink = <a href={ url } target="_blank" rel="noreferrer">{ label }</a>
 
             }
 
@@ -60,6 +61,10 @@ class LicensesList extends React.Component {
 
     }
 
+}
+
+LicensesList.propTypes = {
+    licenses: PropTypes.array
 }
 
 LicensesList.defaultProps = {

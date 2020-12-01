@@ -1,5 +1,6 @@
-const React  = require( 'react' )
-const Navbar = require( 'react-bootstrap/Navbar' )
+const React     = require( 'react' )
+const PropTypes = require( 'prop-types' )
+const Navbar    = require( 'react-bootstrap/Navbar' )
 
 /**
  * @class
@@ -27,6 +28,13 @@ class MainFooter extends React.Component {
         )
     }
 
+}
+
+MainFooter.propTypes = {
+    variant: PropTypes.string,
+    bg:      PropTypes.string,
+    sticky:  PropTypes.bool,
+    fixed:   PropTypes.bool
 }
 
 module.exports = MainFooter

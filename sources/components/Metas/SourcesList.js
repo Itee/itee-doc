@@ -1,4 +1,5 @@
 const React       = require( 'react' )
+const PropTypes   = require( 'prop-types' )
 const LabeledList = require( '../Commons/LabeledList' )
 
 /**
@@ -36,7 +37,7 @@ class SourcesList extends React.Component {
             const sourceLineNumberLabel    = `line n°${ source.lineNumber }`
 
             return (
-                <span key={sourcePath}>
+                <span key={ sourcePath }>
                     <a href={ sourcePath }>{ sourcePath }</a>&#44;&nbsp;<a href={ sourcePathWithLineNumber }>{ sourceLineNumberLabel }</a>
                 </span>
             )
@@ -45,6 +46,10 @@ class SourcesList extends React.Component {
 
     }
 
+}
+
+SourcesList.propTypes = {
+    sources: PropTypes.array
 }
 
 SourcesList.defaultProps = {

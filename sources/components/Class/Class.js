@@ -1,4 +1,5 @@
 const React              = require( 'react' )
+const PropTypes          = require( 'prop-types' )
 const Card               = require( 'react-bootstrap/Card' )
 const Constructor        = require( './Constructor' )
 const Description        = require( '../Commons/Description' )
@@ -60,6 +61,23 @@ class Class extends React.Component {
 
     }
 
+}
+
+Class.propTypes = {
+    uuid:        PropTypes.string,
+    name:        PropTypes.string,
+    description: PropTypes.string,
+    constants:   PropTypes.array,
+    members:     PropTypes.array,
+    methods:     PropTypes.array,
+    authors:     PropTypes.array,
+    exceptions:  PropTypes.array,
+    inherits:    PropTypes.array,
+    licenses:    PropTypes.array,
+    requires:    PropTypes.array,
+    returns:     PropTypes.array,
+    see:         PropTypes.array,
+    sources:     PropTypes.array
 }
 
 module.exports = Class

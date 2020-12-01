@@ -1,4 +1,5 @@
 const React          = require( 'react' )
+const PropTypes      = require( 'prop-types' )
 const Description    = require( './Description' )
 const AuthorsList    = require( '../Metas/AuthorsList' )
 const ExceptionsList = require( '../Metas/ExceptionsList' )
@@ -58,6 +59,28 @@ class Property extends React.Component {
 
     }
 
+}
+
+Property.propTypes = {
+    uuid:        PropTypes.string,
+    name:        PropTypes.string,
+    type:        PropTypes.string,
+    description: PropTypes.string,
+    authors:     PropTypes.array,
+    exceptions:  PropTypes.array,
+    inherits:    PropTypes.array,
+    licenses:    PropTypes.array,
+    requires:    PropTypes.array,
+    returns:     PropTypes.array,
+    sees:        PropTypes.array,
+    sources:     PropTypes.array,
+    access:      PropTypes.string,
+    readOnly:    PropTypes.bool,
+    virtual:     PropTypes.bool,
+    kind:        PropTypes.string,
+    inner:       PropTypes.bool,
+    generator:   PropTypes.bool,
+    async:       PropTypes.bool
 }
 
 module.exports = Property

@@ -1,4 +1,5 @@
 const React       = require( 'react' )
+const PropTypes   = require( 'prop-types' )
 const LabeledList = require( '../Commons/LabeledList' )
 
 /**
@@ -43,7 +44,7 @@ class AuthorsList extends React.Component {
 
             } else {
 
-                licenseLink = <a className="author-link" href={ url } target="_blank">{ labelWithUrl }</a>
+                licenseLink = <a className="author-link" href={ url } target="_blank" rel="noreferrer">{ labelWithUrl }</a>
 
             }
 
@@ -53,6 +54,10 @@ class AuthorsList extends React.Component {
 
     }
 
+}
+
+AuthorsList.propTypes = {
+    authors: PropTypes.array
 }
 
 AuthorsList.defaultProps = {

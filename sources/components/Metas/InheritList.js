@@ -1,4 +1,5 @@
 const React        = require( 'react' )
+const PropTypes    = require( 'prop-types' )
 const LabeledList  = require( '../Commons/LabeledList' )
 const { isString } = require( '../../scripts/utils' )
 
@@ -36,7 +37,7 @@ class InheritList extends React.Component {
 
             } else if ( inherit.link ) {
 
-                renderedValue = <a href={ inherit.link } target="_blank">{ inherit.description }</a>
+                renderedValue = <a href={ inherit.link } target="_blank" rel="noreferrer">{ inherit.description }</a>
 
             } else {
 
@@ -50,6 +51,10 @@ class InheritList extends React.Component {
 
     }
 
+}
+
+InheritList.propTypes = {
+    inherits: PropTypes.array
 }
 
 InheritList.defaultProps = {

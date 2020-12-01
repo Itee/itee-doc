@@ -105,9 +105,7 @@ class Parser {
 
         taffyData().each( ( doclet ) => {
 
-
             this.parseDoclet( doclet )
-
 
         } )
 
@@ -365,37 +363,37 @@ class Parser {
 
     }
 
-    parseTypeDef ( doclet ) {
+    parseTypeDef ( /*doclet*/ ) {
 
         return {}
 
     }
 
-    parseFile ( doclet ) {
+    parseFile ( /*doclet*/ ) {
 
         return {}
 
     }
 
-    parseNamespace ( doclet ) {
+    parseNamespace ( /*doclet*/ ) {
 
         return {}
 
     }
 
-    parseMixin ( doclet ) {
+    parseMixin ( /*doclet*/ ) {
 
         return {}
 
     }
 
-    parseInterface ( doclet ) {
+    parseInterface ( /*doclet*/ ) {
 
         return {}
 
     }
 
-    parseGlobal ( doclet ) {
+    parseGlobal ( /*doclet*/ ) {
 
         return {}
 
@@ -409,7 +407,7 @@ class Parser {
 
     }
 
-    parseExternal ( doclet ) {
+    parseExternal ( /*doclet*/ ) {
 
         return {}
 

@@ -1,4 +1,5 @@
 const React       = require( 'react' )
+const PropTypes   = require( 'prop-types' )
 const LabeledList = require( '../Commons/LabeledList' )
 
 /**
@@ -17,7 +18,7 @@ class SeeList extends React.Component {
      */
     render () {
 
-        return <LabeledList className="see-list" label="See:"  values={ this._computeValues() }></LabeledList>
+        return <LabeledList className="see-list" label="See:" values={ this._computeValues() }></LabeledList>
 
     }
 
@@ -25,12 +26,16 @@ class SeeList extends React.Component {
 
         return this.props.sees.map( see => {
 
-            return <a href={ see.link } target="_blank">{ see.description }</a>
+            return <a key={ see.link } href={ see.link } target="_blank" rel="noreferrer">{ see.description }</a>
 
         } )
 
     }
 
+}
+
+SeeList.propTypes = {
+    sees: PropTypes.array
 }
 
 SeeList.defaultProps = {

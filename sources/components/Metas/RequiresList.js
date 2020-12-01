@@ -1,4 +1,5 @@
 const React       = require( 'react' )
+const PropTypes   = require( 'prop-types' )
 const LabeledList = require( '../Commons/LabeledList' )
 
 /**
@@ -60,6 +61,10 @@ class RequiresList extends React.Component {
 
     }
 
+}
+
+RequiresList.propTypes = {
+    requires: PropTypes.array
 }
 
 RequiresList.defaultProps = {

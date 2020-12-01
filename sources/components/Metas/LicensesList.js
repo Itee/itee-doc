@@ -1,4 +1,5 @@
 const React       = require( 'react' )
+const PropTypes   = require( 'prop-types' )
 const LabeledList = require( '../Commons/LabeledList' )
 
 /**
@@ -60,6 +61,10 @@ class LicensesList extends React.Component {
 
     }
 
+}
+
+LicensesList.propTypes = {
+    licenses: PropTypes.array
 }
 
 LicensesList.defaultProps = {

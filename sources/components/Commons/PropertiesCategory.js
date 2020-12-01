@@ -1,4 +1,5 @@
 const React     = require( 'react' )
+const PropTypes = require( 'prop-types' )
 const Card      = require( 'react-bootstrap/Card' )
 const ListGroup = require( 'react-bootstrap/ListGroup' )
 const Property  = require( './Property' )
@@ -47,6 +48,11 @@ class PropertiesCategory extends React.Component {
 
     }
 
+}
+
+PropertiesCategory.propTypes = {
+    name:       PropTypes.string,
+    properties: PropTypes.array
 }
 
 PropertiesCategory.defaultProps = {

@@ -1,5 +1,6 @@
 const { v4: uuidv4 } = require( 'uuid' )
 const React          = require( 'react' )
+const PropTypes      = require( 'prop-types' )
 const Navbar         = require( 'react-bootstrap/Navbar' )
 const Nav            = require( 'react-bootstrap/Nav' )
 const NavDropdown    = require( 'react-bootstrap/NavDropdown' )
@@ -235,6 +236,13 @@ class MainNavbar extends React.Component {
 
     }
 
+}
+
+MainNavbar.propTypes = {
+    id:      PropTypes.string,
+    bg:      PropTypes.string,
+    variant: PropTypes.string,
+    items:   PropTypes.array
 }
 
 module.exports = MainNavbar

@@ -1,4 +1,5 @@
 const React          = require( 'react' )
+const PropTypes      = require( 'prop-types' )
 const Description    = require( './Description' )
 const Parameters     = require( './Parameters' )
 const AuthorsList    = require( '../Metas/AuthorsList' )
@@ -114,6 +115,28 @@ class Function extends React.Component {
 
     }
 
+}
+
+Function.propTypes = {
+    access:      PropTypes.string,
+    async:       PropTypes.bool,
+    authors:     PropTypes.array,
+    description: PropTypes.string,
+    exceptions:  PropTypes.array,
+    generator:   PropTypes.bool,
+    inherits:    PropTypes.array,
+    inner:       PropTypes.bool,
+    kind:        PropTypes.string,
+    licenses:    PropTypes.array,
+    name:        PropTypes.string,
+    parameters:  PropTypes.array,
+    readOnly:    PropTypes.bool,
+    requires:    PropTypes.array,
+    returns:     PropTypes.array,
+    sees:        PropTypes.array,
+    sources:     PropTypes.array,
+    uuid:        PropTypes.string,
+    virtual:     PropTypes.bool
 }
 
 module.exports = Function

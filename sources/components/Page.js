@@ -1,4 +1,5 @@
 const React       = require( 'react' )
+const PropTypes   = require( 'prop-types' )
 const MainNavbar  = require( './Mains/MainNavbar' )
 const MainContent = require( './Mains/MainContent' )
 const MainFooter  = require( './Mains/MainFooter' )
@@ -72,6 +73,21 @@ class Page extends React.Component {
 
     }
 
+}
+
+Page.propTypes = {
+    stylesheets: PropTypes.array,
+    scripts:     PropTypes.array,
+    title:       PropTypes.string,
+    navbar:      PropTypes.object,
+    content:     PropTypes.object,
+    footer:      PropTypes.object,
+    copyright:   PropTypes.string
+}
+
+Page.defaultProps = {
+    stylesheets: [],
+    scripts:     []
 }
 
 module.exports = Page

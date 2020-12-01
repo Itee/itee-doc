@@ -1,4 +1,5 @@
 const React       = require( 'react' )
+const PropTypes   = require( 'prop-types' )
 const LabeledList = require( '../Commons/LabeledList' )
 
 /**
@@ -45,6 +46,10 @@ class SourcesList extends React.Component {
 
     }
 
+}
+
+SourcesList.propTypes = {
+    sources: PropTypes.array
 }
 
 SourcesList.defaultProps = {

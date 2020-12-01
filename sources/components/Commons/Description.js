@@ -1,4 +1,5 @@
-const React = require( 'react' )
+const React     = require( 'react' )
+const PropTypes = require( 'prop-types' )
 
 /**
  * @class
@@ -27,5 +28,10 @@ class Description extends React.Component {
     }
 
 }
+
+Description.propTypes = {
+    description: PropTypes.string
+}
+
 
 module.exports = Description

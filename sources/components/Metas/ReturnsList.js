@@ -1,4 +1,5 @@
 const React        = require( 'react' )
+const PropTypes    = require( 'prop-types' )
 const LabeledList  = require( '../Commons/LabeledList' )
 const { isString } = require( '../../scripts/utils' )
 
@@ -54,6 +55,10 @@ class ReturnsList extends React.Component {
 
     }
 
+}
+
+ReturnsList.propTypes = {
+    returns: PropTypes.array
 }
 
 ReturnsList.defaultProps = {

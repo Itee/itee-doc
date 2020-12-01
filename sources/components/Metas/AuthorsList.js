@@ -1,4 +1,5 @@
 const React       = require( 'react' )
+const PropTypes   = require( 'prop-types' )
 const LabeledList = require( '../Commons/LabeledList' )
 
 /**
@@ -53,6 +54,10 @@ class AuthorsList extends React.Component {
 
     }
 
+}
+
+AuthorsList.propTypes = {
+    authors: PropTypes.array
 }
 
 AuthorsList.defaultProps = {

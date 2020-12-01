@@ -60,7 +60,9 @@ function CreateEslintConfiguration () {
                 }
             ],
 
-            'react/prop-types': 'warn'
+            'react/prop-types': [ 'warn', {
+                ignore: [ 'children' ]
+            } ]
         },
         settings: {
             react: {

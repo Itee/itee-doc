@@ -1,4 +1,5 @@
 const React       = require( 'react' )
+const PropTypes   = require( 'prop-types' )
 const Card        = require( 'react-bootstrap/Card' )
 const Parameters  = require( '../Commons/Parameters' )
 const SourcesList = require( '../Metas/SourcesList' )
@@ -30,7 +31,7 @@ class Constructor extends React.Component {
         }
 
         let footer = null
-        if ( this.props.source && this.props.source.length > 0 ) {
+        if ( this.props.sources && this.props.sources.length > 0 ) {
             footer = (
                 <Card.Footer className="constructor-footer">
                     <SourcesList sources={ this.props.sources }></SourcesList>
@@ -82,6 +83,24 @@ class Constructor extends React.Component {
 
     }
 
+}
+
+Constructor.propTypes = {
+    parameters:  PropTypes.array,
+    sources:     PropTypes.array,
+    inherit:     PropTypes.array,
+    name:        PropTypes.string,
+    authors:     PropTypes.array,
+    description: PropTypes.string,
+    exceptions:  PropTypes.array,
+    generator:   PropTypes.bool,
+    inner:       PropTypes.bool,
+    kind:        PropTypes.string,
+    licenses:    PropTypes.array,
+    readOnly:    PropTypes.bool,
+    requires:    PropTypes.array,
+    returns:     PropTypes.array,
+    sees:        PropTypes.array
 }
 
 module.exports = Constructor

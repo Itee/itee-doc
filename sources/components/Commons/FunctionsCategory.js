@@ -1,4 +1,5 @@
 const React     = require( 'react' )
+const PropTypes = require( 'prop-types' )
 const Card      = require( 'react-bootstrap/Card' )
 const ListGroup = require( 'react-bootstrap/ListGroup' )
 const Function  = require( './Function' )
@@ -47,6 +48,11 @@ class FunctionsCategory extends React.Component {
 
     }
 
+}
+
+FunctionsCategory.propTypes = {
+    values: PropTypes.array,
+    name:   PropTypes.string
 }
 
 FunctionsCategory.defaultProps = {

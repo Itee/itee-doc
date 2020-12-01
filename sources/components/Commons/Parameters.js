@@ -1,5 +1,6 @@
-const React = require( 'react' )
-const Table = require( 'react-bootstrap/Table' )
+const React     = require( 'react' )
+const PropTypes = require( 'prop-types' )
+const Table     = require( 'react-bootstrap/Table' )
 
 /**
  * @class
@@ -159,6 +160,10 @@ class Parameters extends React.Component {
 
     }
 
+}
+
+Parameters.propTypes = {
+    values: PropTypes.array
 }
 
 Parameters.defaultProps = {

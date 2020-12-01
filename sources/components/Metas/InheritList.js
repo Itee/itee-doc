@@ -1,4 +1,5 @@
 const React        = require( 'react' )
+const PropTypes    = require( 'prop-types' )
 const LabeledList  = require( '../Commons/LabeledList' )
 const { isString } = require( '../../scripts/utils' )
 
@@ -50,6 +51,10 @@ class InheritList extends React.Component {
 
     }
 
+}
+
+InheritList.propTypes = {
+    inherits: PropTypes.array
 }
 
 InheritList.defaultProps = {

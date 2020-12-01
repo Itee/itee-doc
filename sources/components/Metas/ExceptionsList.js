@@ -1,4 +1,5 @@
 const React       = require( 'react' )
+const PropTypes   = require( 'prop-types' )
 const LabeledList = require( '../Commons/LabeledList' )
 
 /**
@@ -60,6 +61,10 @@ class ExceptionsList extends React.Component {
 
     }
 
+}
+
+ExceptionsList.propTypes = {
+    exceptions: PropTypes.array
 }
 
 ExceptionsList.defaultProps = {

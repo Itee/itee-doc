@@ -238,7 +238,7 @@ class Parser {
 
         // Debug unprocessed doclet properties
         for ( let property in doclet ) {
-            logger.warn( `Unprocessed doclet property ${ property }` )
+            logger.warn( `Unprocessed doclet property [${ property }]: ${ JSON.stringify( doclet[ property ] ) }` )
         }
 
         // Merge common and specific

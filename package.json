@@ -4,9 +4,15 @@
   "description": "A template for JSDoc3 based on React and Bootstrap",
   "main": "builds/publish.js",
   "scripts": {
-    "doc": "jsdoc --configure ./configs/jsdoc.config.js",
-    "idoc": "jsdoc --configure ./configs/jsdoc.config.js -t sources/itee-doc.js",
-    "test": "jsdoc --configure ./tests/test.conf.json"
+    "help": "gulp help",
+    "clean": "gulp clean",
+    "lint": "gulp lint",
+    "doc": "gulp doc",
+    "test": "gulp test",
+    "build": "gulp build",
+    "release": "gulp release",
+    "semantic-release": "semantic-release --dry-run --no-ci",
+    "postversion": "gulp build"
   },
   "repository": {
     "type": "git",

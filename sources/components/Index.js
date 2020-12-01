@@ -18,8 +18,7 @@ class Index extends React.Component {
     render () {
 
         return (
-            <div id={ this.props.uuid } dangerouslySetInnerHTML={{__html: this.props.children }}>
-            </div>
+            <div id={ this.props.uuid } dangerouslySetInnerHTML={ { __html: this.props.readMe } }></div>
         )
 
     }

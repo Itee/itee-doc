@@ -193,8 +193,8 @@ class Renderer {
         this.outputStaticFiles( outputPath )
 
         this.renderIndex( templateDatas, {
-            uuid:     uuidv4(),
-            children: this.options.readme
+            uuid:   uuidv4(),
+            readMe: this.options.readme
         }, outputPath )
 
         for ( let availableCategory of this.availableCategories ) {

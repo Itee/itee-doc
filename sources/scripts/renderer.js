@@ -193,8 +193,8 @@ class Renderer {
         this.outputStaticFiles( outputPath )
 
         this.renderIndex( templateDatas, {
-            uuid:     uuidv4(),
-            children: this.options.readme
+            uuid:   uuidv4(),
+            readMe: this.options.readme
         }, outputPath )
 
         for ( let availableCategory of this.availableCategories ) {
@@ -209,6 +209,9 @@ class Renderer {
     }
 
     renderIndex ( pageProps, indexData, outputPath ) {
+
+        // Avoid jsdoc warning on render even if there is only one rendered class per file
+        indexData.key = indexData.uuid
 
         const filePath = path.join( outputPath, 'index.html' )
         const pageHtml = this.renderPage( pageProps, [

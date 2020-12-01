@@ -66,7 +66,7 @@ LabeledList.propTypes = {
 
 /**
  *
- * @type {{values: [], label: string}}
+ * @type {{values: Array<*>, label: string}}
  */
 LabeledList.defaultProps = {
     /**

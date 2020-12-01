@@ -59,6 +59,8 @@ class Parser {
             longNameToUuid: new Map()
         }
 
+        this._globalUuid = uuidv4()
+
     }
 
     // Utils
@@ -734,48 +736,18 @@ class Parser {
 
         for ( const constant of constants.values() ) {
 
-            const memberOf = constant.memberOf
-            if ( isDefined( memberOf ) ) {
+            const parentName = constant.memberOf
+            if ( isDefined( parentName ) ) {
 
-                const parentUuid = this._datas.longNameToUuid.get( memberOf )
-                if ( isNotDefined( parentUuid ) ) {
-                    logger.warn( `Unable to bind constant [${ constant.name }] to ${ memberOf }. Parent uuid is not defined !` )
-                    continue
-                }
-
-                const parent = this._datas.indexes.get( parentUuid )
-                if ( isNotDefined( parent ) ) {
-                    logger.warn( `Unable to bind constant [${ constant.name }] to ${ memberOf }. Parent with uuid ${ parentUuid } is not defined !` )
-                    continue
-                }
-
-                if ( isNotDefined( parent.constants ) ) {
-                    parent.constants = []
-                }
-
-                parent.constants.push( constant )
+                this._assignToParent( parentName, 'constants', constant )
 
             } else if ( constant.scope === 'global' ) {
 
-                if ( isNotDefined( this._datas[ 'global' ] ) ) {
-                    this._datas[ 'global' ] = new Map()
-                    this._datas[ 'global' ].set( 'GlobalUuid', {
-                        destination: {
-                            fileName: 'globals.html'
-                        }
-                    } )
-                }
-
-                const parent = this._datas[ 'global' ].get( 'GlobalUuid' )
-                if ( isNotDefined( parent.constants ) ) {
-                    parent.constants = []
-                }
-
-                parent.constants.push( constant )
+                this._assignToGlobal( 'constants', constant )
 
             } else {
 
-                logger.warn( `Unable to bind constant [${ constant.name }] to ${ memberOf }. ${ memberOf } is not defined !` )
+                logger.warn( `Unable to bind constant [${ constant.name }] to ${ parentName }. ${ parentName } is not defined !` )
 
             }
 
@@ -790,48 +762,18 @@ class Parser {
 
         for ( const member of members.values() ) {
 
-            const memberOf = member.memberOf
-            if ( isDefined( memberOf ) ) {
+            const parentName = member.memberOf
+            if ( isDefined( parentName ) ) {
 
-                const parentUuid = this._datas.longNameToUuid.get( memberOf )
-                if ( isNotDefined( parentUuid ) ) {
-                    logger.warn( `Unable to bind member [${ member.name }] to ${ memberOf }. Parent uuid is not defined !` )
-                    continue
-                }
-
-                const parent = this._datas.indexes.get( parentUuid )
-                if ( isNotDefined( parent ) ) {
-                    logger.warn( `Unable to bind member [${ member.name }] to ${ memberOf }. Parent with uuid ${ parentUuid } is not defined !` )
-                    continue
-                }
-
-                if ( isNotDefined( parent.members ) ) {
-                    parent.members = []
-                }
-
-                parent.members.push( member )
+                this._assignToParent( parentName, 'members', member )
 
             } else if ( member.scope === 'global' ) {
 
-                if ( isNotDefined( this._datas[ 'global' ] ) ) {
-                    this._datas[ 'global' ] = new Map()
-                    this._datas[ 'global' ].set( 'GlobalUuid', {
-                        destination: {
-                            fileName: 'globals.html'
-                        }
-                    } )
-                }
-
-                const parent = this._datas[ 'global' ].get( 'GlobalUuid' )
-                if ( isNotDefined( parent.members ) ) {
-                    parent.members = []
-                }
-
-                parent.members.push( member )
+                this._assignToGlobal( 'members', member )
 
             } else {
 
-                logger.warn( `Unable to bind member [${ member.name }] to ${ memberOf }. ${ memberOf } is not defined !` )
+                logger.warn( `Unable to bind member [${ member.name }] to ${ parentName }. ${ parentName } is not defined !` )
 
             }
 
@@ -846,52 +788,71 @@ class Parser {
 
         for ( const method of functions.values() ) {
 
-            const memberOf = method.memberOf
-            if ( isDefined( memberOf ) ) {
+            const parentName = method.memberOf
+            if ( isDefined( parentName ) ) {
 
-                const parentUuid = this._datas.longNameToUuid.get( memberOf )
-                if ( isNotDefined( parentUuid ) ) {
-                    logger.warn( `Unable to bind method [${ method.name }] to ${ memberOf }. Parent uuid is not defined !` )
-                    continue
-                }
-
-                const parent = this._datas.indexes.get( parentUuid )
-                if ( isNotDefined( parent ) ) {
-                    logger.warn( `Unable to bind method [${ method.name }] to ${ memberOf }. Parent with uuid ${ parentUuid } is not defined !` )
-                    continue
-                }
-
-                if ( isNotDefined( parent.methods ) ) {
-                    parent.methods = []
-                }
-
-                parent.methods.push( method )
+                this._assignToParent( parentName, 'methods', method )
 
             } else if ( method.scope === 'global' ) {
 
-                if ( isNotDefined( this._datas[ 'global' ] ) ) {
-                    this._datas[ 'global' ] = new Map()
-                    this._datas[ 'global' ].set( 'GlobalUuid', {
-                        destination: {
-                            fileName: 'globals.html'
-                        }
-                    } )
-                }
-
-                const parent = this._datas[ 'global' ].get( 'GlobalUuid' )
-                if ( isNotDefined( parent.methods ) ) {
-                    parent.methods = []
-                }
-
-                parent.methods.push( method )
+                this._assignToGlobal( 'methods', method )
 
             } else {
 
-                logger.warn( `Unable to bind method [${ method.name }] to ${ memberOf }. ${ memberOf } is not defined !` )
+                logger.warn( `Unable to bind method [${ method.name }] to ${ parentName }. ${ parentName } is not defined !` )
 
             }
 
         }
+
+    }
+
+    _assignToParent ( parentName, propertyListName, data ) {
+
+        const parentUuid = this._datas.longNameToUuid.get( parentName )
+        if ( isNotDefined( parentUuid ) ) {
+            logger.warn( `Unable to bind [${ data.name }] to ${ parentName }. Parent uuid is not defined !` )
+            return
+        }
+
+        const parent = this._datas.indexes.get( parentUuid )
+        if ( isNotDefined( parent ) ) {
+            logger.warn( `Unable to bind [${ data.name }] to ${ parentName }. Parent with uuid ${ parentUuid } is not defined !` )
+            return
+        }
+
+        if ( isNotDefined( parent[ propertyListName ] ) ) {
+            parent[ propertyListName ] = []
+        }
+
+        parent[ propertyListName ].push( data )
+
+    }
+
+    _assignToGlobal ( propertyListName, data ) {
+
+        this._createGlobalMapIfNotExist()
+
+        const parent = this._datas[ 'global' ].get( this._globalUuid )
+        if ( isNotDefined( parent[ propertyListName ] ) ) {
+            parent[ propertyListName ] = []
+        }
+
+        parent[ propertyListName ].push( data )
+
+    }
+
+    _createGlobalMapIfNotExist () {
+
+        if ( isDefined( this._datas[ 'global' ] ) ) { return }
+
+        this._datas[ 'global' ] = new Map()
+        this._datas[ 'global' ].set( this._globalUuid, {
+            uuid:        this._globalUuid,
+            destination: {
+                fileName: 'globals.html'
+            }
+        } )
 
     }
 

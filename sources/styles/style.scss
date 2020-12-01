@@ -1,0 +1,126 @@
+@import "../../node_modules/bootstrap/scss/bootstrap";
+@import "../../node_modules/highlight.js/scss/zenburn";
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+// Globals
+
+.mh-0 {
+  min-height: 0;
+}
+
+/* Scroll bar overide */
+::-webkit-scrollbar {
+  height: 5px;
+  width:  10px;
+}
+
+::-webkit-scrollbar-button {
+  display:          none;
+  height:           13px;
+  border-radius:    0px;
+  background-color: #aaaaaa;
+}
+
+::-webkit-scrollbar-button:hover {
+  background-color: #aaaaaa;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #331a4e;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #4e2876;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #d3d3d3;
+}
+
+::-webkit-scrollbar-track:hover {
+  background-color: #d2d2d2;
+}
+
+// Components
+
+.error-boundary {
+
+  width: 100%;
+  height: 100%;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  .error-boundary-body {
+    white-space: pre-wrap;
+    //background-color: $danger;
+    //border: 3px solid $danger;
+    border-radius: 5px;
+    box-shadow: 0 0 0 0 rgba(220, 53, 69, 1.0);
+    animation: pulse 1.00s infinite cubic-bezier(0.66, 0, 0, 1);
+  }
+
+  @keyframes pulse {
+    to {
+      box-shadow: 0 0 0 20px rgba(220, 53, 69, 0);
+    }
+  }
+
+
+}
+
+
+//
+//@font-family-sans-serif: Helvetica, Arial, sans-serif;
+//
+//// Tweak the headings.
+//h1 { font-weight: 100; }
+//h2 {
+//  font-weight: 100;
+//  color: @gray;
+//}
+//h3 { font-weight: 100 }
+//h4 {
+//  font-weight: 700;
+//  margin-top: @line-height-computed;
+//  margin-bottom: @line-height-computed / 2;
+//}
+//
+//// Make code elements linkable.
+//a {
+//  code {
+//    background-color: transparent;
+//    color: @link-color;
+//    padding: 0;
+//  }
+//  &:hover code { color: @link-hover-color; }
+//}
+//
+//// Give modules, functions, and classes some room.
+//.module, .function, .class {
+//  margin-top: @line-height-computed * 2;
+//  margin-bottom: @line-height-computed;
+//  h3 { font-size: @font-size-base; }
+//  h4 { font-size: ceil(@font-size-base * 0.85); }
+//}
+//
+//.summary { font-size: ceil(@font-size-base * 1.15); }
+//
+//.function .params {
+//  .name { text-align: right; width: 25%; }
+//  .description p { margin: 0; }
+//}
+//
+//// Disable background colour on highlight.js code elements.
+//code.hljs { background-color: transparent; }
+//
+//// Function labels.
+//.curried    { background-color: @brand-primary; }
+//.deprecated { background-color: @brand-danger; }
+//.static     { background-color: @brand-success; }

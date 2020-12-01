@@ -31,7 +31,7 @@ If you want to build the repository from source follow these instructions:
     npm run build
     
 then you can copy/paste the module you need from builds folder.
-    
+For example, <code>&lt;section&gt;</code> should be wrapped as inline.
 <br>
 <h2>How to use</h2>
 
@@ -51,6 +51,8 @@ In your projects `package.json` file add a generate script:
 ```
 
 In your `jsdoc.conf.json` file, add a template option.
+To switch directories, type <kbd>cd</kbd> followed by the name of the directory.<br>
+To edit settings, press <kbd><kbd>ctrl</kbd> + <kbd>,</kbd></kbd>
 
 ```json
 {

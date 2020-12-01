@@ -1,0 +1,39 @@
+{
+  "tags": {
+    "allowUnknownTags": true
+  },
+  "source": {
+    "include": [
+      "./tests/",
+      "./tests/README.md"
+    ],
+    "exclude": [
+      "./tests/_results"
+    ]
+  },
+  "plugins": [],
+  "opts": {
+    "encoding": "utf8",
+    "template": "./builds",
+    "destination": "./tests/_results/",
+    "recurse": true,
+    "verbose": true
+  },
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": false,
+    "default": {
+      "outputSourceFiles": true,
+      "includeDate": false,
+      "useLongnameInNav": true
+    },
+    "staticFiles": {
+      "include": [
+        "./builds/statics"
+      ],
+      "includePattern": "",
+      "excludePattern": "",
+      "exclude": []
+    }
+  }
+}

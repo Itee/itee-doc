@@ -46,7 +46,6 @@ const sass         = require( 'gulp-sass' )
 const cleanCss     = require( 'gulp-clean-css' )
 const concat       = require( 'gulp-concat' )
 //const rollup       = require( 'rollup' )
-const path         = require( 'path' )
 const log          = require( 'fancy-log' )
 const colors       = require( 'ansi-colors' )
 const red          = colors.red
@@ -126,7 +125,7 @@ gulp.task( 'lint', () => {
         'configs/**/*.js',
         'sources/**/*.js',
         'tests/**/*.js',
-        '!tests/builds/*.js'
+        '!tests/_results/**'
     ]
 
     return gulp.src( filesToLint, { base: './' } )
@@ -251,7 +250,7 @@ gulp.task( 'build', gulp.series( 'build-style', 'build-script' ) )
  * @global
  * @description Will perform a complet release of the library including 'clean', 'lint', 'doc', 'build-test', 'test' and finally 'build'.
  */
-gulp.task( 'release', gulp.series( 'clean', 'lint', 'doc', 'build' ) )
+gulp.task( 'release', gulp.series( 'clean', 'lint', 'build', 'doc' ) )
 
 //---------
 

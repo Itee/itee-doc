@@ -16,11 +16,11 @@
 function CreateJsdocConfiguration () {
 
     const config = {
-        tags:         {
+        tags: {
             allowUnknownTags: false,
             dictionaries:     [ 'jsdoc', 'closure' ]
         },
-        source:       {
+        source: {
             include:        [ './sources' ],
             includePattern: '.+\\.js(doc|x)?$',
             excludePattern: '(node_modules|documentation|builds)',
@@ -41,9 +41,9 @@ function CreateJsdocConfiguration () {
             template:    './builds'
             //            'template':    'node_modules/ink-docstrap/template'
         },
-        templates:    {
-            default:           {
-                staticFiles:       {
+        templates: {
+            default: {
+                staticFiles: {
                     include:        [ './builds/statics' ],
                     includePattern: '',
                     excludePattern: '',

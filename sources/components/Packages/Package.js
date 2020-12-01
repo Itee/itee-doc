@@ -1,4 +1,5 @@
 const React       = require( 'react' )
+const PropTypes   = require( 'prop-types' )
 const Card        = require( 'react-bootstrap/Card' )
 const Description = require( '../Commons/Description' )
 const LabeledList = require( '../Commons/LabeledList' )
@@ -39,6 +40,13 @@ class Package extends React.Component {
 
     }
 
+}
+
+Package.propTypes = {
+    uuid:        PropTypes.string,
+    name:        PropTypes.string,
+    description: PropTypes.string,
+    files:       PropTypes.array
 }
 
 module.exports = Package

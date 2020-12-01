@@ -1,1 +1,1 @@
-const const_uncommented = undefined
+const const_uncommented = undefined // eslint-disable-line

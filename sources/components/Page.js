@@ -1,4 +1,5 @@
 const React       = require( 'react' )
+const PropTypes   = require( 'prop-types' )
 const MainNavbar  = require( './Mains/MainNavbar' )
 const MainContent = require( './Mains/MainContent' )
 const MainFooter  = require( './Mains/MainFooter' )
@@ -21,7 +22,7 @@ class Page extends React.Component {
     _renderStylesheets () {
 
         const stylesheets = this.props.stylesheets || []
-        return stylesheets.map( stylesheet => <link rel="stylesheet" href={ stylesheet } /> )
+        return stylesheets.map( stylesheet => <link key={ stylesheet } rel="stylesheet" href={ stylesheet } /> )
 
     }
 
@@ -34,7 +35,7 @@ class Page extends React.Component {
     _renderScripts () {
 
         const scripts = this.props.scripts || []
-        return scripts.map( script => <script type="text/javascript" src={ script }></script> )
+        return scripts.map( script => <script key={ script } type="text/javascript" src={ script }></script> )
 
     }
 
@@ -72,6 +73,21 @@ class Page extends React.Component {
 
     }
 
+}
+
+Page.propTypes = {
+    stylesheets: PropTypes.array,
+    scripts:     PropTypes.array,
+    title:       PropTypes.string,
+    navbar:      PropTypes.object,
+    content:     PropTypes.object,
+    footer:      PropTypes.object,
+    copyright:   PropTypes.string
+}
+
+Page.defaultProps = {
+    stylesheets: [],
+    scripts:     []
 }
 
 module.exports = Page

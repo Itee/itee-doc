@@ -1,4 +1,5 @@
-const React              = require( 'react' )
+const React     = require( 'react' )
+const PropTypes = require( 'prop-types' )
 
 /**
  * @class
@@ -17,12 +18,16 @@ class Index extends React.Component {
     render () {
 
         return (
-            <div id={ this.props.uuid } dangerouslySetInnerHTML={{__html: this.props.children }}>
-            </div>
+            <div id={ this.props.uuid } dangerouslySetInnerHTML={ { __html: this.props.readMe } }></div>
         )
 
     }
 
+}
+
+Index.propTypes = {
+    uuid:     PropTypes.string,
+    children: PropTypes.string
 }
 
 module.exports = Index

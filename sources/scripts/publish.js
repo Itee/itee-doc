@@ -1,1 +1,1 @@
-exports.publish = require('../sources/itee-doc').publish
+exports.publish = require( '../sources/itee-doc' ).publish

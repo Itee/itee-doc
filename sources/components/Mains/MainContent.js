@@ -1,6 +1,6 @@
-const React         = require( 'react' )
-const Col           = require( 'react-bootstrap/Col' )
-const Row           = require( 'react-bootstrap/Row' )
+const React = require( 'react' )
+const Col   = require( 'react-bootstrap/Col' )
+const Row   = require( 'react-bootstrap/Row' )
 
 /**
  * @class

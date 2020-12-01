@@ -1,5 +1,6 @@
 const path                                  = require( 'path' )
 const fs                                    = require( 'fs' )
+const { v4: uuidv4 }                        = require( 'uuid' )
 const { getFilesInDirectory, isNotDefined } = require( './utils' )
 const logger                                = require( '../../node_modules/jsdoc/lib/jsdoc/util/logger.js' )
 
@@ -191,8 +192,10 @@ class Renderer {
         const templateDatas = this.computeTemplateDatas( datas )
 
         this.outputStaticFiles( outputPath )
+
         this.renderIndex( templateDatas, {
-            indexOpt: 'This is the index'
+            uuid:     uuidv4(),
+            children: this.options.readme
         }, outputPath )
 
         for ( let availableCategory of this.availableCategories ) {
@@ -208,11 +211,11 @@ class Renderer {
 
     renderIndex ( pageProps, indexData, outputPath ) {
 
+        const filePath = path.join( outputPath, 'index.html' )
         const pageHtml = this.renderPage( pageProps, [
             React.createElement( Index, indexData )
         ] )
 
-        const filePath = path.join( outputPath, 'index.html' )
         fs.writeFileSync( filePath, pageHtml )
 
     }

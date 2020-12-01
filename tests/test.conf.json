@@ -4,7 +4,8 @@
   },
   "source": {
     "include": [
-      "./tests/"
+      "./tests/",
+      "./tests/README.md"
     ],
     "exclude": [
       "./tests/_results"

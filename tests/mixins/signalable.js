@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 /**
  * @fileOverview Add the ability to fire signals on your objects. Signals are events, but hard coded into the object
  * and don't rely on strings like other events and `eventables`
@@ -8,10 +8,10 @@
  * @requires base/logger
  */
 
-var Base = require( "../base" );
-var signals = require( 'signals' );
-var format = require( "../strings/format" );
-var sys = require( "lodash" );
+var Base    = require( '../base' )
+var signals = require( 'signals' )
+var format  = require( '../strings/format' )
+var sys     = require( 'lodash' )
 
 /**
  * @typedef
@@ -150,82 +150,82 @@ var Signal = Base.compose( [ Base, signals.Signal ], /** @lends module:mixins/si
  * @mixin
  * @extends base
  */
-var Signalable = Base.compose( [Base], /** @lends mixins/signalable# */{
-	declaredClass : "mixins/Signalable",
+var Signalable = Base.compose( [ Base ], /** @lends mixins/signalable# */{
+    declaredClass: 'mixins/Signalable',
 
-	constructor    : function () {
-		this.autoLoadSignals = this.autoLoadSignals || true;
-		if ( this.autoLoadSignals === true ) {
-			this._loadSignals();
-		}
-	},
-	/**
-	 * When you make a change to the signals hash after loading, then you can make it reload
-	 */
-	refreshSignals : function () {
-		this._loadSignals();
-	},
+    constructor: function () {
+        this.autoLoadSignals = this.autoLoadSignals || true
+        if ( this.autoLoadSignals === true ) {
+            this._loadSignals()
+        }
+    },
+    /**
+     * When you make a change to the signals hash after loading, then you can make it reload
+     */
+    refreshSignals: function () {
+        this._loadSignals()
+    },
 
-	/**
-	 * Interprets the `signals` hash and instantiates it
-	 * @private
-	 */
-	_loadSignals : function () {
-		var signals = this.signals || {};
-		sys.each( signals, function ( value, key ) {
-			var opts = {};
-			if ( !sys.isEmpty( value ) ) {
-				if ( sys.isBoolean( value.memorize ) ) {
-					opts.memorize = value.memorize;
-				}
-				if ( sys.isBoolean( value.params ) ) {
-					opts.params = value.params;
-				}
-				if ( !sys.isEmpty( value.context ) ) {
-					opts.context = value.context;
-				}
-			}
-			this._addSignal( key, opts );
-		} );
-	},
-	/**
-	 * Creates a single signal
-	 * @param {string} name The name of the signal
-	 * @param {module:mixins/signalable~SignalOptions} options The options the signal expects
-	 * @private
-	 */
-	_addSignal   : function ( name, options ) {
-		if ( sys.isEmpty( this[name] ) ) {
-			this[name] = new Signal( this, name, options );
-		}
-	},
+    /**
+     * Interprets the `signals` hash and instantiates it
+     * @private
+     */
+    _loadSignals: function () {
+        var signals = this.signals || {}
+        sys.each( signals, function ( value, key ) {
+            var opts = {}
+            if ( !sys.isEmpty( value ) ) {
+                if ( sys.isBoolean( value.memorize ) ) {
+                    opts.memorize = value.memorize
+                }
+                if ( sys.isBoolean( value.params ) ) {
+                    opts.params = value.params
+                }
+                if ( !sys.isEmpty( value.context ) ) {
+                    opts.context = value.context
+                }
+            }
+            this._addSignal( key, opts )
+        } )
+    },
+    /**
+     * Creates a single signal
+     * @param {string} name The name of the signal
+     * @param {module:mixins/signalable~SignalOptions} options The options the signal expects
+     * @private
+     */
+    _addSignal: function ( name, options ) {
+        if ( sys.isEmpty( this[ name ] ) ) {
+            this[ name ] = new Signal( this, name, options )
+        }
+    },
 
-	/**
-	 * Add a signal to an object. If any members of the hash already exist in `this.signals`, they will be overwritten.
-	 * @param {module:mixins/signalable.SignalOptions} signals
-	 * @private
-	 */
-	_addSignals : function ( signals ) {
-		signals = signals || {};
-		if ( this.options ) {signals = sys.extend( {}, sys.result( this, 'signals' ), signals );}
-		this.signals = signals;
-	},
-	/**
-	 * Clean up
-	 * @private
-	 */
-	destroy     : function () {
-		sys.each( sys.keys( this ), function ( key ) {
-			if ( this[key] instanceof Signal || this[key] instanceof signals.Signal ) {
-				this[key].close();
-			}
-		}, this );
-	}
-} );
+    /**
+     * Add a signal to an object. If any members of the hash already exist in `this.signals`, they will be overwritten.
+     * @param {module:mixins/signalable.SignalOptions} signals
+     * @private
+     */
+    _addSignals: function ( signals ) {
+        signals = signals || {}
+        if ( this.options ) {signals = sys.extend( {}, sys.result( this, 'signals' ), signals )}
+        this.signals = signals
+    },
+    /**
+     * Clean up
+     * @private
+     */
+    destroy: function () {
+        sys.each( sys.keys( this ), function ( key ) {
+            if ( this[ key ] instanceof Signal || this[ key ] instanceof signals.Signal ) {
+                this[ key ].close()
+            }
+        }, this )
+    }
+} )
 
-module.exports = Signalable;
-alable.Signal = Signal;
-Signalable.mixin = Base.mixin;
+module.exports    = Signalable
+Signalable.Signal = Signal
+Signalable.mixin  = Base.mixin
 
 /**
  * When true, the class will load the `signals` hash and create the signal definitions during construction

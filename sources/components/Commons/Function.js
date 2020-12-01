@@ -79,11 +79,11 @@ class Function extends React.Component {
             }
 
 
-//            if ( index < numberOfValues - 1 ) {
-//                result += ( isOptional ) ? `[${ name }], ` : `${ name }, `
-//            } else {
-//                result += ( isOptional ) ? `[${ name }] )` : `${ name } )`
-//            }
+            //            if ( index < numberOfValues - 1 ) {
+            //                result += ( isOptional ) ? `[${ name }], ` : `${ name }, `
+            //            } else {
+            //                result += ( isOptional ) ? `[${ name }] )` : `${ name } )`
+            //            }
 
         }
 

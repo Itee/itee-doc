@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 
 /* eslint no-unused-vars: "off" */
 
@@ -11,10 +11,10 @@
  * @requires lodash
  * @requires promise
  */
-var Promise = require( 'promise' );
-var async = require( "async" );
-var probe = require( "./probe" );
-var sys = require( "lodash" );
+var Promise = require( 'promise' )
+var async   = require( 'async' )
+var probe   = require( './probe' )
+var sys     = require( 'lodash' )
 
 /**
  * Identifies the properties that the binder expects
@@ -22,13 +22,13 @@ var sys = require( "lodash" );
  * @private
  */
 var dataBinderOptions = exports.dataBinderOptions = {
-	getter         : null,
-	getterAsync    : false,
-	setter         : null,
-	validator      : null,
-	validatorAsync : false,
-	setterAsync    : false
-};
+    getter:         null,
+    getterAsync:    false,
+    setter:         null,
+    validator:      null,
+    validatorAsync: false,
+    setterAsync:    false
+}
 
 /**
  * You can unbind previously bound objects from here.
@@ -37,32 +37,32 @@ var dataBinderOptions = exports.dataBinderOptions = {
  * @param {*} record The object that was bound
  */
 exports.unbind = function ( path, record ) {
-	var context = record;
-	var lastParent = context;
-	var parts = path.split( probe.delimiter );
-	var lastPartName = path;
-	var lastParentName;
-	sys.each( parts, function ( part ) {
-		lastParentName = part;
-		lastParent = context;
-		context = context[part];
-		lastPartName = part;
-		if ( sys.isNull( context ) || sys.isUndefined( context ) ) {
-			context = {};
-		}
-	} );
+    var context      = record
+    var lastParent   = context
+    var parts        = path.split( probe.delimiter )
+    var lastPartName = path
+    var lastParentName
+    sys.each( parts, function ( part ) {
+        lastParentName = part
+        lastParent     = context
+        context        = context[ part ]
+        lastPartName   = part
+        if ( sys.isNull( context ) || sys.isUndefined( context ) ) {
+            context = {}
+        }
+    } )
 
-	if ( lastParent === context ) {
-		deleteBindings( record, lastPartName );
-	} else {
-		deleteBindings( lastParent, lastPartName );
-	}
+    if ( lastParent === context ) {
+        deleteBindings( record, lastPartName )
+    } else {
+        deleteBindings( lastParent, lastPartName )
+    }
 
-	function deleteBindings( mountPoint, mountName ) {
-		mountPoint[mountName] = mountPoint["__" + mountName + "__"];
-		delete mountPoint["__" + mountName + "__"];
-	}
-};
+    function deleteBindings ( mountPoint, mountName ) {
+        mountPoint[ mountName ] = mountPoint[ '__' + mountName + '__' ]
+        delete mountPoint[ '__' + mountName + '__' ]
+    }
+}
 
 /**
  * Bind to a property somewhere in an object. The property is found using dot notation and can be arbitrarily deep.
@@ -93,89 +93,89 @@ exports.unbind = function ( path, record ) {
  * @returns {*}
  */
 exports.bind = function ( path, record, options ) {
-	options = sys.extend( {}, dataBinderOptions, options );
-	var context = record;
-	var lastParent = context;
-	var parts = path.split( probe.delimiter );
-	var lastPartName = path;
-	var lastParentName;
+    options          = sys.extend( {}, dataBinderOptions, options )
+    var context      = record
+    var lastParent   = context
+    var parts        = path.split( probe.delimiter )
+    var lastPartName = path
+    var lastParentName
 
-	sys.each( parts, function ( part ) {
-		lastParentName = part;
-		lastParent = context;
-		context = context[part];
-		lastPartName = part;
-		if ( sys.isNull( context ) || sys.isUndefined( context ) ) {
-			context = {};
-		}
-	} );
+    sys.each( parts, function ( part ) {
+        lastParentName = part
+        lastParent     = context
+        context        = context[ part ]
+        lastPartName   = part
+        if ( sys.isNull( context ) || sys.isUndefined( context ) ) {
+            context = {}
+        }
+    } )
 
-	if ( lastParent === context ) {
-		setUpBindings( record, lastPartName );
-	} else {
-		setUpBindings( lastParent, lastPartName );
-	}
+    if ( lastParent === context ) {
+        setUpBindings( record, lastPartName )
+    } else {
+        setUpBindings( lastParent, lastPartName )
+    }
 
-	function setUpBindings( mountPoint, mountName ) {
-		mountPoint["__" + mountName + "__"] = mountPoint[mountName];
-		Object.defineProperty( mountPoint, mountName, {
-			get : function () {
-				if ( sys.isFunction( options.getter ) ) {
-					var promise;
-					if ( options.getterAsync === true ) {
-						promise = Promise.denodeify( options.getter );
-					}
+    function setUpBindings ( mountPoint, mountName ) {
+        mountPoint[ '__' + mountName + '__' ] = mountPoint[ mountName ]
+        Object.defineProperty( mountPoint, mountName, {
+            get: function () {
+                if ( sys.isFunction( options.getter ) ) {
+                    var promise
+                    if ( options.getterAsync === true ) {
+                        promise = Promise.denodeify( options.getter )
+                    }
 
-					if ( promise ) {
-						return promise( mountPoint["__" + mountName + "__"] ).then( function ( val ) {
-							mountPoint["__" + mountName + "__"] = val;
-						} );
-					} else {
-						mountPoint["__" + mountName + "__"] = options.getter( mountPoint["__" + mountName + "__"] );
-						return mountPoint["__" + mountName + "__"];
-					}
+                    if ( promise ) {
+                        return promise( mountPoint[ '__' + mountName + '__' ] ).then( function ( val ) {
+                            mountPoint[ '__' + mountName + '__' ] = val
+                        } )
+                    } else {
+                        mountPoint[ '__' + mountName + '__' ] = options.getter( mountPoint[ '__' + mountName + '__' ] )
+                        return mountPoint[ '__' + mountName + '__' ]
+                    }
 
-				} else {
-					return mountPoint["__" + mountName + "__"];
-				}
-			},
-			set : function ( val ) {
-				async.waterfall( [
-					function ( done ) {
-						if ( sys.isFunction( options.validator ) ) {
-							if ( options.validatorAsync ) {
-								options.validator( val, mountPoint["__" + mountName + "__"], record, done );
-							} else {
-								var res = options.validator( val, mountPoint["__" + mountName + "__"], record );
-								if ( res === true ) {
-									done();
-								} else {
-									done( res );
-								}
-							}
-						} else {
-							done();
-						}
-					},
-					function ( done ) {
-						if ( sys.isFunction( options.setter ) ) {
-							if ( options.setterAsync === true ) {
-								options.setter( val, mountPoint["__" + mountName + "__"], record, done );
-							} else {
-								done( null, options.setter( val, mountPoint["__" + mountName + "__"], record ) );
-							}
-						} else {
-							done( null, val );
-						}
-					}
-				], function ( err, newVal ) {
-					if ( err ) { throw new Error( err ); }
-					mountPoint["__" + mountName + "__"] = newVal;
-				} );
+                } else {
+                    return mountPoint[ '__' + mountName + '__' ]
+                }
+            },
+            set: function ( val ) {
+                async.waterfall( [
+                    function ( done ) {
+                        if ( sys.isFunction( options.validator ) ) {
+                            if ( options.validatorAsync ) {
+                                options.validator( val, mountPoint[ '__' + mountName + '__' ], record, done )
+                            } else {
+                                var res = options.validator( val, mountPoint[ '__' + mountName + '__' ], record )
+                                if ( res === true ) {
+                                    done()
+                                } else {
+                                    done( res )
+                                }
+                            }
+                        } else {
+                            done()
+                        }
+                    },
+                    function ( done ) {
+                        if ( sys.isFunction( options.setter ) ) {
+                            if ( options.setterAsync === true ) {
+                                options.setter( val, mountPoint[ '__' + mountName + '__' ], record, done )
+                            } else {
+                                done( null, options.setter( val, mountPoint[ '__' + mountName + '__' ], record ) )
+                            }
+                        } else {
+                            done( null, val )
+                        }
+                    }
+                ], function ( err, newVal ) {
+                    if ( err ) { throw new Error( err ) }
+                    mountPoint[ '__' + mountName + '__' ] = newVal
+                } )
 
-			}
-		} );
-	}
+            }
+        } )
+    }
 
-	return context;
-};
+    return context
+}

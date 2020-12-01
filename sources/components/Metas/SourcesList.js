@@ -36,7 +36,7 @@ class SourcesList extends React.Component {
             const sourceLineNumberLabel    = `line n°${ source.lineNumber }`
 
             return (
-                <span key={sourcePath}>
+                <span key={ sourcePath }>
                     <a href={ sourcePath }>{ sourcePath }</a>&#44;&nbsp;<a href={ sourcePathWithLineNumber }>{ sourceLineNumberLabel }</a>
                 </span>
             )

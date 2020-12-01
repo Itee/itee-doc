@@ -1,5 +1,5 @@
-const React       = require( 'react' )
-const LabeledList = require( '../Commons/LabeledList' )
+const React        = require( 'react' )
+const LabeledList  = require( '../Commons/LabeledList' )
 const { isString } = require( '../../scripts/utils' )
 
 /**

@@ -17,7 +17,7 @@ class SeeList extends React.Component {
      */
     render () {
 
-        return <LabeledList className="see-list" label="See:"  values={ this._computeValues() }></LabeledList>
+        return <LabeledList className="see-list" label="See:" values={ this._computeValues() }></LabeledList>
 
     }
 

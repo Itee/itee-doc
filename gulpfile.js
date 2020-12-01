@@ -177,7 +177,7 @@ gulp.task( 'doc', ( done ) => {
 
 } )
 
-gulp.task( 'test-doc', ( done ) => {
+gulp.task( 'test', ( done ) => {
 
     const config     = require( './tests/test.conf.json' )
     const filesToDoc = [ './', '!./' ]

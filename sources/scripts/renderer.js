@@ -71,13 +71,69 @@ class Renderer {
             }
         ]
 
+        /**
+         * An array containing used file names to check collision and allow to generate some alternatives
+         * @type {Array<String>}
+         * @private
+         */
+        this._usedFileNames = []
+        this._renderDatas      = null
+
+        /**
+         *
+         * @type {Map<string, string>}
+         * @private
+         */
+        this._outputFilesNames = new Map()
 
     }
 
-    computeTemplateDatas ( datas ) {
 
+    /**
+     *
+     * @param longName
+     * @returns {String}
+     */
+    getUniqueFilename ( longName ) {
 
-        ////////////////////////////////////////
+        let basename = longName.replace( /[\\/?*:|'"<>]/g, '_' )// replace characters that can cause problems on some filesystems
+                               .replace( /~/g, '-' )// use - instead of ~ to denote 'inner'
+                               .replace( /#/g, '_' )// use _ instead of # to denote 'instance'
+                               .replace( /\//g, '_' )// use _ instead of / (for example, in module names)
+                               .replace( /\([\s\S]*\)$/, '' )// remove the variation, if any
+                               .replace( /^[.-]/, '' ) // make sure we don't create hidden files, or files whose names start with a dash
+
+        // in case we've now stripped the entire basename (uncommon, but possible):
+        basename = ( basename.length ) ? basename : uuidv4()
+
+        // Be sure it is unique
+        let fileName = `${ basename }.html`
+        let counter  = 0
+        while ( this._usedFileNames.includes( fileName ) ) {
+            fileName = `${ basename }_${ counter }.html`
+            counter++
+        }
+
+        // Keep reference on it
+        this._usedFileNames.push( fileName )
+
+        return fileName
+
+    }
+
+    ///
+    computeOutputPaths ( datas ) {
+
+        datas.forEach( ( value, key ) => {
+
+            const fileName = this.getUniqueFilename( value.longName )
+            this._outputFilesNames.set( key, fileName )
+
+        } )
+
+    }
+
+    computeRenderDatas ( datas ) {
 
         const navbar = {
             bg:      'dark',
@@ -110,7 +166,7 @@ class Renderer {
         // Compute Tutorials list
         // Compute Graphics list
 
-        return {
+        this._renderDatas = {
             navbar:  navbar,
             content: {},
             footer:  {
@@ -123,7 +179,7 @@ class Renderer {
     }
 
     computeCategoryList ( label, datas ) {
-        if ( !datas ) { return }
+        if ( !datas ) { return null }
 
         const categoryDropdown = {
             type:  'dropdown',
@@ -135,7 +191,7 @@ class Renderer {
 
             categoryDropdown.items.push( {
                 type:  'item',
-                href:  value.destination.fileName,
+                href:  this._outputFilesNames.get( value.uuid ),
                 label: key
             } )
 
@@ -144,6 +200,8 @@ class Renderer {
         return categoryDropdown
 
     }
+
+    ///
 
     outputStaticFiles ( outputPath ) {
 
@@ -185,36 +243,33 @@ class Renderer {
 
     }
 
+    ///
+
     render ( datas, options ) {
 
-        const outputPath    = options.destination
-        const templateDatas = this.computeTemplateDatas( datas )
+        const outputPath = options.destination
+
+        this.computeOutputPaths( datas.indexes )
+        this.computeRenderDatas( datas )
 
         this.outputStaticFiles( outputPath )
 
-        this.renderIndex( templateDatas, {
+        this.renderIndex( {
             uuid:   uuidv4(),
             readMe: this.options.readme
         }, outputPath )
-
-        for ( let availableCategory of this.availableCategories ) {
-
-            const dataMap = datas[ availableCategory.key ]
-            if ( dataMap ) {
-                this.renderCategory( templateDatas, availableCategory.component, dataMap.values(), outputPath )
-            }
-
-        }
+        this.renderCategories( datas, outputPath )
+        // Todo:       this.renderSources( outputPath )
 
     }
 
-    renderIndex ( pageProps, indexData, outputPath ) {
+    renderIndex ( indexData, outputPath ) {
 
         // Avoid jsdoc warning on render even if there is only one rendered class per file
         indexData.key = indexData.uuid
 
         const filePath = path.join( outputPath, 'index.html' )
-        const pageHtml = this.renderPage( pageProps, [
+        const pageHtml = this.renderPage( this._renderDatas, [
             React.createElement( Index, indexData )
         ] )
 
@@ -222,16 +277,29 @@ class Renderer {
 
     }
 
-    renderCategory ( pageProps, Component, datas, outputPath ) {
+    renderCategories ( datas, outputPath ) {
+
+        for ( let availableCategory of this.availableCategories ) {
+
+            const dataMap = datas[ availableCategory.key ]
+            if ( isNotDefined( dataMap ) ) { continue }
+
+            this.renderCategory( availableCategory.component, dataMap.values(), outputPath )
+
+        }
+
+    }
+
+    renderCategory ( Component, datas, outputPath ) {
 
         for ( const data of datas ) {
 
             // Avoid jsdoc warning on render even if there is only one rendered class per file
             data.key = data.uuid
 
-            const fileName = data.destination.fileName
+            const fileName = data.fileName || this._outputFilesNames.get( data.uuid )
             const filePath = path.join( outputPath, fileName )
-            const pageHtml = this.renderPage( pageProps, [
+            const pageHtml = this.renderPage( this._renderDatas, [
                 React.createElement( Component, data )
             ] )
 

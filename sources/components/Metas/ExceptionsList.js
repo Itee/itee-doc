@@ -24,13 +24,13 @@ class ExceptionsList extends React.Component {
 
     _computeLabel () {
 
-        return ( this.props.exceptions.length > 1 ) ? 'Exceptions:' : 'Exception:'
+        return ( this.props.values.length > 1 ) ? 'Exceptions:' : 'Exception:'
 
     }
 
     _computeValues () {
 
-        return this.props.exceptions.map( exception => {
+        return this.props.values.map( exception => {
 
             const url   = exception.url
             const label = exception.label
@@ -64,11 +64,11 @@ class ExceptionsList extends React.Component {
 }
 
 ExceptionsList.propTypes = {
-    exceptions: PropTypes.array
+    values: PropTypes.array
 }
 
 ExceptionsList.defaultProps = {
-    exceptions: []
+    values: []
 }
 
 module.exports = ExceptionsList

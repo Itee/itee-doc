@@ -17,7 +17,7 @@
     "template": "./builds",
     "destination": "./tests/_results/",
     "recurse": true,
-    "verbose": true
+    "verbose": false
   },
   "templates": {
     "cleverLinks": false,

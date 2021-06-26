@@ -117,7 +117,8 @@ gulp.task( 'clean', () => {
 
     const filesToClean = [
         'builds',
-        'docs'
+        'docs',
+        'tests/_results',
     ]
 
     return del( filesToClean )

@@ -24,7 +24,7 @@ class SeeList extends React.Component {
 
     _computeValues () {
 
-        return this.props.sees.map( see => {
+        return this.props.values.map( see => {
 
             return <a key={ see.link } href={ see.link } target="_blank" rel="noreferrer">{ see.description }</a>
 
@@ -35,11 +35,11 @@ class SeeList extends React.Component {
 }
 
 SeeList.propTypes = {
-    sees: PropTypes.array
+    values: PropTypes.array
 }
 
 SeeList.defaultProps = {
-    sees: []
+    values: []
 }
 
 

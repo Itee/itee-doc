@@ -27,7 +27,7 @@ class InheritList extends React.Component {
 
     _computeValues () {
 
-        return this.props.inherits.map( inherit => {
+        return this.props.values.map( inherit => {
 
             let renderedValue
 
@@ -54,11 +54,11 @@ class InheritList extends React.Component {
 }
 
 InheritList.propTypes = {
-    inherits: PropTypes.array
+    values: PropTypes.array
 }
 
 InheritList.defaultProps = {
-    inherits: []
+    values: []
 }
 
 module.exports = InheritList

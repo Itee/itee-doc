@@ -24,13 +24,13 @@ class LicensesList extends React.Component {
 
     _computeLabel () {
 
-        return ( this.props.licenses.length > 1 ) ? 'Licenses:' : 'License:'
+        return ( this.props.values.length > 1 ) ? 'Licenses:' : 'License:'
 
     }
 
     _computeValues () {
 
-        return this.props.licenses.map( license => {
+        return this.props.values.map( license => {
 
             const url   = license.url
             const label = license.label
@@ -64,11 +64,11 @@ class LicensesList extends React.Component {
 }
 
 LicensesList.propTypes = {
-    licenses: PropTypes.array
+    values: PropTypes.array
 }
 
 LicensesList.defaultProps = {
-    licenses: []
+    values: []
 }
 
 module.exports = LicensesList

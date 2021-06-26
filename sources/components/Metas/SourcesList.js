@@ -24,13 +24,13 @@ class SourcesList extends React.Component {
 
     _computeLabel () {
 
-        return ( this.props.sources.length > 1 ) ? 'Sources:' : 'Source:'
+        return ( this.props.values.length > 1 ) ? 'Sources:' : 'Source:'
 
     }
 
     _computeValues () {
 
-        return this.props.sources.map( source => {
+        return this.props.values.map( source => {
 
             const sourcePath               = `${ source.path }\\${ source.filename }`
             const sourcePathWithLineNumber = `${ sourcePath }#line_${ source.lineNumber }`
@@ -49,11 +49,11 @@ class SourcesList extends React.Component {
 }
 
 SourcesList.propTypes = {
-    sources: PropTypes.array
+    values: PropTypes.array
 }
 
 SourcesList.defaultProps = {
-    sources: []
+    values: []
 }
 
 module.exports = SourcesList

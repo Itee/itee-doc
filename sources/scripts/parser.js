@@ -138,6 +138,14 @@ class Parser {
             yields:       this.parseYields( doclet )
         }
 
+        // Clean up
+        Object.keys( docletDatas ).forEach( key => {
+            const value = docletDatas[ key ]
+            if ( ( value === undefined ) || ( Array.isArray( value ) && value.length === 0 ) ) {
+                delete docletDatas[ key ]
+            }
+        } )
+
         // Debug unprocessed doclet properties
         delete doclet.___s
         delete doclet.comment
@@ -702,7 +710,7 @@ class Parser {
 
     parseInherits ( doclet ) {
 
-        const result = doclet.inherits
+        const result = ( doclet.inherits ) ? [ doclet.inherits ] : undefined
         delete doclet.inherits
 
         return result
@@ -830,10 +838,8 @@ class Parser {
 
         this._datas[ 'global' ] = new Map()
         this._datas[ 'global' ].set( this._globalUuid, {
-            uuid:        this._globalUuid,
-            destination: {
-                fileName: 'globals.html'
-            }
+            uuid:     this._globalUuid,
+            fileName: 'globals.html'
         } )
 
     }

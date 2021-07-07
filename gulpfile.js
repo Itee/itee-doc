@@ -216,7 +216,7 @@ gulp.task( 'build-style', () => {
     const fileNameMinimified = 'style.min.css'
 
     return gulp.src( styleFiles )
-               .pipe( sass() )
+               .pipe( sass(require('sass')) )
                .pipe( concat( fileName ) )
                .pipe( gulp.dest( outputFolder ) )
                .pipe( concat( fileNameMinimified ) )

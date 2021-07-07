@@ -71,7 +71,7 @@
     "jsdoc": "^3.6.7",
     "npm": "^7.19.1",
     "prop-types": "^15.7.2",
-    "sass": "^1.35.1",
+    "sass": "^1.35.2",
     "semantic-release": "^17.4.4"
   },
   "config": {

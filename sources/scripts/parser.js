@@ -251,11 +251,14 @@ class Parser {
         if ( isNotDefined( doclet ) ) { return null }
 
         const license = doclet.license
-        let result
-        if ( isLink( license ) ) {
-            result = this.parseLink( license )
-        } else {
-            result = license
+        let result    = []
+
+        if ( isDefined( license ) ) {
+            if ( isLink( license ) ) {
+                result.push( this.parseLink( license ) )
+            } else {
+                result.push( license )
+            }
         }
 
         delete doclet.license
@@ -356,7 +359,7 @@ class Parser {
         if ( isNotDefined( doclet ) ) { return null }
 
         const parameters = doclet.params || []
-        const results     = []
+        const results    = []
         let target
 
         for ( let parameter of parameters ) {

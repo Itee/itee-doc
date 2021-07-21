@@ -172,6 +172,7 @@ class Parser {
     }
 
     parseId ( doclet ) {
+        if ( isNotDefined( doclet ) ) { return null }
 
         const uuid = doclet.___id
         delete doclet.___id
@@ -181,12 +182,12 @@ class Parser {
     }
 
     parseLongName ( doclet ) {
+        if ( isNotDefined( doclet ) ) { return null }
 
         const longName = doclet.longname
         delete doclet.longname
 
         return longName
-
     }
 
     /**
@@ -247,6 +248,7 @@ class Parser {
     }
 
     parseLicense ( doclet ) {
+        if ( isNotDefined( doclet ) ) { return null }
 
         const license = doclet.license
         let result
@@ -267,6 +269,7 @@ class Parser {
      * @returns {Array<String>}
      */
     parseType ( doclet ) {
+        if ( isNotDefined( doclet ) ) { return null }
 
         const type = doclet.type || {}
         let result = []
@@ -285,6 +288,8 @@ class Parser {
     }
 
     parseSee ( doclet ) {
+        if ( isNotDefined( doclet ) ) { return null }
+
         const sees      = doclet.see || []
         const results   = []
         let link        = null
@@ -315,6 +320,7 @@ class Parser {
     }
 
     parseExamples ( doclet ) {
+        if ( isNotDefined( doclet ) ) { return null }
 
         const examples = doclet.examples || []
         const results  = []
@@ -347,6 +353,7 @@ class Parser {
     }
 
     parseParameters ( doclet ) {
+        if ( isNotDefined( doclet ) ) { return null }
 
         const parameters = doclet.params || []
         const result     = []
@@ -429,6 +436,7 @@ class Parser {
     }
 
     parseRequires ( doclet ) {
+        if ( isNotDefined( doclet ) ) { return null }
 
         const requires = doclet.requires || []
         const results  = requires.map( require => {
@@ -441,6 +449,7 @@ class Parser {
     }
 
     parseAuthors ( doclet ) {
+        if ( isNotDefined( doclet ) ) { return null }
 
         const authors = doclet.author || []
         const results = authors.map( author => {
@@ -454,6 +463,7 @@ class Parser {
     }
 
     parseReturns ( doclet ) {
+        if ( isNotDefined( doclet ) ) { return null }
 
         const returns = doclet.returns || []
         const results = returns.map( ret => this.parseType( ret.type ) ).flat()
@@ -465,6 +475,7 @@ class Parser {
     }
 
     parseExceptions ( doclet ) {
+        if ( isNotDefined( doclet ) ) { return null }
 
         const exceptions = doclet.exceptions || []
         const results    = []
@@ -483,6 +494,7 @@ class Parser {
     }
 
     parseSource ( doclet ) {
+        if ( isNotDefined( doclet ) ) { return null }
 
         const meta   = doclet.meta || {}
         const source = {
@@ -499,6 +511,7 @@ class Parser {
     }
 
     parseKind ( doclet ) {
+        if ( isNotDefined( doclet ) ) { return null }
 
         const result = doclet.kind
         delete doclet.kind
@@ -508,6 +521,7 @@ class Parser {
     }
 
     parseScope ( doclet ) {
+        if ( isNotDefined( doclet ) ) { return null }
 
         const result = doclet.scope
         delete doclet.scope
@@ -517,6 +531,7 @@ class Parser {
     }
 
     parseYields ( doclet ) {
+        if ( isNotDefined( doclet ) ) { return null }
 
         const result = doclet.yields
         delete doclet.yields
@@ -526,6 +541,7 @@ class Parser {
     }
 
     parseAlias ( doclet ) {
+        if ( isNotDefined( doclet ) ) { return null }
 
         const result = doclet.alias
         delete doclet.alias
@@ -535,6 +551,7 @@ class Parser {
     }
 
     parseExtends ( doclet ) {
+        if ( isNotDefined( doclet ) ) { return null }
 
         let result
 
@@ -556,6 +573,7 @@ class Parser {
     }
 
     parseDescription ( doclet ) {
+        if ( isNotDefined( doclet ) ) { return null }
 
         let result
 
@@ -577,6 +595,7 @@ class Parser {
     }
 
     parseFiles ( doclet ) {
+        if ( isNotDefined( doclet ) ) { return null }
 
         const result = doclet.files
         delete doclet.files
@@ -586,6 +605,7 @@ class Parser {
     }
 
     parseMemberOf ( doclet ) {
+        if ( isNotDefined( doclet ) ) { return null }
 
         const result = doclet.memberof
         delete doclet.memberof
@@ -595,6 +615,7 @@ class Parser {
     }
 
     parseName ( doclet ) {
+        if ( isNotDefined( doclet ) ) { return null }
 
         const result = doclet.name
         delete doclet.name
@@ -604,6 +625,7 @@ class Parser {
     }
 
     parseOverrides ( doclet ) {
+        if ( isNotDefined( doclet ) ) { return null }
 
         const result = doclet.overrides
         delete doclet.overrides
@@ -613,6 +635,7 @@ class Parser {
     }
 
     parsePreserveName ( doclet ) {
+        if ( isNotDefined( doclet ) ) { return null }
 
         const result = doclet.preserveName
         delete doclet.preserveName
@@ -622,6 +645,7 @@ class Parser {
     }
 
     parseProperties ( doclet ) {
+        if ( isNotDefined( doclet ) ) { return null }
 
         const result = doclet.properties
         delete doclet.properties
@@ -632,6 +656,7 @@ class Parser {
 
     // Flags
     parseAbstract ( doclet ) {
+        if ( isNotDefined( doclet ) ) { return null }
 
         let result
 
@@ -653,6 +678,7 @@ class Parser {
     }
 
     parseAsync ( doclet ) {
+        if ( isNotDefined( doclet ) ) { return null }
 
         const result = doclet.async
         delete doclet.async
@@ -662,6 +688,7 @@ class Parser {
     }
 
     parseAccess ( doclet ) {
+        if ( isNotDefined( doclet ) ) { return null }
 
         const result = doclet.access
         delete doclet.access
@@ -671,6 +698,7 @@ class Parser {
     }
 
     parseConstant ( doclet ) {
+        if ( isNotDefined( doclet ) ) { return null }
 
         const result = doclet.constant
         delete doclet.constant
@@ -680,6 +708,7 @@ class Parser {
     }
 
     parseReadOnly ( doclet ) {
+        if ( isNotDefined( doclet ) ) { return null }
 
         const result = doclet.readonly
         delete doclet.readonly
@@ -689,6 +718,7 @@ class Parser {
     }
 
     parseDefaultValue ( doclet ) {
+        if ( isNotDefined( doclet ) ) { return null }
 
         const result = doclet.defaultvalue
         delete doclet.defaultvalue
@@ -698,6 +728,7 @@ class Parser {
     }
 
     parseGenerator ( doclet ) {
+        if ( isNotDefined( doclet ) ) { return null }
 
         const result = doclet.generator
         delete doclet.generator
@@ -707,6 +738,7 @@ class Parser {
     }
 
     parseInherited ( doclet ) {
+        if ( isNotDefined( doclet ) ) { return null }
 
         const result = doclet.inherited
         delete doclet.inherited
@@ -716,6 +748,7 @@ class Parser {
     }
 
     parseInherits ( doclet ) {
+        if ( isNotDefined( doclet ) ) { return null }
 
         const result = ( doclet.inherits ) ? [ doclet.inherits ] : undefined
         delete doclet.inherits

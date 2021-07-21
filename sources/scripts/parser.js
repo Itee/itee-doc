@@ -356,7 +356,7 @@ class Parser {
         if ( isNotDefined( doclet ) ) { return null }
 
         const parameters = doclet.params || []
-        const result     = []
+        const results     = []
         let target
 
         for ( let parameter of parameters ) {
@@ -375,7 +375,7 @@ class Parser {
 
                     let propertyElement = null
                     if ( target === null ) {
-                        propertyElement = result.filter( ( prop ) => {
+                        propertyElement = results.filter( ( prop ) => {
                             return ( prop.name === currentPropertyName )
                         } )
                     } else {
@@ -416,7 +416,7 @@ class Parser {
 
             } else {
 
-                result.push( {
+                results.push( {
                     name:         parameter.name,
                     optional:     parameter.optional,
                     defaultValue: parameter.defaultvalue,
@@ -431,7 +431,7 @@ class Parser {
 
         delete doclet.params
 
-        return result
+        return results
 
     }
 

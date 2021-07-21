@@ -64,14 +64,21 @@ class Parser {
 
         let isInvalid = false
 
-        if ( this._datas.indexes.has( doclet.___id ) ) {
-            logger.warn( `Id collision on "${ doclet.longname }" in ${ this._currentDocletPath }. Ignoring doclet !` )
+        if ( isNotDefined( doclet ) ) {
+            logger.warn( `Get null or undefined doclet in ${ this._currentDocletPath }. Ignoring doclet !` )
             isInvalid = true
-        }
+        } else {
 
-        if ( this._datas.longNameToUuid.has( doclet.longname ) ) {
-            logger.warn( `Long name collision on "${ doclet.longname }" in ${ this._currentDocletPath }. Ignoring doclet !` )
-            isInvalid = true
+            if ( this._datas.indexes.has( doclet.___id ) ) {
+                logger.warn( `Id collision on "${ doclet.longname }" in ${ this._currentDocletPath }. Ignoring doclet !` )
+                isInvalid = true
+            }
+
+            if ( this._datas.longNameToUuid.has( doclet.longname ) ) {
+                logger.warn( `Long name collision on "${ doclet.longname }" in ${ this._currentDocletPath }. Ignoring doclet !` )
+                isInvalid = true
+            }
+
         }
 
         return isInvalid

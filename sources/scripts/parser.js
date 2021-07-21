@@ -265,13 +265,13 @@ class Parser {
 
     /**
      * Parse a doclet type and return an array of type as string
-     * @param {Object} doclet - The doclet to parse
+     * @param {Object} doclet - The doclet or type to parse
      * @returns {Array<String>}
      */
     parseType ( doclet ) {
         if ( isNotDefined( doclet ) ) { return null }
 
-        const type = doclet.type || {}
+        const type = ( doclet.type ) ? doclet.type : doclet
         let result = []
 
         if ( isDefined( type.names ) ) {

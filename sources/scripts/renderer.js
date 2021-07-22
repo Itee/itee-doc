@@ -299,8 +299,10 @@ class Renderer {
 
             const fileName = data.fileName || this._outputFilesNames.get( data.uuid )
             const filePath = path.join( outputPath, fileName )
-            const pageHtml = this.renderPage( this._renderDatas, [
-                React.createElement( Component, data )
+
+            this._renderDatas.base = '../'
+            const pageHtml         = this.renderPage( this._renderDatas, [
+                React.createElement( category.component, data )
             ] )
 
             fs.writeFileSync( filePath, pageHtml )

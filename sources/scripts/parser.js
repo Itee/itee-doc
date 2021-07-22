@@ -25,6 +25,8 @@ function isLink ( string ) {
  * @classdesc The Parser class allow to parse taffyDatas doclets into POJO tree structure
  * @author [Tristan Valcke]{@link https://github.com/Itee}
  * @license [BSD-3-Clause]{@link https://opensource.org/licenses/BSD-3-Clause}
+ * @example
+ *  var foo = 'bar'
  */
 class Parser {
 

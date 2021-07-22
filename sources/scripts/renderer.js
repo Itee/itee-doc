@@ -1,8 +1,11 @@
-const path                                  = require( 'path' )
-const fs                                    = require( 'fs' )
-const { v4: uuidv4 }                        = require( 'uuid' )
-const { getFilesInDirectory, isNotDefined } = require( './utils' )
-const logger                                = require( '../../node_modules/jsdoc/lib/jsdoc/util/logger.js' )
+const path           = require( 'path' )
+const fs             = require( 'fs' )
+const { v4: uuidv4 } = require( 'uuid' )
+const {
+          getFilesInDirectory,
+          isNotDefined
+      }              = require( './utils' )
+const logger         = require( '../../node_modules/jsdoc/lib/jsdoc/util/logger.js' )
 
 const React          = require( 'react' )
 const ReactDOMServer = require( 'react-dom/server' )
@@ -77,7 +80,7 @@ class Renderer {
          * @private
          */
         this._usedFileNames = []
-        this._renderDatas      = null
+        this._renderDatas = null
 
         /**
          *
@@ -121,6 +124,12 @@ class Renderer {
 
     }
 
+    createDirectoryIfNotExist ( directoryPath ) {
+        if ( !fs.existsSync( directoryPath ) ) {
+            fs.mkdirSync( directoryPath )
+        }
+    }
+
     ///
     computeOutputPaths ( datas ) {
 
@@ -150,7 +159,7 @@ class Renderer {
 
         const nav = {
             type:  'nav',
-            align: 'left',
+            align: 'right',
             items: []
         }
         navbar.items.push( nav )
@@ -158,7 +167,7 @@ class Renderer {
         // Compute main categories list
         for ( let availableCategory of this.availableCategories ) {
 
-            const categoryDropdown = this.computeCategoryList( availableCategory.label, datas[ availableCategory.key ] )
+            const categoryDropdown = this.computeCategoryList( availableCategory, datas[ availableCategory.key ] )
             if ( categoryDropdown ) { nav.items.push( categoryDropdown ) }
 
         }
@@ -178,12 +187,12 @@ class Renderer {
 
     }
 
-    computeCategoryList ( label, datas ) {
+    computeCategoryList ( category, datas ) {
         if ( !datas ) { return null }
 
         const categoryDropdown = {
             type:  'dropdown',
-            title: label,
+            title: category.label,
             items: []
         }
 
@@ -191,7 +200,7 @@ class Renderer {
 
             categoryDropdown.items.push( {
                 type:  'item',
-                href:  this._outputFilesNames.get( value.uuid ),
+                href:  `${ category.key }\\${ this._outputFilesNames.get( value.uuid ) }`,
                 label: key
             } )
 
@@ -258,6 +267,7 @@ class Renderer {
             uuid:   uuidv4(),
             readMe: this.options.readme
         }, outputPath )
+
         this.renderCategories( datas, outputPath )
         // Todo:       this.renderSources( outputPath )
 
@@ -284,13 +294,15 @@ class Renderer {
             const dataMap = datas[ availableCategory.key ]
             if ( isNotDefined( dataMap ) ) { continue }
 
-            this.renderCategory( availableCategory.component, dataMap.values(), outputPath )
+            const categoryOutputPath = path.join( outputPath, availableCategory.key )
+            this.createDirectoryIfNotExist( categoryOutputPath )
+            this.renderCategory( availableCategory, dataMap.values(), categoryOutputPath )
 
         }
 
     }
 
-    renderCategory ( Component, datas, outputPath ) {
+    renderCategory ( category, datas, outputPath ) {
 
         for ( const data of datas ) {
 

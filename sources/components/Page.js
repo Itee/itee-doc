@@ -49,6 +49,7 @@ class Page extends React.Component {
         return (
             <html lang="en">
                 <head>
+                    <base href={ this.props.base } />
                     <meta charSet="utf-8" />
                     <meta name="viewport" content="width=device-width, initial-scale=1" />
                     <title>{ this.props.title }</title>
@@ -76,6 +77,7 @@ class Page extends React.Component {
 }
 
 Page.propTypes = {
+    base:        PropTypes.string,
     stylesheets: PropTypes.array,
     scripts:     PropTypes.array,
     title:       PropTypes.string,
@@ -86,6 +88,7 @@ Page.propTypes = {
 }
 
 Page.defaultProps = {
+    base:        './',
     stylesheets: [],
     scripts:     []
 }

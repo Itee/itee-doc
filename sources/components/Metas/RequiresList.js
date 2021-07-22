@@ -24,13 +24,13 @@ class RequiresList extends React.Component {
 
     _computeLabel () {
 
-        return ( this.props.requires.length > 1 ) ? 'Requires:' : 'Require:'
+        return ( this.props.values.length > 1 ) ? 'Requires:' : 'Require:'
 
     }
 
     _computeValues () {
 
-        return this.props.requires.map( require => {
+        return this.props.values.map( require => {
 
             const url   = require.url
             const label = require.label
@@ -64,11 +64,11 @@ class RequiresList extends React.Component {
 }
 
 RequiresList.propTypes = {
-    requires: PropTypes.array
+    values: PropTypes.array
 }
 
 RequiresList.defaultProps = {
-    requires: []
+    values: []
 }
 
 module.exports = RequiresList

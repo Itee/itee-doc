@@ -18,13 +18,21 @@ function CreateJsdocConfiguration () {
     const config = {
         tags: {
             allowUnknownTags: false,
-            dictionaries:     [ 'jsdoc', 'closure' ]
+            dictionaries:     [
+                'jsdoc',
+                'closure'
+            ]
         },
         source: {
-            include:        [ './sources' ],
+            include: [
+                './README.md',
+                './sources'
+            ],
             includePattern: '.+\\.js(doc|x)?$',
             excludePattern: '(node_modules|documentation|builds)',
-            exclude:        [ './sources/components/others' ]
+            exclude:        [
+                './sources/components/others'
+            ]
         },
         sourceType:   'module',
         plugins:      [],

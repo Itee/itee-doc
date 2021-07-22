@@ -24,13 +24,13 @@ class AuthorsList extends React.Component {
 
     _computeLabel () {
 
-        return ( this.props.authors.length > 1 ) ? 'Authors:' : 'Author:'
+        return ( this.props.values.length > 1 ) ? 'Authors:' : 'Author:'
 
     }
 
     _computeValues () {
 
-        return this.props.authors.map( author => {
+        return this.props.values.map( author => {
 
             const url          = author.url
             const label        = author.label
@@ -57,11 +57,11 @@ class AuthorsList extends React.Component {
 }
 
 AuthorsList.propTypes = {
-    authors: PropTypes.array
+    values: PropTypes.array
 }
 
 AuthorsList.defaultProps = {
-    authors: []
+    values: []
 }
 
 module.exports = AuthorsList

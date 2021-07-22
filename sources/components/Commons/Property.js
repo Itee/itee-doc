@@ -28,7 +28,7 @@ class Property extends React.Component {
 
         return (
             <div id={ this.props.uuid } className="property">
-                <h5>{ this._renderFlags() } { this.props.name } { `{${ this.props.type }}` }</h5>
+                <h5>{ this._renderFlags() } { this.props.name } { `{ ${ this.props.type } }` }</h5>
                 <Description description={ this.props.description }></Description>
 
                 <AuthorsList authors={ this.props.authors }></AuthorsList>
@@ -64,7 +64,7 @@ class Property extends React.Component {
 Property.propTypes = {
     uuid:        PropTypes.string,
     name:        PropTypes.string,
-    type:        PropTypes.string,
+    type:        PropTypes.array,
     description: PropTypes.string,
     authors:     PropTypes.array,
     exceptions:  PropTypes.array,

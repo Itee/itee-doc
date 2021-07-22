@@ -25,13 +25,13 @@ class ReturnsList extends React.Component {
 
     _computeLabel () {
 
-        return ( this.props.returns.length > 1 ) ? 'Returns:' : 'Return:'
+        return ( this.props.values.length > 1 ) ? 'Returns:' : 'Return:'
 
     }
 
     _computeValues () {
 
-        return this.props.returns.map( return_ => {
+        return this.props.values.map( return_ => {
 
             let renderedValue
 
@@ -58,11 +58,11 @@ class ReturnsList extends React.Component {
 }
 
 ReturnsList.propTypes = {
-    returns: PropTypes.array
+    values: PropTypes.array
 }
 
 ReturnsList.defaultProps = {
-    returns: []
+    values: []
 }
 
 module.exports = ReturnsList

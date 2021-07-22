@@ -27,7 +27,8 @@ class Index extends React.Component {
 
 Index.propTypes = {
     uuid:     PropTypes.string,
-    children: PropTypes.string
+    children: PropTypes.string,
+    readMe:   PropTypes.string,
 }
 
 module.exports = Index

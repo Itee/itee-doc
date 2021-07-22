@@ -39,7 +39,7 @@ class Class extends React.Component {
                 </Card.Header>
 
                 <Card.Body>
-                    <Description className="class-description" description={ this.props.description }></Description>
+                    <Description className="class-description" description={ this.props.classDescription }></Description>
                     <ExampleList className="class-examples" examples={ this.props.examples }></ExampleList>
                     <Constructor className="class-constructor" { ...this.props }></Constructor>
                     <PropertiesCategory className="class-constants" name="Constants" values={ this.props.constants }></PropertiesCategory>
@@ -48,14 +48,14 @@ class Class extends React.Component {
                 </Card.Body>
 
                 <Card.Footer>
-                    <AuthorsList authors={ this.props.authors }></AuthorsList>
-                    <ExceptionsList exceptions={ this.props.exceptions }></ExceptionsList>
-                    <InheritList inherits={ this.props.inherits }></InheritList>
-                    <LicensesList licenses={ this.props.licenses }></LicensesList>
-                    <RequiresList requires={ this.props.requires }></RequiresList>
-                    <ReturnsList returns={ this.props.returns }></ReturnsList>
-                    <SeeList sees={ this.props.see }></SeeList>
-                    <SourcesList sources={ this.props.sources }></SourcesList>
+                    <AuthorsList values={ this.props.authors }></AuthorsList>
+                    <ExceptionsList values={ this.props.exceptions }></ExceptionsList>
+                    <InheritList values={ this.props.inherits }></InheritList>
+                    <LicensesList values={ this.props.licenses }></LicensesList>
+                    <RequiresList values={ this.props.requires }></RequiresList>
+                    <ReturnsList values={ this.props.returns }></ReturnsList>
+                    <SeeList values={ this.props.sees }></SeeList>
+                    <SourcesList values={ ( this.props.source ) ? [ this.props.source ] : [] }></SourcesList>
                 </Card.Footer>
 
             </Card>
@@ -66,21 +66,22 @@ class Class extends React.Component {
 }
 
 Class.propTypes = {
-    uuid:        PropTypes.string,
-    name:        PropTypes.string,
-    description: PropTypes.string,
-    constants:   PropTypes.array,
-    members:     PropTypes.array,
-    methods:     PropTypes.array,
-    authors:     PropTypes.array,
-    examples:    PropTypes.array,
-    exceptions:  PropTypes.array,
-    inherits:    PropTypes.array,
-    licenses:    PropTypes.array,
-    requires:    PropTypes.array,
-    returns:     PropTypes.array,
-    see:         PropTypes.array,
-    sources:     PropTypes.array
+    uuid:             PropTypes.string,
+    name:             PropTypes.string,
+    classDescription: PropTypes.string,
+    description:      PropTypes.string,
+    constants:        PropTypes.array,
+    members:          PropTypes.array,
+    methods:          PropTypes.array,
+    authors:          PropTypes.array,
+    examples:    	  PropTypes.array,
+    exceptions:       PropTypes.array,
+    inherits:         PropTypes.array,
+    licenses:         PropTypes.array,
+    requires:         PropTypes.array,
+    returns:          PropTypes.array,
+    sees:             PropTypes.array,
+    source:           PropTypes.object
 }
 
 module.exports = Class

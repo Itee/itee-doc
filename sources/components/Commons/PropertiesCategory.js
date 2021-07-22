@@ -20,7 +20,7 @@ class PropertiesCategory extends React.Component {
      */
     render () {
 
-        const properties = this.props.properties
+        const properties = this.props.values
         if ( properties.length === 0 ) {
             return null
         }
@@ -51,13 +51,13 @@ class PropertiesCategory extends React.Component {
 }
 
 PropertiesCategory.propTypes = {
-    name:       PropTypes.string,
-    properties: PropTypes.array
+    name:   PropTypes.string,
+    values: PropTypes.array
 }
 
 PropertiesCategory.defaultProps = {
-    name:       'PropertiesCategory',
-    properties: []
+    name:   'PropertiesCategory',
+    values: []
 }
 
 module.exports = PropertiesCategory

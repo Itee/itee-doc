@@ -38,6 +38,7 @@
   "homepage": "https://github.com/Itee/itee-doc#readme",
   "dependencies": {
     "@highlightjs/cdn-assets": "^11.1.0",
+    "highlight.js": "^11.1.0",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.0",
     "react-dom": "^17.0.1",

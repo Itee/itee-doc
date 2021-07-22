@@ -29,16 +29,17 @@ function isLink ( string ) {
 class Parser {
 
     /**
-     *
-     * @param options
+     * This is a nice ctor comment
+     * @constructor
+     * @param [parameters={}] - The parser parameters
      */
-    constructor ( options = {} ) {
+    constructor () {
+//    constructor ( parameters = {} ) {
 
-        /**
-         * The options to use
-         * @type {Object}
-         */
-        this.options = options
+//        const _parameters = {
+//            ...{},
+//            ...parameters
+//        }
 
         // todo: Who is the faster between { a: true, b: true... }[key] and [a,b,...].includes(key)
 

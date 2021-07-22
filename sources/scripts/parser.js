@@ -111,39 +111,40 @@ class Parser {
         this._currentDocletPath = `${ doclet.meta.path }\\${ doclet.meta.filename } at line ${ doclet.meta.lineno }`
 
         const docletDatas = {
-            abstract:     this.parseAbstract( doclet ),
-            access:       this.parseAccess( doclet ),
-            alias:        this.parseAlias( doclet ),
-            async:        this.parseAsync( doclet ),
-            augments:     this.parseExtends( doclet ),
-            authors:      this.parseAuthors( doclet ),
-            constant:     this.parseConstant( doclet ),
-            defaultValue: this.parseDefaultValue( doclet ),
-            description:  this.parseDescription( doclet ),
-            examples:     this.parseExamples( doclet ),
-            exceptions:   this.parseExceptions( doclet ),
-            files:        this.parseFiles( doclet ),
-            generator:    this.parseGenerator( doclet ),
-            inherited:    this.parseInherited( doclet ),
-            inherits:     this.parseInherits( doclet ),
-            kind:         this.parseKind( doclet ),
-            licenses:     this.parseLicense( doclet ),
-            longName:     this.parseLongName( doclet ),
-            memberOf:     this.parseMemberOf( doclet ),
-            name:         this.parseName( doclet ),
-            overrides:    this.parseOverrides( doclet ),
-            parameters:   this.parseParameters( doclet ),
-            preserveName: this.parsePreserveName( doclet ),
-            properties:   this.parseProperties( doclet ),
-            readOnly:     this.parseReadOnly( doclet ),
-            requires:     this.parseRequires( doclet ),
-            returns:      this.parseReturns( doclet ),
-            scope:        this.parseScope( doclet ),
-            sees:         this.parseSee( doclet ),
-            source:       this.parseSource( doclet ),
-            type:         this.parseType( doclet ),
-            uuid:         this.parseId( doclet ),
-            yields:       this.parseYields( doclet )
+            abstract:         this.parseAbstract( doclet ),
+            access:           this.parseAccess( doclet ),
+            alias:            this.parseAlias( doclet ),
+            async:            this.parseAsync( doclet ),
+            augments:         this.parseExtends( doclet ),
+            authors:          this.parseAuthors( doclet ),
+            constant:         this.parseConstant( doclet ),
+            defaultValue:     this.parseDefaultValue( doclet ),
+            classDescription: this.parseClassDescription( doclet ),
+            description:      this.parseDescription( doclet ),
+            examples:         this.parseExamples( doclet ),
+            exceptions:       this.parseExceptions( doclet ),
+            files:            this.parseFiles( doclet ),
+            generator:        this.parseGenerator( doclet ),
+            inherited:        this.parseInherited( doclet ),
+            inherits:         this.parseInherits( doclet ),
+            kind:             this.parseKind( doclet ),
+            licenses:         this.parseLicense( doclet ),
+            longName:         this.parseLongName( doclet ),
+            memberOf:         this.parseMemberOf( doclet ),
+            name:             this.parseName( doclet ),
+            overrides:        this.parseOverrides( doclet ),
+            parameters:       this.parseParameters( doclet ),
+            preserveName:     this.parsePreserveName( doclet ),
+            properties:       this.parseProperties( doclet ),
+            readOnly:         this.parseReadOnly( doclet ),
+            requires:         this.parseRequires( doclet ),
+            returns:          this.parseReturns( doclet ),
+            scope:            this.parseScope( doclet ),
+            sees:             this.parseSee( doclet ),
+            source:           this.parseSource( doclet ),
+            type:             this.parseType( doclet ),
+            uuid:             this.parseId( doclet ),
+            yields:           this.parseYields( doclet )
         }
 
         // Clean up
@@ -576,6 +577,19 @@ class Parser {
 
     }
 
+    parseClassDescription ( doclet ) {
+        if ( isNotDefined( doclet ) ) { return null }
+
+        let result
+
+        if ( doclet.classdesc ) {
+            result = doclet.classdesc
+            delete doclet.classdesc
+        }
+
+        return result
+    }
+
     parseDescription ( doclet ) {
         if ( isNotDefined( doclet ) ) { return null }
 
@@ -584,14 +598,6 @@ class Parser {
         if ( doclet.description ) {
             result = doclet.description
             delete doclet.description
-        }
-
-        if ( doclet.classdesc ) {
-            if ( result ) {
-                logger.warn( `Duplicate description in ${ this._currentDocletPath }` )
-            }
-            result = doclet.classdesc
-            delete doclet.classdesc
         }
 
         return result

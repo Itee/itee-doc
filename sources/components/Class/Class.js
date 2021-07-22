@@ -38,7 +38,7 @@ class Class extends React.Component {
                 </Card.Header>
 
                 <Card.Body>
-                    <Description className="class-description" description={ this.props.description }></Description>
+                    <Description className="class-description" description={ this.props.classDescription }></Description>
                     <Constructor className="class-constructor" { ...this.props }></Constructor>
                     <PropertiesCategory className="class-constants" name="Constants" values={ this.props.constants }></PropertiesCategory>
                     <PropertiesCategory className="class-members" name="Members" values={ this.props.members }></PropertiesCategory>
@@ -64,20 +64,21 @@ class Class extends React.Component {
 }
 
 Class.propTypes = {
-    uuid:        PropTypes.string,
-    name:        PropTypes.string,
-    description: PropTypes.string,
-    constants:   PropTypes.array,
-    members:     PropTypes.array,
-    methods:     PropTypes.array,
-    authors:     PropTypes.array,
-    exceptions:  PropTypes.array,
-    inherits:    PropTypes.array,
-    licenses:    PropTypes.array,
-    requires:    PropTypes.array,
-    returns:     PropTypes.array,
-    sees:        PropTypes.array,
-    source:      PropTypes.object
+    uuid:             PropTypes.string,
+    name:             PropTypes.string,
+    classDescription: PropTypes.string,
+    description:      PropTypes.string,
+    constants:        PropTypes.array,
+    members:          PropTypes.array,
+    methods:          PropTypes.array,
+    authors:          PropTypes.array,
+    exceptions:       PropTypes.array,
+    inherits:         PropTypes.array,
+    licenses:         PropTypes.array,
+    requires:         PropTypes.array,
+    returns:          PropTypes.array,
+    sees:             PropTypes.array,
+    source:           PropTypes.object
 }
 
 module.exports = Class

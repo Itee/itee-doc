@@ -1,6 +1,7 @@
 const React       = require( 'react' )
 const PropTypes   = require( 'prop-types' )
 const Card        = require( 'react-bootstrap/Card' )
+const Description = require( '../Commons/Description' )
 const Parameters  = require( '../Commons/Parameters' )
 const SourcesList = require( '../Metas/SourcesList' )
 
@@ -24,7 +25,7 @@ class Constructor extends React.Component {
         if ( this.props.parameters && this.props.parameters.length > 0 ) {
             body = (
                 <Card.Body className="constructor-body">
-                    {/*<Description description={ this.props.description }></Description>*/ }
+                    <Description description={ this.props.description }></Description>
                     <Parameters values={ this.props.parameters }></Parameters>
                 </Card.Body>
             )
@@ -56,12 +57,14 @@ class Constructor extends React.Component {
 
     _renderSignature () {
 
-        const inherit = this.props.inherit
-        if ( inherit && inherit.length > 0 ) {
-            return `new ${ this.props.name }${ this._renderParameters( this.props.parameters ) } extends ${ inherit[ 0 ] }`
-        } else {
-            return `new ${ this.props.name }${ this._renderParameters( this.props.parameters ) }`
-        }
+        return 'Constructor'
+
+        //        const inherit = this.props.inherit
+        //        if ( inherit && inherit.length > 0 ) {
+        //            return `${ this.props.name }${ this._renderParameters( this.props.parameters ) } extends ${ inherit[ 0 ] }`
+        //        } else {
+        //            return `${ this.props.name }${ this._renderParameters( this.props.parameters ) }`
+        //        }
 
     }
 

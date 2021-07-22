@@ -45,7 +45,9 @@ const del          = require( 'del' )
 const sass         = require( 'gulp-sass' )
 const cleanCss     = require( 'gulp-clean-css' )
 const concat       = require( 'gulp-concat' )
-//const rollup       = require( 'rollup' )
+const terser       = require( 'gulp-terser' )
+const rename       = require( 'gulp-rename' )
+const insert       = require( 'gulp-insert' )
 const log          = require( 'fancy-log' )
 const colors       = require( 'ansi-colors' )
 const red          = colors.red
@@ -118,7 +120,7 @@ gulp.task( 'clean', () => {
     const filesToClean = [
         'builds',
         'docs',
-        'tests/_results',
+        'tests/_results'
     ]
 
     return del( filesToClean )
@@ -208,7 +210,8 @@ gulp.task( 'test', ( done ) => {
 gulp.task( 'build-style', () => {
 
     const styleFiles = [
-        './sources/styles/style.scss'
+        './sources/styles/style.scss',
+        './node_modules/@highlightjs/cdn-assets/styles/atom-one-dark-reasonable.min.css'
     ]
 
     // Todo: need to be params
@@ -235,17 +238,22 @@ gulp.task( 'copy-publish', () => {
 
 gulp.task( 'bundle-scripts', () => {
 
-    const scriptsToCopy   = [
+    const scriptsToCopy     = [
         './node_modules/jquery/dist/jquery.js',
-        './node_modules/bootstrap/dist/js/bootstrap.js'
+        './node_modules/bootstrap/dist/js/bootstrap.js',
+        './node_modules/@highlightjs/cdn-assets/highlight.js'
     ]
-    const outputFileName  = 'itee-doc.js'
-    const outputDirectory = './builds/statics/scripts'
+    const outputFileName    = 'itee-doc.js'
+    const outputMinFileName = 'itee-doc.min.js'
+    const outputDirectory   = './builds/statics/scripts'
 
     return gulp.src( scriptsToCopy )
                .pipe( concat( outputFileName ) )
+               .pipe( insert.append( 'hljs.highlightAll();' ) )
                .pipe( gulp.dest( outputDirectory ) )
-
+               .pipe( rename( outputMinFileName ) )
+               .pipe( terser() )
+               .pipe( gulp.dest( outputDirectory ) )
 } )
 
 gulp.task( 'build-script', gulp.parallel( 'copy-publish', 'bundle-scripts' ) )

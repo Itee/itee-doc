@@ -262,7 +262,7 @@ gulp.task( 'build', gulp.series( 'build-style', 'build-script' ) )
  * @global
  * @description Will perform a complet release of the library including 'clean', 'lint', 'doc', 'build-test', 'test' and finally 'build'.
  */
-gulp.task( 'release', gulp.series( 'clean', 'lint', 'build', 'doc' ) )
+gulp.task( 'release', gulp.series( 'clean', 'lint', 'build', 'test', 'doc' ) )
 
 //---------
 

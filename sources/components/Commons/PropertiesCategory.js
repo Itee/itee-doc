@@ -19,32 +19,39 @@ class PropertiesCategory extends React.Component {
      * @returns {JSX.Element|null}
      */
     render () {
-
-        const properties = this.props.values
-        if ( properties.length === 0 ) {
+        if ( this.props.values.length === 0 ) {
             return null
         }
 
-        const renderedProperties = properties.map( property => {
-
-            return (
-                <ListGroup.Item key={ property.uuid } href={ `#${ property.longName }` }>
-                    <Property { ...property }></Property>
-                </ListGroup.Item>
-            )
-
-        } )
-
         return (
             <Card className="mb-3">
-                <Card.Header as="h3">
+                <Card.Header as="h3" className="properties-header">
                     { this.props.name }
                 </Card.Header>
-                <ListGroup variant="flush">
-                    { renderedProperties }
+                <ListGroup variant="flush" className="properties-list">
+                    { this._renderValues() }
                 </ListGroup>
             </Card>
         )
+
+    }
+
+    /**
+     *
+     * @returns {*}
+     * @private
+     */
+    _renderValues () {
+
+        return this.props.values.map( ( value ) => {
+            if ( !value ) { return null }
+
+            return (
+                <ListGroup.Item key={ value.uuid } href={ `#${ value.longName }` }>
+                    <Property { ...value }></Property>
+                </ListGroup.Item>
+            )
+        } )
 
     }
 

@@ -2,7 +2,7 @@ const React     = require( 'react' )
 const PropTypes = require( 'prop-types' )
 const Card      = require( 'react-bootstrap/Card' )
 const ListGroup = require( 'react-bootstrap/ListGroup' )
-const Example  = require( './Example' )
+const Example   = require( './Example' )
 
 /**
  * @class
@@ -19,39 +19,53 @@ class ExampleList extends React.Component {
      * @returns {JSX.Element|null}
      */
     render () {
-
-        const examples = this.props.examples
-        if ( examples.length === 0 ) {
+        if ( this.props.values.length === 0 ) {
             return null
         }
 
-        const renderedExamples = examples.map( example => {
-
-            return (
-                <ListGroup.Item key={ example.uuid }>
-                    <Example { ...example }></Example>
-                </ListGroup.Item>
-            )
-
-        } )
-
         return (
             <Card className="mb-3">
-                <Card.Header as="h3">
-                    Examples
+                <Card.Header as="h3" className="examples-header">
+                    { this.props.name }
                 </Card.Header>
-                <ListGroup variant="flush">
-                    { renderedExamples }
+                <ListGroup variant="flush" className="examples-list">
+                    { this._renderValues() }
                 </ListGroup>
             </Card>
         )
 
     }
 
+    /**
+     *
+     * @param values
+     * @returns {*}
+     * @private
+     */
+    _renderValues () {
+
+        return this.props.values.map( ( value, index ) => {
+            if ( !value ) { return null }
+
+            return (
+                <ListGroup.Item key={ value.uuid || index } href={ `#${ value.longName }` }>
+                    <Example { ...value }></Example>
+                </ListGroup.Item>
+            )
+        } )
+
+    }
+
 }
 
 ExampleList.propTypes = {
-    examples: PropTypes.array
+    name:   PropTypes.string,
+    values: PropTypes.array
+}
+
+ExampleList.defaultProps = {
+    name:   'Examples',
+    values: []
 }
 
 module.exports = ExampleList

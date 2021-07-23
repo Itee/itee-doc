@@ -17,15 +17,15 @@ class Example extends React.Component {
      */
     render () {
 
-        const value = this.props.value
-        if ( value.length === 0 ) {
+        const content = this.props.content
+        if ( !content ) {
             return null
         }
 
         return (
             <pre>
                 <code>
-                    { this.props.value }
+                    { this.props.content }
                 </code>
             </pre>
         )
@@ -35,7 +35,8 @@ class Example extends React.Component {
 }
 
 Example.propTypes = {
-    value: PropTypes.string
+    lang:    PropTypes.string,
+    content: PropTypes.string
 }
 
 module.exports = Example

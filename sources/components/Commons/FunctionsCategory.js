@@ -19,21 +19,9 @@ class FunctionsCategory extends React.Component {
      * @returns {JSX.Element|null}
      */
     render () {
-
-        const values = this.props.values
-        if ( values.length === 0 ) {
+        if ( this.props.values.length === 0 ) {
             return null
         }
-
-        const renderedValues = values.map( value => {
-
-            return (
-                <ListGroup.Item key={ value.uuid } href={ `#${ value.longName }` }>
-                    <Function { ...value }></Function>
-                </ListGroup.Item>
-            )
-
-        } )
 
         return (
             <Card className="functions-category mb-3">
@@ -41,10 +29,30 @@ class FunctionsCategory extends React.Component {
                     { this.props.name }
                 </Card.Header>
                 <ListGroup variant="flush" className="functions-list">
-                    { renderedValues }
+                    { this._renderValues() }
                 </ListGroup>
             </Card>
         )
+
+    }
+
+    /**
+     *
+     * @param values
+     * @returns {*}
+     * @private
+     */
+    _renderValues () {
+
+        return this.props.values.map( ( value ) => {
+            if ( !value ) { return null }
+
+            return (
+                <ListGroup.Item key={ value.uuid } href={ `#${ value.longName }` }>
+                    <Function { ...value }></Function>
+                </ListGroup.Item>
+            )
+        } )
 
     }
 

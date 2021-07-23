@@ -40,7 +40,7 @@ class Class extends React.Component {
 
                 <Card.Body>
                     <Description className="class-description" description={ this.props.classDescription }></Description>
-                    <ExampleList className="class-examples" examples={ this.props.examples }></ExampleList>
+                    <ExampleList className="class-examples" values={ this.props.examples }></ExampleList>
                     <Constructor className="class-constructor" { ...this.props }></Constructor>
                     <PropertiesCategory className="class-constants" name="Constants" values={ this.props.constants }></PropertiesCategory>
                     <PropertiesCategory className="class-members" name="Members" values={ this.props.members }></PropertiesCategory>
@@ -74,7 +74,7 @@ Class.propTypes = {
     members:          PropTypes.array,
     methods:          PropTypes.array,
     authors:          PropTypes.array,
-    examples:    	  PropTypes.array,
+    examples:         PropTypes.array,
     exceptions:       PropTypes.array,
     inherits:         PropTypes.array,
     licenses:         PropTypes.array,

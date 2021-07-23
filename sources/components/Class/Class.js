@@ -1,7 +1,6 @@
 const React               = require( 'react' )
 const PropTypes           = require( 'prop-types' )
 const Card                = require( 'react-bootstrap/Card' )
-const Constructor         = require( './Constructor' )
 const Description         = require( '../Commons/Description' )
 const ExampleList         = require( '../Commons/ExampleList' )
 const ConstructorCategory = require( '../Commons/ConstructorCategory' )
@@ -41,7 +40,7 @@ class Class extends React.Component {
 
                 <Card.Body>
                     <Description className="class-description" description={ this.props.classDescription }></Description>
-                    <ExampleList className="class-examples" values={ this.props.examples }></ExampleList>
+                    <ExampleList className="class-examples" name="Examples" values={ this.props.examples }></ExampleList>
                     <ConstructorCategory className="class-constructor" name="Constructor" values={ [ this.props ] }></ConstructorCategory>
                     <PropertiesCategory className="class-constants" name="Constants" values={ this.props.constants }></PropertiesCategory>
                     <PropertiesCategory className="class-members" name="Members" values={ this.props.members }></PropertiesCategory>

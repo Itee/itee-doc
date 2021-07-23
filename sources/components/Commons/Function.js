@@ -2,6 +2,7 @@ const React          = require( 'react' )
 const PropTypes      = require( 'prop-types' )
 const Description    = require( './Description' )
 const Parameters     = require( './Parameters' )
+const Example        = require( './Example' )
 const AuthorsList    = require( '../Metas/AuthorsList' )
 const ExceptionsList = require( '../Metas/ExceptionsList' )
 const InheritList    = require( '../Metas/InheritList' )
@@ -27,11 +28,14 @@ class Function extends React.Component {
      */
     render () {
 
+        const _example = (this.props.examples.length > 0 ) ? this.props.examples[0] : {}
+
         return (
             <div id={ this.props.uuid } className="function">
                 <h5 className="function-signature">{ this._renderFlags() } { this.props.name }{ this._renderParameters( this.props.parameters ) } { this._renderReturns( this.props.returns ) }</h5>
                 <Description description={ this.props.description }></Description>
                 <Parameters values={ this.props.parameters }></Parameters>
+                <Example { ..._example }></Example>
 
                 <AuthorsList authors={ this.props.authors }></AuthorsList>
                 <ExceptionsList exceptions={ this.props.exceptions }></ExceptionsList>
@@ -122,6 +126,7 @@ Function.propTypes = {
     async:       PropTypes.bool,
     authors:     PropTypes.array,
     description: PropTypes.string,
+    examples:    PropTypes.array,
     exceptions:  PropTypes.array,
     generator:   PropTypes.bool,
     inherits:    PropTypes.array,
@@ -137,6 +142,10 @@ Function.propTypes = {
     sources:     PropTypes.array,
     uuid:        PropTypes.string,
     virtual:     PropTypes.bool
+}
+
+Function.defaultProps = {
+    examples: []
 }
 
 module.exports = Function

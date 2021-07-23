@@ -1,19 +1,20 @@
-const React              = require( 'react' )
-const PropTypes          = require( 'prop-types' )
-const Card               = require( 'react-bootstrap/Card' )
-const Constructor        = require( './Constructor' )
-const Description        = require( '../Commons/Description' )
-const ExampleList        = require( '../Commons/ExampleList' )
-const FunctionsCategory  = require( '../Commons/FunctionsCategory' )
-const PropertiesCategory = require( '../Commons/PropertiesCategory' )
-const AuthorsList        = require( '../Metas/AuthorsList' )
-const ExceptionsList     = require( '../Metas/ExceptionsList' )
-const InheritList        = require( '../Metas/InheritList' )
-const LicensesList       = require( '../Metas/LicensesList' )
-const RequiresList       = require( '../Metas/RequiresList' )
-const ReturnsList        = require( '../Metas/ReturnsList' )
-const SeeList            = require( '../Metas/SeeList' )
-const SourcesList        = require( '../Metas/SourcesList' )
+const React               = require( 'react' )
+const PropTypes           = require( 'prop-types' )
+const Card                = require( 'react-bootstrap/Card' )
+const Constructor         = require( './Constructor' )
+const Description         = require( '../Commons/Description' )
+const ExampleList         = require( '../Commons/ExampleList' )
+const ConstructorCategory = require( '../Commons/ConstructorCategory' )
+const FunctionsCategory   = require( '../Commons/FunctionsCategory' )
+const PropertiesCategory  = require( '../Commons/PropertiesCategory' )
+const AuthorsList         = require( '../Metas/AuthorsList' )
+const ExceptionsList      = require( '../Metas/ExceptionsList' )
+const InheritList         = require( '../Metas/InheritList' )
+const LicensesList        = require( '../Metas/LicensesList' )
+const RequiresList        = require( '../Metas/RequiresList' )
+const ReturnsList         = require( '../Metas/ReturnsList' )
+const SeeList             = require( '../Metas/SeeList' )
+const SourcesList         = require( '../Metas/SourcesList' )
 
 /**
  * @class
@@ -41,7 +42,7 @@ class Class extends React.Component {
                 <Card.Body>
                     <Description className="class-description" description={ this.props.classDescription }></Description>
                     <ExampleList className="class-examples" values={ this.props.examples }></ExampleList>
-                    <Constructor className="class-constructor" { ...this.props }></Constructor>
+                    <ConstructorCategory className="class-constructor" name="Constructor" values={ [ this.props ] }></ConstructorCategory>
                     <PropertiesCategory className="class-constants" name="Constants" values={ this.props.constants }></PropertiesCategory>
                     <PropertiesCategory className="class-members" name="Members" values={ this.props.members }></PropertiesCategory>
                     <FunctionsCategory className="class-methods" name="Methods" values={ this.props.methods }></FunctionsCategory>

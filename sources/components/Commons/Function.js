@@ -1,16 +1,17 @@
-const React          = require( 'react' )
-const PropTypes      = require( 'prop-types' )
-const Description    = require( './Description' )
-const Parameters     = require( './Parameters' )
-const Example        = require( './Example' )
-const AuthorsList    = require( '../Metas/AuthorsList' )
-const ExceptionsList = require( '../Metas/ExceptionsList' )
-const InheritList    = require( '../Metas/InheritList' )
-const LicensesList   = require( '../Metas/LicensesList' )
-const RequiresList   = require( '../Metas/RequiresList' )
-const ReturnsList    = require( '../Metas/ReturnsList' )
-const SeeList        = require( '../Metas/SeeList' )
-const SourcesList    = require( '../Metas/SourcesList' )
+const React             = require( 'react' )
+const PropTypes         = require( 'prop-types' )
+const Description       = require( './Description' )
+const Parameters        = require( './Parameters' )
+const Example           = require( './Example' )
+const FunctionSignature = require( './FunctionSignature' )
+const AuthorsList       = require( '../Metas/AuthorsList' )
+const ExceptionsList    = require( '../Metas/ExceptionsList' )
+const InheritList       = require( '../Metas/InheritList' )
+const LicensesList      = require( '../Metas/LicensesList' )
+const RequiresList      = require( '../Metas/RequiresList' )
+const ReturnsList       = require( '../Metas/ReturnsList' )
+const SeeList           = require( '../Metas/SeeList' )
+const SourcesList       = require( '../Metas/SourcesList' )
 
 /**
  * @class
@@ -28,11 +29,22 @@ class Function extends React.Component {
      */
     render () {
 
-        const _example = (this.props.examples.length > 0 ) ? this.props.examples[0] : {}
+        const _example = ( this.props.examples.length > 0 ) ? this.props.examples[ 0 ] : {}
 
         return (
             <div id={ this.props.uuid } className="function">
-                <h5 className="function-signature">{ this._renderFlags() } { this.props.name }{ this._renderParameters( this.props.parameters ) } { this._renderReturns( this.props.returns ) }</h5>
+                <FunctionSignature
+                    name={ this.props.name }
+                    access={ this.props.access }
+                    kind={ this.props.kind }
+                    readOnly={ this.props.readOnly }
+                    async={ this.props.async }
+                    generator={ this.props.generator }
+                    inner={ this.props.inner }
+                    virtual={ this.props.virtual }
+                    parameters={ this.props.parameters }
+                    returns={ this.props.returns }
+                ></FunctionSignature>
                 <Description description={ this.props.description }></Description>
                 <Parameters values={ this.props.parameters }></Parameters>
                 <Example { ..._example }></Example>
@@ -49,76 +61,6 @@ class Function extends React.Component {
         )
 
     }
-
-    _renderFlags () {
-
-        const flags = []
-        if ( this.props.access ) { flags.push( this.props.access ) } else { flags.push( 'public' ) }
-        if ( this.props.readOnly ) { flags.push( 'readonly' ) }
-        if ( this.props.virtual ) { flags.push( 'abstract' ) }
-        if ( this.props.kind === 'constant' ) { flags.push( 'constant' ) }
-        if ( this.props.inner ) { flags.push( 'inner' ) }
-        if ( this.props.generator ) { flags.push( 'generator' ) }
-        if ( this.props.async ) { flags.push( 'async' ) }
-
-        return ( flags.length ) ? `<${ flags.toString() }>` : ''
-
-    }
-
-    _renderParameters ( parameters = [] ) {
-
-        if ( parameters.length === 0 ) { return '()' }
-
-        let result = '( '
-
-        for ( let index = 0, numberOfValues = parameters.length ; index < numberOfValues ; index++ ) {
-
-            const parameter  = parameters[ index ]
-            const name       = parameter.name
-            const isOptional = parameter.optional
-
-            if ( index < numberOfValues - 1 ) {
-                result += ( isOptional ) ? `[${ name }], ` : `${ name }, `
-            } else {
-                result += ( isOptional ) ? `[${ name }] )` : `${ name } )`
-            }
-
-
-            //            if ( index < numberOfValues - 1 ) {
-            //                result += ( isOptional ) ? `[${ name }], ` : `${ name }, `
-            //            } else {
-            //                result += ( isOptional ) ? `[${ name }] )` : `${ name } )`
-            //            }
-
-        }
-
-        return result
-
-    }
-
-    _renderReturns ( returns = [] ) {
-
-        if ( returns.length === 0 ) { return null }
-
-        let result = '-> { '
-
-        for ( let index = 0, numberOfValues = returns.length ; index < numberOfValues ; index++ ) {
-
-            const ret = returns[ index ]
-
-            if ( index < numberOfValues - 1 ) {
-                result += `${ ret } | `
-            } else {
-                result += `${ ret } }`
-            }
-
-        }
-
-        return result
-
-
-    }
-
 }
 
 Function.propTypes = {

@@ -1,7 +1,8 @@
-const React       = require( 'react' )
-const PropTypes   = require( 'prop-types' )
-const Description = require( '../Commons/Description' )
-const Parameters  = require( '../Commons/Parameters' )
+const React             = require( 'react' )
+const PropTypes         = require( 'prop-types' )
+const Description       = require( '../Commons/Description' )
+const FunctionSignature = require( '../Commons/FunctionSignature' )
+const Parameters        = require( '../Commons/Parameters' )
 
 /**
  * @class
@@ -21,6 +22,18 @@ class Constructor extends React.Component {
 
         return (
             <div id={ `${ this.props.uuid }-ctor` } className="constructor">
+                <FunctionSignature
+                    name={ this.props.name }
+                    access={ this.props.access }
+                    kind={ this.props.kind }
+                    readOnly={ this.props.readOnly }
+                    async={ this.props.async }
+                    generator={ this.props.generator }
+                    inner={ this.props.inner }
+                    virtual={ this.props.virtual }
+                    parameters={ this.props.parameters }
+                    returns={ this.props.returns }
+                ></FunctionSignature>
                 <Description description={ this.props.description }></Description>
                 <Parameters values={ this.props.parameters }></Parameters>
             </div>
@@ -60,6 +73,9 @@ class Constructor extends React.Component {
 }
 
 Constructor.propTypes = {
+    access:      PropTypes.string,
+    async:       PropTypes.bool,
+    virtual:     PropTypes.bool,
     uuid:        PropTypes.string,
     parameters:  PropTypes.array,
     sources:     PropTypes.array,

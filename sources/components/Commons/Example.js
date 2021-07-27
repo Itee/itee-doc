@@ -26,7 +26,7 @@ class Example extends React.Component {
             <div className="example">
                 <div className="example-content">
                     <pre>
-                        <code>
+                        <code className={ this.props.lang }>
                             { this.props.content }
                         </code>
                     </pre>
@@ -42,6 +42,11 @@ class Example extends React.Component {
 Example.propTypes = {
     lang:    PropTypes.string,
     content: PropTypes.string
+}
+
+Example.defaultProps = {
+    lang:    '',
+    content: ''
 }
 
 module.exports = Example

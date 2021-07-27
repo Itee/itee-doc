@@ -20,13 +20,20 @@ class LabeledList extends React.Component {
 
         return (
             <div className="labeled-list">
-                <h6 className="label">{ this.props.label }</h6>
+                <h6 className="label">{ this.renderLabel( this.props.label, this.props.values.length ) }</h6>
                 <ul className="list" style={ this.props.style }>
                     { this._renderValues() }
                 </ul>
             </div>
         )
 
+    }
+
+    renderLabel ( label, numberOfValues ) {
+        if ( !label ) { return null }
+        if ( label.length === 0 ) { return null }
+
+        return ( numberOfValues > 1 ) ? `${ label }s` : label
     }
 
     /**

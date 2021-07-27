@@ -23,11 +23,16 @@ class Example extends React.Component {
         }
 
         return (
-            <pre>
-                <code>
-                    { this.props.content }
-                </code>
-            </pre>
+            <div className="example">
+                <div className="example-content">
+                    <pre>
+                        <code>
+                            { this.props.content }
+                        </code>
+                    </pre>
+                    <button className="btn btn-outline-secondary btn-copy" data-code={ this.props.content }>Copy</button>
+                </div>
+            </div>
         )
 
     }

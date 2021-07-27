@@ -485,7 +485,8 @@ gulp.task( 'bundle-scripts', () => {
     const scriptsToCopy     = [
         './node_modules/jquery/dist/jquery.js',
         './node_modules/bootstrap/dist/js/bootstrap.js',
-        './node_modules/@highlightjs/cdn-assets/highlight.js'
+        './node_modules/@highlightjs/cdn-assets/highlight.js',
+        './sources/scripts/client.js'
     ]
     const outputFileName    = 'itee-doc.js'
     const outputMinFileName = 'itee-doc.min.js'

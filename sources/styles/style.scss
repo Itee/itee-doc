@@ -71,9 +71,30 @@ html, body {
     }
   }
 
-
 }
 
+.example {
+  display: flex;
+
+  .example-content {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+
+    pre {
+      margin: 0;
+      border: 1px inset rgba(0, 0, 0, 0.125);
+      flex: auto;
+    }
+
+    .btn-copy {
+      position: absolute;
+      right: 5px;
+      top: 6px;
+      display: none;
+    }
+  }
+}
 
 //
 //@font-family-sans-serif: Helvetica, Arial, sans-serif;

@@ -16,17 +16,13 @@ class LabeledList extends React.Component {
      * @returns {JSX.Element}
      */
     render () {
-
-        const values = this.props.values
-        if ( !values || values.length === 0 ) {
-            return null
-        }
+        if ( this.props.values.length === 0 ) { return null }
 
         return (
             <div className="labeled-list">
                 <h6 className="label">{ this.props.label }</h6>
-                <ul className="list">
-                    { this._renderValues( this.props.values ) }
+                <ul className="list" style={ this.props.style }>
+                    { this._renderValues() }
                 </ul>
             </div>
         )
@@ -35,33 +31,35 @@ class LabeledList extends React.Component {
 
     /**
      *
-     * @param values
      * @returns {*}
      * @private
      */
-    _renderValues ( values ) {
+    _renderValues () {
 
-        return values.map( ( value, index ) => {
+        return this.props.values.map( ( value, index ) => {
+            if ( !value ) { return null }
 
-            if ( !value ) {
-                return null
-            } else {
-                return (
-                    <li key={ index } className="list-item">
-                        { value }
-                    </li>
-                )
-            }
+            const uuid = value.uuid || index
+            return (
+                <li key={ uuid } className="list-item mb-3">
+                    { this.renderValue( value ) }
+                </li>
+            )
 
         } )
 
+    }
+
+    renderValue ( value ) {
+        return value
     }
 
 }
 
 LabeledList.propTypes = {
     values: PropTypes.array,
-    label:  PropTypes.string
+    label:  PropTypes.string,
+    style:  PropTypes.object
 }
 
 /**
@@ -72,11 +70,12 @@ LabeledList.defaultProps = {
     /**
      * {String} label - The label of the list
      */
-    label:  'Meta',
+    label:  '',
     /**
      * {Array<*>} values - The lsit values
      */
-    values: []
+    values: [],
+    style:  { listStyleType: 'none' }
 }
 
 module.exports = LabeledList

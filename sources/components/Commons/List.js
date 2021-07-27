@@ -19,9 +19,9 @@ class List extends React.Component {
         if ( this.props.values.length === 0 ) { return null }
 
         return (
-            <div className="example-list">
+            <div className="labeled-list">
                 <h6 className="label">{ this.props.label }</h6>
-                <ul className="list" style={ { listStyleType: 'none' } }>
+                <ul className="list" style={ this.props.style }>
                     { this._renderValues() }
                 </ul>
             </div>
@@ -41,7 +41,7 @@ class List extends React.Component {
 
             const uuid = value.uuid || index
             return (
-                <li className="mb-2" key={ uuid }>
+                <li key={ uuid } className="list-item mb-3">
                     { this.renderValue( value ) }
                 </li>
             )
@@ -57,13 +57,25 @@ class List extends React.Component {
 }
 
 List.propTypes = {
+    values: PropTypes.array,
     label:  PropTypes.string,
-    values: PropTypes.array
+    style:  PropTypes.object
 }
 
+/**
+ *
+ * @type {{values: Array<*>, label: string}}
+ */
 List.defaultProps = {
+    /**
+     * {String} label - The label of the list
+     */
     label:  '',
-    values: []
+    /**
+     * {Array<*>} values - The lsit values
+     */
+    values: [],
+    style:  { listStyleType: 'none' }
 }
 
 module.exports = List

@@ -460,7 +460,16 @@ class Parser {
 
         const authors = doclet.author || []
         const results = authors.map( author => {
-            return isLink( author ) ? this.parseLink( author ) : author
+
+            if ( isLink( author ) ) {
+                const result = this.parseLink( author )
+                return {
+                    name: result.label,
+                    url:  result.url
+                }
+            } else {
+                return author
+            }
         } )
 
         delete doclet.author

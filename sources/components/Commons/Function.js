@@ -2,7 +2,7 @@ const React             = require( 'react' )
 const PropTypes         = require( 'prop-types' )
 const Description       = require( './Description' )
 const Parameters        = require( './Parameters' )
-const Example           = require( './Example' )
+const ExampleList       = require( './ExampleList' )
 const FunctionSignature = require( './FunctionSignature' )
 const AuthorsList       = require( '../Metas/AuthorsList' )
 const ExceptionsList    = require( '../Metas/ExceptionsList' )
@@ -29,8 +29,6 @@ class Function extends React.Component {
      */
     render () {
 
-        const _example = ( this.props.examples.length > 0 ) ? this.props.examples[ 0 ] : {}
-
         return (
             <div id={ this.props.uuid } className="function">
                 <FunctionSignature
@@ -47,7 +45,7 @@ class Function extends React.Component {
                 ></FunctionSignature>
                 <Description description={ this.props.description }></Description>
                 <Parameters values={ this.props.parameters }></Parameters>
-                <Example { ..._example }></Example>
+                <ExampleList values={ this.props.examples }></ExampleList>
 
                 <AuthorsList authors={ this.props.authors }></AuthorsList>
                 <ExceptionsList exceptions={ this.props.exceptions }></ExceptionsList>

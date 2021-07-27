@@ -66,8 +66,8 @@ class Page extends React.Component {
                             <span className="copyright">{ this.props.copyright }</span>
                         </MainFooter>
                     </div>
-                    <script type="text/javascript" src="scripts/itee-doc.js" />
                     { this._renderScripts() }
+                    <script type="text/javascript" src="scripts/itee-doc.js" />
                 </body>
             </html>
         )

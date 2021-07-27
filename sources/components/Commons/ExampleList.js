@@ -1,20 +1,18 @@
-const React    = require( 'react' )
-const Category = require( './Category' )
-const Example  = require( './Example' )
+const React   = require( 'react' )
+const List    = require( './List' )
+const Example = require( './Example' )
 
 /**
  * @class
- * @classdesc The Constants component allow to display preformated constant in Card style
+ * @classdesc The ExampleList component allow to display preformated code example in list style
  * @augments React.Component
  * @author [Tristan Valcke]{@link https://github.com/Itee}
  * @license [BSD-3-Clause]{@link https://opensource.org/licenses/BSD-3-Clause}
  */
-class ExampleList extends Category {
-
+class ExampleList extends List {
     renderValue ( value ) {
         return ( <Example { ...value }></Example> )
     }
-
 }
 
 module.exports = ExampleList

@@ -1,5 +1,4 @@
 const React       = require( 'react' )
-const PropTypes   = require( 'prop-types' )
 const LabeledList = require( '../Commons/LabeledList' )
 
 /**
@@ -9,66 +8,44 @@ const LabeledList = require( '../Commons/LabeledList' )
  * @author [Tristan Valcke]{@link https://github.com/Itee}
  * @license [BSD-3-Clause]{@link https://opensource.org/licenses/BSD-3-Clause}
  */
-class ExceptionsList extends React.Component {
+class ExceptionsList extends LabeledList {
 
-    /**
-     * The main component render method
-     *
-     * @returns {JSX.Element}
-     */
-    render () {
+    renderLabel ( label, numberOfValues ) {
+        const render = super.renderLabel( label, numberOfValues )
+        if ( render ) { return render }
 
-        return <LabeledList className="exceptions-list" label={ this._computeLabel() } values={ this._computeValues() }></LabeledList>
+        return ( numberOfValues > 1 ) ? 'Exceptions:' : 'Exception:'
+    }
+
+    renderValue ( value ) {
+
+        const url   = value.url
+        const label = value.label
+
+        let link
+
+        if ( !url && !label ) {
+
+            link = null
+
+        } else if ( !url && label ) {
+
+            link = label
+
+        } else if ( url && !label ) {
+
+            link = <a href={ url } target="_blank" rel="noreferrer">{ url }</a>
+
+        } else {
+
+            link = <a href={ url } target="_blank" rel="noreferrer">{ label }</a>
+
+        }
+
+        return link
 
     }
 
-    _computeLabel () {
-
-        return ( this.props.values.length > 1 ) ? 'Exceptions:' : 'Exception:'
-
-    }
-
-    _computeValues () {
-
-        return this.props.values.map( exception => {
-
-            const url   = exception.url
-            const label = exception.label
-
-            let licenseLink
-
-            if ( !url && !label ) {
-
-                licenseLink = null
-
-            } else if ( !url && label ) {
-
-                licenseLink = label
-
-            } else if ( url && !label ) {
-
-                licenseLink = <a href={ url } target="_blank" rel="noreferrer">{ url }</a>
-
-            } else {
-
-                licenseLink = <a href={ url } target="_blank" rel="noreferrer">{ label }</a>
-
-            }
-
-            return licenseLink
-
-        } )
-
-    }
-
-}
-
-ExceptionsList.propTypes = {
-    values: PropTypes.array
-}
-
-ExceptionsList.defaultProps = {
-    values: []
 }
 
 module.exports = ExceptionsList

@@ -1,5 +1,4 @@
 const React       = require( 'react' )
-const PropTypes   = require( 'prop-types' )
 const LabeledList = require( '../Commons/LabeledList' )
 
 /**
@@ -9,51 +8,29 @@ const LabeledList = require( '../Commons/LabeledList' )
  * @author [Tristan Valcke]{@link https://github.com/Itee}
  * @license [BSD-3-Clause]{@link https://opensource.org/licenses/BSD-3-Clause}
  */
-class SourcesList extends React.Component {
+class SourcesList extends LabeledList {
 
-    /**
-     * The main component render method
-     *
-     * @returns {JSX.Element}
-     */
-    render () {
+    renderLabel ( label, numberOfValues ) {
+        const render = super.renderLabel( label, numberOfValues )
+        if ( render ) { return render }
 
-        return <LabeledList className="sources-list" label={ this._computeLabel() } values={ this._computeValues() }></LabeledList>
+        return ( numberOfValues > 1 ) ? 'Sources:' : 'Source:'
+    }
+
+    renderValue ( value ) {
+
+        const sourcePath               = `${ value.path }\\${ value.filename }`
+        const sourcePathWithLineNumber = `${ sourcePath }#line_${ value.lineNumber }`
+        const sourceLineNumberLabel    = `line n°${ value.lineNumber }`
+
+        return (
+            <span key={ sourcePath }>
+                <a href={ sourcePath }>{ sourcePath }</a>&#44;&nbsp;<a href={ sourcePathWithLineNumber }>{ sourceLineNumberLabel }</a>
+            </span>
+        )
 
     }
 
-    _computeLabel () {
-
-        return ( this.props.values.length > 1 ) ? 'Sources:' : 'Source:'
-
-    }
-
-    _computeValues () {
-
-        return this.props.values.map( source => {
-
-            const sourcePath               = `${ source.path }\\${ source.filename }`
-            const sourcePathWithLineNumber = `${ sourcePath }#line_${ source.lineNumber }`
-            const sourceLineNumberLabel    = `line n°${ source.lineNumber }`
-
-            return (
-                <span key={ sourcePath }>
-                    <a href={ sourcePath }>{ sourcePath }</a>&#44;&nbsp;<a href={ sourcePathWithLineNumber }>{ sourceLineNumberLabel }</a>
-                </span>
-            )
-
-        } )
-
-    }
-
-}
-
-SourcesList.propTypes = {
-    values: PropTypes.array
-}
-
-SourcesList.defaultProps = {
-    values: []
 }
 
 module.exports = SourcesList

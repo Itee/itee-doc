@@ -1,5 +1,4 @@
 const React        = require( 'react' )
-const PropTypes    = require( 'prop-types' )
 const LabeledList  = require( '../Commons/LabeledList' )
 const { isString } = require( '../../scripts/utils' )
 
@@ -10,59 +9,37 @@ const { isString } = require( '../../scripts/utils' )
  * @author [Tristan Valcke]{@link https://github.com/Itee}
  * @license [BSD-3-Clause]{@link https://opensource.org/licenses/BSD-3-Clause}
  */
-class ReturnsList extends React.Component {
+class ReturnsList extends LabeledList {
 
-    /**
-     * The main component render method
-     *
-     * @returns {JSX.Element}
-     */
-    render () {
+    renderLabel ( label, numberOfValues ) {
+        const render = super.renderLabel( label, numberOfValues )
+        if ( render ) { return render }
 
-        return <LabeledList className="returns-list" label={ this._computeLabel() } values={ this._computeValues() }></LabeledList>
+        return ( numberOfValues > 1 ) ? 'Returns:' : 'Return:'
+    }
+
+    renderValue ( value ) {
+
+        let renderedValue
+
+        if ( isString( value ) ) {
+
+            renderedValue = value
+
+        } else if ( value.link ) {
+
+            renderedValue = <a href={ value.link } target="_blank" rel="noreferrer">{ value.label }</a>
+
+        } else {
+
+            renderedValue = `Unmanaged return value: ${ value }`
+
+        }
+
+        return renderedValue
 
     }
 
-    _computeLabel () {
-
-        return ( this.props.values.length > 1 ) ? 'Returns:' : 'Return:'
-
-    }
-
-    _computeValues () {
-
-        return this.props.values.map( return_ => {
-
-            let renderedValue
-
-            if ( isString( return_ ) ) {
-
-                renderedValue = return_
-
-            } else if ( return_.link ) {
-
-                renderedValue = <a href={ return_.link } target="_blank" rel="noreferrer">{ return_.label }</a>
-
-            } else {
-
-                renderedValue = `Unmanaged return value: ${ return_ }`
-
-            }
-
-            return renderedValue
-
-        } )
-
-    }
-
-}
-
-ReturnsList.propTypes = {
-    values: PropTypes.array
-}
-
-ReturnsList.defaultProps = {
-    values: []
 }
 
 module.exports = ReturnsList

@@ -1,5 +1,4 @@
 const React       = require( 'react' )
-const PropTypes   = require( 'prop-types' )
 const LabeledList = require( '../Commons/LabeledList' )
 
 /**
@@ -9,38 +8,17 @@ const LabeledList = require( '../Commons/LabeledList' )
  * @author [Tristan Valcke]{@link https://github.com/Itee}
  * @license [BSD-3-Clause]{@link https://opensource.org/licenses/BSD-3-Clause}
  */
-class SeeList extends React.Component {
+class SeeList extends LabeledList {
 
-    /**
-     * The main component render method
-     *
-     * @returns {JSX.Element}
-     */
-    render () {
-
-        return <LabeledList className="see-list" label="See:" values={ this._computeValues() }></LabeledList>
-
+    // eslint-disable-next-line
+    renderLabel ( label, numberOfValues ) {
+        return 'See:'
     }
 
-    _computeValues () {
-
-        return this.props.values.map( see => {
-
-            return <a key={ see.link } href={ see.link } target="_blank" rel="noreferrer">{ see.description }</a>
-
-        } )
-
+    renderValue ( value ) {
+        return <a key={ value.link } href={ value.link } target="_blank" rel="noreferrer">{ value.description }</a>
     }
 
 }
-
-SeeList.propTypes = {
-    values: PropTypes.array
-}
-
-SeeList.defaultProps = {
-    values: []
-}
-
 
 module.exports = SeeList

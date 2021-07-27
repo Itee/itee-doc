@@ -1,5 +1,4 @@
 const React       = require( 'react' )
-const PropTypes   = require( 'prop-types' )
 const LabeledList = require( '../Commons/LabeledList' )
 
 /**
@@ -9,66 +8,43 @@ const LabeledList = require( '../Commons/LabeledList' )
  * @author [Tristan Valcke]{@link https://github.com/Itee}
  * @license [BSD-3-Clause]{@link https://opensource.org/licenses/BSD-3-Clause}
  */
-class LicensesList extends React.Component {
+class LicensesList extends LabeledList {
 
-    /**
-     * The main component render method
-     *
-     * @returns {JSX.Element}
-     */
-    render () {
+    renderLabel ( label, numberOfValues ) {
+        const render = super.renderLabel( label, numberOfValues )
+        if ( render ) { return render }
 
-        return <LabeledList className="licenses-list" label={ this._computeLabel() } values={ this._computeValues() }></LabeledList>
-
+        return ( numberOfValues > 1 ) ? 'Licenses:' : 'License:'
     }
 
-    _computeLabel () {
+    renderValue ( value ) {
 
-        return ( this.props.values.length > 1 ) ? 'Licenses:' : 'License:'
+        const url   = value.url
+        const label = value.label
 
-    }
+        let link
 
-    _computeValues () {
+        if ( !url && !label ) {
 
-        return this.props.values.map( license => {
+            link = null
 
-            const url   = license.url
-            const label = license.label
+        } else if ( !url && label ) {
 
-            let licenseLink
+            link = label
 
-            if ( !url && !label ) {
+        } else if ( url && !label ) {
 
-                licenseLink = null
+            link = <a href={ url } target="_blank" rel="noreferrer">{ url }</a>
 
-            } else if ( !url && label ) {
+        } else {
 
-                licenseLink = label
+            link = <a href={ url } target="_blank" rel="noreferrer">{ label }</a>
 
-            } else if ( url && !label ) {
+        }
 
-                licenseLink = <a href={ url } target="_blank" rel="noreferrer">{ url }</a>
-
-            } else {
-
-                licenseLink = <a href={ url } target="_blank" rel="noreferrer">{ label }</a>
-
-            }
-
-            return licenseLink
-
-        } )
+        return link
 
     }
-
-}
-
-LicensesList.propTypes = {
-    values: PropTypes.array
-}
-
-LicensesList.defaultProps = {
-    values: []
 }
 
 module.exports = LicensesList

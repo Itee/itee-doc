@@ -455,7 +455,7 @@ gulp.task( 'build-style', () => {
             './node_modules/@highlightjs/cdn-assets/styles/base16/woodland.min.css',
             './node_modules/@highlightjs/cdn-assets/styles/base16/xcode-dusk.min.css',
             './node_modules/@highlightjs/cdn-assets/styles/base16/zenburn.min.css'
-        ][ 10 ] // 1 ok
+        ][ 10 ] // 1, 10 ok
     ]
 
     // Todo: need to be params

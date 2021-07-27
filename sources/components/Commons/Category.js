@@ -18,7 +18,6 @@ class Category extends React.Component {
      * @returns {JSX.Element|null}
      */
     render () {
-        if ( !this.props.values ) { return null }
         if ( this.props.values.length === 0 ) { return null }
 
         return (

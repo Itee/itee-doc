@@ -1,6 +1,6 @@
 const React    = require( 'react' )
-const Category = require( './Category' )
-const Property = require( './Property' )
+const Category = require( '../Commons/Category' )
+const Property = require( '../Commons/Property' )
 
 /**
  * @class

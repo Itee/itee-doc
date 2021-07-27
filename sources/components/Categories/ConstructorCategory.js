@@ -1,6 +1,6 @@
 const React    = require( 'react' )
-const Category = require( './Category' )
-const Function = require( './Function' )
+const Category = require( '../Commons/Category' )
+const Constructor = require( '../Class/Constructor' )
 
 
 /**
@@ -10,12 +10,12 @@ const Function = require( './Function' )
  * @author [Tristan Valcke]{@link https://github.com/Itee}
  * @license [BSD-3-Clause]{@link https://opensource.org/licenses/BSD-3-Clause}
  */
-class FunctionsCategory extends Category {
+class ConstructorCategory extends Category {
 
     renderValue ( value ) {
-        return ( <Function { ...value }></Function> )
+        return ( <Constructor { ...value }></Constructor> )
     }
 
 }
 
-module.exports = FunctionsCategory
+module.exports = ConstructorCategory

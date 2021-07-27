@@ -1,6 +1,6 @@
-const React   = require( 'react' )
-const List    = require( './List' )
-const Example = require( './Example' )
+const React       = require( 'react' )
+const LabeledList = require( './LabeledList' )
+const Example     = require( './Example' )
 
 /**
  * @class
@@ -9,7 +9,7 @@ const Example = require( './Example' )
  * @author [Tristan Valcke]{@link https://github.com/Itee}
  * @license [BSD-3-Clause]{@link https://opensource.org/licenses/BSD-3-Clause}
  */
-class ExampleList extends List {
+class ExampleList extends LabeledList {
     renderValue ( value ) {
         return ( <Example { ...value }></Example> )
     }

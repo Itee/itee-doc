@@ -1,6 +1,6 @@
 const React       = require( 'react' )
-const LabeledList = require( './LabeledList' )
-const Example     = require( './Example' )
+const LabeledList = require( '../Commons/LabeledList' )
+const Example     = require( '../Commons/Example' )
 
 /**
  * @class

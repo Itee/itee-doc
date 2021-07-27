@@ -1,5 +1,5 @@
 const React       = require( 'react' )
-const PropTypes   = require( 'prop-types' )
+const Author      = require( '../Commons/Author' )
 const LabeledList = require( '../Commons/LabeledList' )
 
 /**
@@ -9,59 +9,19 @@ const LabeledList = require( '../Commons/LabeledList' )
  * @author [Tristan Valcke]{@link https://github.com/Itee}
  * @license [BSD-3-Clause]{@link https://opensource.org/licenses/BSD-3-Clause}
  */
-class AuthorsList extends React.Component {
+class AuthorsList extends LabeledList {
 
-    /**
-     * The main component render method
-     *
-     * @returns {JSX.Element}
-     */
-    render () {
+    renderLabel ( label, numberOfValues ) {
+        const render = super.renderLabel( label, numberOfValues )
+        if ( render ) { return render }
 
-        return <LabeledList className="authors-list" label={ this._computeLabel() } values={ this._computeValues() }></LabeledList>
-
+        return ( numberOfValues > 1 ) ? 'Authors:' : 'Author:'
     }
 
-    _computeLabel () {
-
-        return ( this.props.values.length > 1 ) ? 'Authors:' : 'Author:'
-
+    renderValue ( value ) {
+        return <Author { ...value }></Author>
     }
 
-    _computeValues () {
-
-        return this.props.values.map( author => {
-
-            const url          = author.url
-            const label        = author.label
-            const labelWithUrl = `${ label } <${ url }>`
-
-            let licenseLink
-
-            if ( !url && !label ) {
-
-                licenseLink = null
-
-            } else {
-
-                licenseLink = <a className="author-link" href={ url } target="_blank" rel="noreferrer">{ labelWithUrl }</a>
-
-            }
-
-            return licenseLink
-
-        } )
-
-    }
-
-}
-
-AuthorsList.propTypes = {
-    values: PropTypes.array
-}
-
-AuthorsList.defaultProps = {
-    values: []
 }
 
 module.exports = AuthorsList

@@ -1,14 +1,14 @@
 const React          = require( 'react' )
 const PropTypes      = require( 'prop-types' )
 const Description    = require( './Description' )
-const AuthorsList    = require( '../Metas/AuthorsList' )
-const ExceptionsList = require( '../Metas/ExceptionsList' )
-const InheritList    = require( '../Metas/InheritList' )
-const LicensesList   = require( '../Metas/LicensesList' )
-const RequiresList   = require( '../Metas/RequiresList' )
-const ReturnsList    = require( '../Metas/ReturnsList' )
-const SeeList        = require( '../Metas/SeeList' )
-const SourcesList    = require( '../Metas/SourcesList' )
+const AuthorsList    = require( '../Lists/AuthorsList' )
+const ExceptionsList = require( '../Lists/ExceptionsList' )
+const InheritList    = require( '../Lists/InheritList' )
+const LicensesList   = require( '../Lists/LicensesList' )
+const RequiresList   = require( '../Lists/RequiresList' )
+const ReturnsList    = require( '../Lists/ReturnsList' )
+const SeeList        = require( '../Lists/SeeList' )
+const SourcesList    = require( '../Lists/SourcesList' )
 
 /**
  * @class

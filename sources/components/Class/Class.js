@@ -35,16 +35,17 @@ class Class extends React.Component {
             <Card id={ this.props.uuid } className="class m-3">
 
                 <Card.Header as="h2">
-                    <span className="class-title">Class:</span> <span className="class-name">{ this.props.name }</span>
+                    <span className="class-title">Class:</span>
+                    <span className="class-name">{ this.props.name }</span>
                 </Card.Header>
 
                 <Card.Body>
-                    <Description className="class-description" description={ this.props.classDescription }></Description>
-                    <ExampleCategory className="class-examples" name="Examples" values={ this.props.examples }></ExampleCategory>
-                    <ConstructorCategory className="class-constructor" name="Constructor" values={ [ this.props ] }></ConstructorCategory>
-                    <PropertiesCategory className="class-constants" name="Constants" values={ this.props.constants }></PropertiesCategory>
-                    <PropertiesCategory className="class-members" name="Members" values={ this.props.members }></PropertiesCategory>
-                    <FunctionsCategory className="class-methods" name="Methods" values={ this.props.methods }></FunctionsCategory>
+                    <Description id="description" className="class-description" description={ this.props.classDescription }></Description>
+                    <ExampleCategory id="examples" className="class-examples" name="Examples" values={ this.props.examples }></ExampleCategory>
+                    <ConstructorCategory id="constructor" className="class-constructor" name="Constructor" values={ [ this.props ] }></ConstructorCategory>
+                    <PropertiesCategory id="constants" className="class-constants" name="Constants" values={ this.props.constants }></PropertiesCategory>
+                    <PropertiesCategory id="members" className="class-members" name="Members" values={ this.props.members }></PropertiesCategory>
+                    <FunctionsCategory id="methods" className="class-methods" name="Methods" values={ this.props.methods }></FunctionsCategory>
                 </Card.Body>
 
                 <Card.Footer>

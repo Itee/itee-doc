@@ -21,7 +21,7 @@ class Category extends React.Component {
         if ( this.props.values.length === 0 ) { return null }
 
         return (
-            <Card className="mb-3">
+            <Card id={ this.props.id } className="mb-3">
                 <Card.Header as="h3" className="category-header">
                     { this.props.name }
                 </Card.Header>
@@ -83,6 +83,7 @@ class Category extends React.Component {
 }
 
 Category.propTypes = {
+    id:     PropTypes.string,
     name:   PropTypes.string,
     values: PropTypes.array
 }

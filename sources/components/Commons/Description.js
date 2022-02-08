@@ -22,7 +22,7 @@ class Description extends React.Component {
         }
 
         return (
-            <p className="description">{ this.props.description }</p>
+            <p id={ this.props.id } className={ `description ${ this.props.className }` }>{ this.props.description }</p>
         )
 
     }
@@ -30,6 +30,8 @@ class Description extends React.Component {
 }
 
 Description.propTypes = {
+    id:          PropTypes.string,
+    className:   PropTypes.string,
     description: PropTypes.string
 }
 

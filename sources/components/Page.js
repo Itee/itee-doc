@@ -59,7 +59,7 @@ class Page extends React.Component {
                 <body className="h-100 overflow-hidden">
                     <div className="d-flex flex-column h-100 overflow-hidden">
                         <MainNavbar { ...this.props.navbar }></MainNavbar>
-                        <MainContent { ...this.props.content }>
+                        <MainContent path={ this.props.filePath }>
                             { this.props.children }
                         </MainContent>
                         <MainFooter { ...this.props.footer }>
@@ -78,6 +78,7 @@ class Page extends React.Component {
 
 Page.propTypes = {
     base:        PropTypes.string,
+    filePath:    PropTypes.string,
     stylesheets: PropTypes.array,
     scripts:     PropTypes.array,
     title:       PropTypes.string,
@@ -89,6 +90,7 @@ Page.propTypes = {
 
 Page.defaultProps = {
     base:        './',
+    filePath:    '',
     stylesheets: [],
     scripts:     []
 }

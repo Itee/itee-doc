@@ -42,7 +42,7 @@ const gulp         = require( 'gulp' )
 const jsdoc        = require( 'gulp-jsdoc3' )
 const eslint       = require( 'gulp-eslint' )
 const del          = require( 'del' )
-const sass         = require( 'gulp-sass' )
+const sass         = require( 'gulp-sass' )( require( 'sass' ) )
 const cleanCss     = require( 'gulp-clean-css' )
 const concat       = require( 'gulp-concat' )
 const terser       = require( 'gulp-terser' )
@@ -104,9 +104,15 @@ gulp.task( 'help', ( done ) => {
  * @global
  * @description Will apply some patch/replacements in dependencies
  */
-gulp.task( 'patch', ( done ) => {
+gulp.task( 'patch', () => {
 
-    done()
+    const filesToPatch = [
+        './node_modules/react-bootstrap/cjs/Col.js'
+    ]
+
+    return gulp.src( filesToPatch, { base: './' } )
+               .pipe( insert.append( 'module.exports = exports.default;' ) )
+               .pipe( gulp.dest( '.' ) )
 
 } )
 
@@ -464,7 +470,7 @@ gulp.task( 'build-style', () => {
     const fileNameMinimified = 'style.min.css'
 
     return gulp.src( styleFiles )
-               .pipe( sass( require( 'sass' ) ) )
+               .pipe( sass() )
                .pipe( concat( fileName ) )
                .pipe( gulp.dest( outputFolder ) )
                .pipe( concat( fileNameMinimified ) )
@@ -482,9 +488,9 @@ gulp.task( 'copy-publish', () => {
 
 gulp.task( 'bundle-scripts', () => {
 
-    const scriptsToCopy     = [
+    const scriptsToBundle   = [
         './node_modules/jquery/dist/jquery.js',
-        './node_modules/bootstrap/dist/js/bootstrap.js',
+        './node_modules/bootstrap/dist/js/bootstrap.bundle.js',
         './node_modules/@highlightjs/cdn-assets/highlight.js',
         './sources/scripts/client.js'
     ]
@@ -492,7 +498,7 @@ gulp.task( 'bundle-scripts', () => {
     const outputMinFileName = 'itee-doc.min.js'
     const outputDirectory   = './builds/statics/scripts'
 
-    return gulp.src( scriptsToCopy )
+    return gulp.src( scriptsToBundle )
                .pipe( concat( outputFileName ) )
                .pipe( insert.append( 'hljs.highlightAll();' ) )
                .pipe( gulp.dest( outputDirectory ) )

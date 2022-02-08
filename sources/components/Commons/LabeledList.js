@@ -1,5 +1,6 @@
-const React     = require( 'react' )
-const PropTypes = require( 'prop-types' )
+const { v4: uuidv4 } = require( 'uuid' )
+const React          = require( 'react' )
+const PropTypes      = require( 'prop-types' )
 
 /**
  * @class
@@ -19,7 +20,7 @@ class LabeledList extends React.Component {
         if ( this.props.values.length === 0 ) { return null }
 
         return (
-            <div className="labeled-list">
+            <div id={ this.props.uuid } className="labeled-list">
                 <h6 className="label">{ this.renderLabel( this.props.label, this.props.values.length ) }</h6>
                 <ul className="list" style={ this.props.style }>
                     { this._renderValues() }
@@ -64,9 +65,10 @@ class LabeledList extends React.Component {
 }
 
 LabeledList.propTypes = {
-    values: PropTypes.array,
     label:  PropTypes.string,
-    style:  PropTypes.object
+    style:  PropTypes.object,
+    uuid:   PropTypes.string,
+    values: PropTypes.array
 }
 
 /**
@@ -74,15 +76,10 @@ LabeledList.propTypes = {
  * @type {{values: Array<*>, label: string}}
  */
 LabeledList.defaultProps = {
-    /**
-     * {String} label - The label of the list
-     */
     label:  '',
-    /**
-     * {Array<*>} values - The lsit values
-     */
-    values: [],
-    style:  { listStyleType: 'none' }
+    style:  { listStyleType: 'none' },
+    uuid:   uuidv4(),
+    values: []
 }
 
 module.exports = LabeledList

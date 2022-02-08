@@ -1,6 +1,5 @@
 const { v4: uuidv4 } = require( 'uuid' )
 const React          = require( 'react' )
-const Container      = require( 'react-bootstrap/Container' )
 const Col            = require( 'react-bootstrap/Col' )
 const Row            = require( 'react-bootstrap/Row' )
 const Nav            = require( 'react-bootstrap/Nav' )
@@ -36,7 +35,7 @@ class MainContent extends React.Component {
         //        const content      = children.find( child => child.type === Content )
 
         return (
-            <Row className="flex-fill m-0 mh-0">
+            <Row id={ this.props.uuid } className="flex-fill m-0 mh-0">
                 <Col md={ 2 } className="mh-100 overflow-auto p-0">
                     {/*{ menu ? menu.props.items : null }*/ }
                     { this._renderSideMenu() }
@@ -63,23 +62,24 @@ class MainContent extends React.Component {
         if ( child.props.kind === 'class' || child.props.kind === 'module' || child.props.kind === 'mixin' ) {
             navs.push(
                 <Nav.Item>
-                    <Nav.Link href={ `${ this.props.path }#constructor` }>Constructor</Nav.Link>
+                    <Nav.Link href={ `${ this.props.path }#${ child.props.uuid }-ctor` }>Constructor</Nav.Link>
+                    {/*<Nav.Link href={ `${ this.props.path }#constructor` }>Constructor</Nav.Link>*/}
                 </Nav.Item>
             )
         }
-        if ( child.props.constants ) {
+        if ( child.props.constants && child.props.constants.length > 0 ) {
             navs.push( this._renderNavItems( 'Constants', child.props.constants ) )
             //            navs.push( ...this._renderNavItems( child.props.constants ) )
         }
-        if ( child.props.members ) {
+        if ( child.props.members && child.props.members.length > 0 ) {
             navs.push( this._renderNavItems( 'Members', child.props.members ) )
             //            navs.push( ...this._renderNavItems( child.props.members ) )
         }
-        if ( child.props.methods ) {
+        if ( child.props.methods && child.props.methods.length > 0 ) {
             navs.push( this._renderNavItems( 'Methods', child.props.methods ) )
             //            navs.push( ...this._renderNavItems( child.props.methods ) )
         }
-        if ( child.props.examples ) {
+        if ( child.props.examples && child.props.examples.length > 0 ) {
             navs.push(
                 <Nav.Item>
                     <Nav.Link href={ `${ this.props.path }#examples` }>Examples</Nav.Link>
@@ -95,14 +95,10 @@ class MainContent extends React.Component {
                 flexDirection:  'column',
                 alignContent:   'flex-start'
             } }>
-                {/*<Container>*/ }
-                {/*<Container style={ { flexDirection: 'column' } }>*/ }
-
                 <Navbar.Brand href={ `${ this.props.path }#${ child.props.uuid }` }>{ child.props.name }</Navbar.Brand>
                 <Nav>
                     { navs }
                 </Nav>
-                {/*</Container>*/ }
             </Navbar>
         )
 
@@ -129,23 +125,17 @@ class MainContent extends React.Component {
                 </div>
             </div>
         )
-
-        /*
-         const navItems = []
-         for ( const item of items ) {
-         navItems.push(
-         <Nav.Item>
-         <Nav.Link href={ `${ this.props.path }#${ item.uuid }` }>{ item.name }</Nav.Link>
-         </Nav.Item>
-         )
-         }
-         return navItems
-         */
     }
 }
 
 MainContent.propTypes = {
-    path: PropTypes.string
+    path: PropTypes.string,
+    uuid: PropTypes.string
+}
+
+MainContent.defaultProps = {
+    path: '',
+    uuid: uuidv4()
 }
 
 MainContent.Menu    = Menu

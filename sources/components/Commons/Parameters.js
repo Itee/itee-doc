@@ -1,6 +1,7 @@
-const React     = require( 'react' )
-const PropTypes = require( 'prop-types' )
-const Table     = require( 'react-bootstrap/Table' )
+const { v4: uuidv4 } = require( 'uuid' )
+const React          = require( 'react' )
+const PropTypes      = require( 'prop-types' )
+const Table          = require( 'react-bootstrap/Table' )
 
 /**
  * @class
@@ -66,7 +67,7 @@ class Parameters extends React.Component {
         } )
 
         return (
-            <div className="parameters">
+            <div id={ this.props.uuid } className="parameters">
                 <h6 className="label">Parameters:</h6>
                 <ul className="list" style={ { listStyleType: 'none' } }>
                     <li>
@@ -163,10 +164,12 @@ class Parameters extends React.Component {
 }
 
 Parameters.propTypes = {
+    uuid:   PropTypes.string,
     values: PropTypes.array
 }
 
 Parameters.defaultProps = {
+    uuid:   uuidv4(),
     values: []
 }
 

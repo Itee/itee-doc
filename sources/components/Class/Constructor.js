@@ -1,3 +1,4 @@
+const { v4: uuidv4 }    = require( 'uuid' )
 const React             = require( 'react' )
 const PropTypes         = require( 'prop-types' )
 const Description       = require( '../Commons/Description' )
@@ -75,23 +76,45 @@ class Constructor extends React.Component {
 Constructor.propTypes = {
     access:      PropTypes.string,
     async:       PropTypes.bool,
-    virtual:     PropTypes.bool,
-    uuid:        PropTypes.string,
-    parameters:  PropTypes.array,
-    sources:     PropTypes.array,
-    inherit:     PropTypes.array,
-    name:        PropTypes.string,
     authors:     PropTypes.array,
     description: PropTypes.string,
     exceptions:  PropTypes.array,
     generator:   PropTypes.bool,
+    inherit:     PropTypes.array,
     inner:       PropTypes.bool,
     kind:        PropTypes.string,
     licenses:    PropTypes.array,
+    name:        PropTypes.string,
+    parameters:  PropTypes.array,
     readOnly:    PropTypes.bool,
     requires:    PropTypes.array,
     returns:     PropTypes.array,
-    sees:        PropTypes.array
+    sees:        PropTypes.array,
+    sources:     PropTypes.array,
+    uuid:        PropTypes.string,
+    virtual:     PropTypes.bool
+}
+
+Constructor.defaultProps = {
+    access:      '',
+    async:       false,
+    authors:     [],
+    description: '',
+    exceptions:  [],
+    generator:   false,
+    inherit:     [],
+    inner:       false,
+    kind:        '',
+    licenses:    [],
+    name:        '',
+    parameters:  [],
+    readOnly:    false,
+    requires:    [],
+    returns:     [],
+    sees:        [],
+    sources:     [],
+    uuid:        uuidv4(),
+    virtual:     false
 }
 
 module.exports = Constructor

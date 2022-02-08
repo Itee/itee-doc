@@ -1,7 +1,8 @@
-const React     = require( 'react' )
-const PropTypes = require( 'prop-types' )
-const Card      = require( 'react-bootstrap/Card' )
-const ListGroup = require( 'react-bootstrap/ListGroup' )
+const { v4: uuidv4 } = require( 'uuid' )
+const React          = require( 'react' )
+const PropTypes      = require( 'prop-types' )
+const Card           = require( 'react-bootstrap/Card' )
+const ListGroup      = require( 'react-bootstrap/ListGroup' )
 
 /**
  * @class
@@ -21,7 +22,7 @@ class Category extends React.Component {
         if ( this.props.values.length === 0 ) { return null }
 
         return (
-            <Card id={ this.props.id } className="mb-3">
+            <Card id={ this.props.uuid } className="mb-3">
                 <Card.Header as="h3" className="category-header">
                     { this.props.name }
                 </Card.Header>
@@ -83,13 +84,14 @@ class Category extends React.Component {
 }
 
 Category.propTypes = {
-    id:     PropTypes.string,
     name:   PropTypes.string,
+    uuid:   PropTypes.string,
     values: PropTypes.array
 }
 
 Category.defaultProps = {
     name:   '',
+    uuid:   uuidv4(),
     values: []
 }
 

@@ -1,3 +1,4 @@
+const { v4: uuidv4 } = require( 'uuid' )
 const React          = require( 'react' )
 const PropTypes      = require( 'prop-types' )
 const Description    = require( './Description' )
@@ -62,25 +63,47 @@ class Property extends React.Component {
 }
 
 Property.propTypes = {
-    uuid:        PropTypes.string,
-    name:        PropTypes.string,
-    type:        PropTypes.array,
-    description: PropTypes.string,
+    access:      PropTypes.string,
+    async:       PropTypes.bool,
     authors:     PropTypes.array,
+    description: PropTypes.string,
     exceptions:  PropTypes.array,
+    generator:   PropTypes.bool,
     inherits:    PropTypes.array,
+    inner:       PropTypes.bool,
+    kind:        PropTypes.string,
     licenses:    PropTypes.array,
+    name:        PropTypes.string,
+    readOnly:    PropTypes.bool,
     requires:    PropTypes.array,
     returns:     PropTypes.array,
     sees:        PropTypes.array,
     sources:     PropTypes.array,
-    access:      PropTypes.string,
-    readOnly:    PropTypes.bool,
-    virtual:     PropTypes.bool,
-    kind:        PropTypes.string,
-    inner:       PropTypes.bool,
-    generator:   PropTypes.bool,
-    async:       PropTypes.bool
+    type:        PropTypes.array,
+    uuid:        PropTypes.string,
+    virtual:     PropTypes.bool
+}
+
+Property.defaultProps = {
+    access:      '',
+    async:       false,
+    authors:     [],
+    description: '',
+    exceptions:  [],
+    generator:   false,
+    inherits:    [],
+    inner:       false,
+    kind:        '',
+    licenses:    [],
+    name:        '',
+    readOnly:    false,
+    requires:    [],
+    returns:     [],
+    sees:        [],
+    sources:     [],
+    type:        [],
+    uuid:        uuidv4(),
+    virtual:     false
 }
 
 module.exports = Property

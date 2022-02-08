@@ -1,6 +1,7 @@
-const React     = require( 'react' )
-const PropTypes = require( 'prop-types' )
-const Navbar    = require( 'react-bootstrap/Navbar' )
+const { v4: uuidv4 } = require( 'uuid' )
+const React          = require( 'react' )
+const PropTypes      = require( 'prop-types' )
+const Navbar         = require( 'react-bootstrap/Navbar' )
 
 /**
  * @class
@@ -19,6 +20,7 @@ class MainFooter extends React.Component {
     render () {
         return (
             <Navbar
+                id={ this.props.uuid }
                 className="footer justify-content-center"
                 bg={ this.props.bg }
                 variant={ this.props.variant }
@@ -33,10 +35,19 @@ class MainFooter extends React.Component {
 }
 
 MainFooter.propTypes = {
-    variant: PropTypes.string,
     bg:      PropTypes.string,
+    fixed:   PropTypes.bool,
     sticky:  PropTypes.bool,
-    fixed:   PropTypes.bool
+    uuid:    PropTypes.string,
+    variant: PropTypes.string
+}
+
+MainFooter.defaultProps = {
+    bg:      '',
+    fixed:   false,
+    sticky:  false,
+    uuid:    uuidv4(),
+    variant: ''
 }
 
 module.exports = MainFooter

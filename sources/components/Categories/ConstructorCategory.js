@@ -1,5 +1,5 @@
-const React    = require( 'react' )
-const Category = require( '../Commons/Category' )
+const React       = require( 'react' )
+const Category    = require( '../Commons/Category' )
 const Constructor = require( '../Class/Constructor' )
 
 

@@ -1,5 +1,6 @@
-const React     = require( 'react' )
-const PropTypes = require( 'prop-types' )
+const { v4: uuidv4 } = require( 'uuid' )
+const React          = require( 'react' )
+const PropTypes      = require( 'prop-types' )
 
 /**
  * @class
@@ -17,12 +18,13 @@ class Description extends React.Component {
      */
     render () {
 
-        if ( !this.props.description ) {
+        const description = this.props.description
+        if ( !description ) {
             return null
         }
 
         return (
-            <p id={ this.props.id } className={ `description ${ this.props.className }` }>{ this.props.description }</p>
+            <p id={ this.props.uuid } className={ `description ${ this.props.className }` }>{ description }</p>
         )
 
     }
@@ -30,9 +32,15 @@ class Description extends React.Component {
 }
 
 Description.propTypes = {
-    id:          PropTypes.string,
     className:   PropTypes.string,
-    description: PropTypes.string
+    description: PropTypes.string,
+    uuid:        PropTypes.string
+}
+
+Description.defaultProps = {
+    className:   '',
+    description: '',
+    uuid:        uuidv4()
 }
 
 

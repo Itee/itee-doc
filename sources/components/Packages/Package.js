@@ -1,8 +1,9 @@
-const React       = require( 'react' )
-const PropTypes   = require( 'prop-types' )
-const Card        = require( 'react-bootstrap/Card' )
-const Description = require( '../Commons/Description' )
-const LabeledList = require( '../Commons/LabeledList' )
+const { v4: uuidv4 } = require( 'uuid' )
+const React          = require( 'react' )
+const PropTypes      = require( 'prop-types' )
+const Card           = require( 'react-bootstrap/Card' )
+const Description    = require( '../Commons/Description' )
+const LabeledList    = require( '../Commons/LabeledList' )
 
 /**
  * @class
@@ -43,10 +44,17 @@ class Package extends React.Component {
 }
 
 Package.propTypes = {
-    uuid:        PropTypes.string,
-    name:        PropTypes.string,
     description: PropTypes.string,
-    files:       PropTypes.array
+    files:       PropTypes.array,
+    name:        PropTypes.string,
+    uuid:        PropTypes.string
+}
+
+Package.defaultProps = {
+    description: '',
+    files:       [],
+    name:        '',
+    uuid:        uuidv4()
 }
 
 module.exports = Package

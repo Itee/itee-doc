@@ -1,5 +1,6 @@
-const React     = require( 'react' )
-const PropTypes = require( 'prop-types' )
+const { v4: uuidv4 } = require( 'uuid' )
+const React          = require( 'react' )
+const PropTypes      = require( 'prop-types' )
 
 /**
  * @class
@@ -18,7 +19,9 @@ class FunctionSignature extends React.Component {
     render () {
 
         return (
-            <h5 className="function-signature">{ this._renderFlags() } { this.props.name }{ this._renderParameters( this.props.parameters ) } { this._renderReturns( this.props.returns ) }</h5>
+            <h5 id={ this.props.uuid } className="function-signature">
+                { this._renderFlags() } { this.props.name }{ this._renderParameters( this.props.parameters ) } { this._renderReturns( this.props.returns ) }
+            </h5>
         )
 
     }
@@ -104,7 +107,22 @@ FunctionSignature.propTypes = {
     parameters: PropTypes.array,
     readOnly:   PropTypes.bool,
     returns:    PropTypes.array,
-    virtual:    PropTypes.bool,
+    uuid:       PropTypes.string,
+    virtual:    PropTypes.bool
+}
+
+FunctionSignature.defaultProps = {
+    access:     '',
+    async:      false,
+    generator:  false,
+    inner:      false,
+    kind:       '',
+    name:       '',
+    parameters: [],
+    readOnly:   false,
+    returns:    [],
+    uuid:       uuidv4(),
+    virtual:    false
 }
 
 module.exports = FunctionSignature

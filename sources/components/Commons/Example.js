@@ -1,5 +1,6 @@
-const React     = require( 'react' )
-const PropTypes = require( 'prop-types' )
+const { v4: uuidv4 } = require( 'uuid' )
+const React          = require( 'react' )
+const PropTypes      = require( 'prop-types' )
 
 /**
  * @class
@@ -23,14 +24,14 @@ class Example extends React.Component {
         }
 
         return (
-            <div className="example">
+            <div id={ this.props.uuid } className="example">
                 <div className="example-content">
                     <pre>
                         <code className={ this.props.lang }>
-                            { this.props.content }
+                            { content }
                         </code>
                     </pre>
-                    <button className="btn btn-outline-secondary btn-copy" data-code={ this.props.content }>Copy</button>
+                    <button className="btn btn-outline-secondary btn-copy" data-code={ content }>Copy</button>
                 </div>
             </div>
         )
@@ -40,13 +41,15 @@ class Example extends React.Component {
 }
 
 Example.propTypes = {
+    content: PropTypes.string,
     lang:    PropTypes.string,
-    content: PropTypes.string
+    uuid:    PropTypes.string
 }
 
 Example.defaultProps = {
+    content: '',
     lang:    '',
-    content: ''
+    uuid:    uuidv4()
 }
 
 module.exports = Example

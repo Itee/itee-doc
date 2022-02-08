@@ -1,3 +1,4 @@
+const { v4: uuidv4 }    = require( 'uuid' )
 const React             = require( 'react' )
 const PropTypes         = require( 'prop-types' )
 const Description       = require( './Description' )
@@ -85,7 +86,26 @@ Function.propTypes = {
 }
 
 Function.defaultProps = {
-    examples: []
+    access:      '',
+    async:       false,
+    authors:     [],
+    description: '',
+    examples:    [],
+    exceptions:  [],
+    generator:   false,
+    inherit:     [],
+    inner:       false,
+    kind:        '',
+    licenses:    [],
+    name:        '',
+    parameters:  [],
+    readOnly:    false,
+    requires:    [],
+    returns:     [],
+    sees:        [],
+    sources:     [],
+    uuid:        uuidv4(),
+    virtual:     false
 }
 
 module.exports = Function

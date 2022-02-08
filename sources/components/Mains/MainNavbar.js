@@ -22,10 +22,8 @@ class MainNavbar extends React.Component {
      */
     render () {
 
-        const uuid = this.props.id || uuidv4()
-
         return (
-            <Navbar id={ uuid } bg={ this.props.bg } variant={ this.props.variant }>
+            <Navbar id={ this.props.uuid } bg={ this.props.bg } variant={ this.props.variant }>
                 <Container fluid className="justify-content-start">
                     { this._renderNavbarItems( this.props.items ) }
                 </Container>
@@ -242,11 +240,18 @@ class MainNavbar extends React.Component {
 
 }
 
-MainNavbar.propTypes = {
-    id:      PropTypes.string,
+MainNavbar.propTypes    = {
     bg:      PropTypes.string,
-    variant: PropTypes.string,
-    items:   PropTypes.array
+    items:   PropTypes.array,
+    uuid:    PropTypes.string,
+    variant: PropTypes.string
+}
+
+MainNavbar.defaultProps = {
+    bg:      '',
+    items:   [],
+    uuid:    uuidv4(),
+    variant: ''
 }
 
 module.exports = MainNavbar

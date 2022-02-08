@@ -1,5 +1,6 @@
-const React       = require( 'react' )
-const PropTypes   = require( 'prop-types' )
+const { v4: uuidv4 } = require( 'uuid' )
+const React          = require( 'react' )
+const PropTypes      = require( 'prop-types' )
 
 /**
  * @class
@@ -17,8 +18,8 @@ class Author extends React.Component {
      */
     render () {
 
-        const name         = this.props.name
-        const url          = this.props.url
+        const name = this.props.name
+        const url  = this.props.url
         let result
 
         if ( !name && !url ) {
@@ -26,7 +27,7 @@ class Author extends React.Component {
         } else if ( !url ) {
             result = name
         } else if ( !name ) {
-            result = <a className="author-link" href={ url } target="_blank" rel="noreferrer">{ `Anonymous <${ url }>` }</a>
+            result = <a id={ this.props.uuid } className="author-link" href={ url } target="_blank" rel="noreferrer">{ `Anonymous <${ url }>` }</a>
         } else {
             result = <a className="author-link" href={ url } target="_blank" rel="noreferrer">{ `${ name } <${ url }>` }</a>
         }
@@ -38,12 +39,14 @@ class Author extends React.Component {
 
 Author.propTypes = {
     name: PropTypes.string,
-    url:  PropTypes.string
+    url:  PropTypes.string,
+    uuid: PropTypes.string
 }
 
 Author.defaultProps = {
     name: '',
-    url:  ''
+    url:  '',
+    uuid: uuidv4()
 }
 
 module.exports = Author

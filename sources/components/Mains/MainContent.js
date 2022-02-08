@@ -1,5 +1,6 @@
 const { v4: uuidv4 } = require( 'uuid' )
 const React          = require( 'react' )
+const Container      = require( 'react-bootstrap/Container' )
 const Col            = require( 'react-bootstrap/Col' )
 const Row            = require( 'react-bootstrap/Row' )
 const Nav            = require( 'react-bootstrap/Nav' )
@@ -35,12 +36,12 @@ class MainContent extends React.Component {
         //        const content      = children.find( child => child.type === Content )
 
         return (
-            <Row className="flex-fill mh-0">
-                <Col md={ 2 } className="mh-100">
+            <Row className="flex-fill m-0 mh-0">
+                <Col md={ 2 } className="mh-100 overflow-auto p-0">
                     {/*{ menu ? menu.props.items : null }*/ }
                     { this._renderSideMenu() }
                 </Col>
-                <Col md={ 10 } className="mh-100 overflow-auto">
+                <Col md={ 10 } className="mh-100 overflow-auto p-0">
                     {/*{ content ? content.props.children : null }*/ }
                     { this.props.children }
                 </Col>
@@ -87,7 +88,7 @@ class MainContent extends React.Component {
         }
 
         return (
-            <Navbar bg="light" variant="light" expand={ false } className="h-100" style={ {
+            <Navbar bg="light" variant="light" expand={ false } className="h-100 p-3" style={ {
                 alignItems:     'flex-start',
                 flexWrap:       'wrap',
                 justifyContent: 'flex-start',

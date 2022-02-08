@@ -1,6 +1,7 @@
 const { v4: uuidv4 } = require( 'uuid' )
 const React          = require( 'react' )
 const PropTypes      = require( 'prop-types' )
+const Container      = require( 'react-bootstrap/Container' )
 const Navbar         = require( 'react-bootstrap/Navbar' )
 const Nav            = require( 'react-bootstrap/Nav' )
 const NavDropdown    = require( 'react-bootstrap/NavDropdown' )
@@ -25,7 +26,9 @@ class MainNavbar extends React.Component {
 
         return (
             <Navbar id={ uuid } bg={ this.props.bg } variant={ this.props.variant }>
-                { this._renderNavbarItems( this.props.items ) }
+                <Container fluid className="justify-content-start">
+                    { this._renderNavbarItems( this.props.items ) }
+                </Container>
             </Navbar>
         )
 

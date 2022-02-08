@@ -7,6 +7,7 @@ const {
       }              = require( './utils' )
 const logger         = require( '../../node_modules/jsdoc/lib/jsdoc/util/logger.js' )
 
+const packageJson    = require( '../../package.json' )
 const React          = require( 'react' )
 const ReactDOMServer = require( 'react-dom/server' )
 const Page           = require( '../components/Page' )
@@ -182,7 +183,8 @@ class Renderer {
                 bg:      'dark',
                 variant: 'dark',
                 sticky:  true
-            }
+            },
+            copyright: `Build with itee-doc v${ packageJson.version }`
         }
 
     }
@@ -294,9 +296,7 @@ class Renderer {
             const dataMap = datas[ availableCategory.key ]
             if ( isNotDefined( dataMap ) ) { continue }
 
-            const categoryOutputPath = path.join( outputPath, availableCategory.key )
-            this.createDirectoryIfNotExist( categoryOutputPath )
-            this.renderCategory( availableCategory, dataMap.values(), categoryOutputPath )
+            this.renderCategory( availableCategory, dataMap.values(), outputPath )
 
         }
 
@@ -309,14 +309,17 @@ class Renderer {
             // Avoid jsdoc warning on render even if there is only one rendered class per file
             data.key = data.uuid
 
-            const fileName = data.fileName || this._outputFilesNames.get( data.uuid )
-            const filePath = path.join( outputPath, fileName )
-
-            this._renderDatas.base = '../'
-            const pageHtml         = this.renderPage( this._renderDatas, [
+            const fileName             = data.fileName || this._outputFilesNames.get( data.uuid )
+            const categoryOutputPath   = path.join( outputPath, category.key )
+            const relativeOutputPath   = path.join( category.key, fileName )
+            const filePath             = path.join( categoryOutputPath, fileName )
+            this._renderDatas.base     = '../'
+            this._renderDatas.filePath = relativeOutputPath
+            const pageHtml             = this.renderPage( this._renderDatas, [
                 React.createElement( category.component, data )
             ] )
 
+            this.createDirectoryIfNotExist( categoryOutputPath )
             fs.writeFileSync( filePath, pageHtml )
 
         }

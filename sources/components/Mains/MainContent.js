@@ -5,8 +5,7 @@ const Row            = require( 'react-bootstrap/Row' )
 const Nav            = require( 'react-bootstrap/Nav' )
 const Navbar         = require( 'react-bootstrap/Navbar' )
 const NavDropdown    = require( 'react-bootstrap/NavDropdown' )
-//const PropTypes      = require( 'prop-types' )
-//const Container      = require( 'react-bootstrap/Container' )
+const PropTypes      = require( 'prop-types' )
 
 function Menu () {
     return null
@@ -144,9 +143,9 @@ class MainContent extends React.Component {
     }
 }
 
-//MainContent.propTypes = {
-//    path: PropTypes.string
-//}
+MainContent.propTypes = {
+    path: PropTypes.string
+}
 
 MainContent.Menu    = Menu
 MainContent.Content = Content

@@ -156,14 +156,16 @@ class MainNavbar extends React.Component {
         const uuid = navDropdown.id || uuidv4()
 
         // NavDropdown is not able to render dropdownItems as static content...
-        //        <NavDropdown key={ uuid } title={ navDropdown.title }>
-        //            { this._renderNavDropdownItems( navDropdown.items ) }
-        //        </NavDropdown>
         // So defaulting to real bootstrap component
+        //        return (
+        //            <NavDropdown key={ uuid } title={ navDropdown.title }>
+        //                { this._renderNavDropdownItems( navDropdown.items ) }
+        //            </NavDropdown>
+        //        )
 
         return (
             <li key={ uuid } className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle" href="#" id={ uuid } role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a className="nav-link dropdown-toggle" href="#" id={ uuid } role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     { navDropdown.title }
                 </a>
                 <div className="dropdown-menu" aria-labelledby={ uuid }>
@@ -171,7 +173,6 @@ class MainNavbar extends React.Component {
                 </div>
             </li>
         )
-
 
     }
 

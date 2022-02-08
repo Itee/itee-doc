@@ -63,7 +63,7 @@ class Page extends React.Component {
                             { this.props.children }
                         </MainContent>
                         <MainFooter { ...this.props.footer }>
-                            <span className="copyright">{ this.props.copyright }</span>
+                            <span className="copyright text-light">{ this.props.copyright }</span>
                         </MainFooter>
                     </div>
                     { this._renderScripts() }

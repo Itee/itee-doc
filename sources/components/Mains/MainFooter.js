@@ -19,12 +19,14 @@ class MainFooter extends React.Component {
     render () {
         return (
             <Navbar
-                className="footer"
+                className="footer justify-content-center"
                 bg={ this.props.bg }
                 variant={ this.props.variant }
                 sticky={ this.props.sticky }
                 fixed={ this.props.fixed }
-            ></Navbar>
+            >
+                { this.props.children }
+            </Navbar>
         )
     }
 

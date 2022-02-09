@@ -3,7 +3,8 @@ const fs             = require( 'fs' )
 const { v4: uuidv4 } = require( 'uuid' )
 const {
           getFilesInDirectory,
-          isNotDefined
+          isNotDefined,
+          getCodeLanguageFromExtension
       }              = require( './utils' )
 const logger         = require( '../../node_modules/jsdoc/lib/jsdoc/util/logger.js' )
 
@@ -92,7 +93,6 @@ class Renderer {
 
     }
 
-
     /**
      *
      * @param longName
@@ -177,9 +177,9 @@ class Renderer {
         // Compute Graphics list
 
         this._renderDatas = {
-            navbar:  navbar,
-            content: {},
-            footer:  {
+            navbar:    navbar,
+            content:   {},
+            footer:    {
                 bg:      'dark',
                 variant: 'dark',
                 sticky:  true
@@ -269,9 +269,18 @@ class Renderer {
             uuid:   uuidv4(),
             readMe: this.options.readme
         }, outputPath )
-
         this.renderCategories( datas, outputPath )
-        // Todo:       this.renderSources( outputPath )
+
+    }
+
+    renderPage ( props, children = [] ) {
+
+        // Throws : FATAL: Unable to load template: Unexpected token '<'
+        //    const html = ReactDOMServer.renderToStaticMarkup(<LoremIpsum name="Yougourt" />)
+        const html = ReactDOMServer.renderToStaticMarkup(
+            React.createElement( Page, props, children )
+        )
+        return `<!DOCTYPE html>${ html }`
 
     }
 
@@ -309,13 +318,27 @@ class Renderer {
             // Avoid jsdoc warning on render even if there is only one rendered class per file
             data.key = data.uuid
 
+            // In case user want source file, add it to the source data
+            const source = data.source
+            if ( source ) {
+                const sourcePath     = source.path
+                const sourceFileName = source.filename
+
+                const extension      = path.extname( sourceFileName )
+                data.source.language = getCodeLanguageFromExtension( extension )
+
+                const sourceFilePath = path.join( sourcePath, sourceFileName )
+                data.source.file     = fs.readFileSync( sourceFilePath, 'utf8' )
+            }
+
             const fileName             = data.fileName || this._outputFilesNames.get( data.uuid )
             const categoryOutputPath   = path.join( outputPath, category.key )
             const relativeOutputPath   = path.join( category.key, fileName )
             const filePath             = path.join( categoryOutputPath, fileName )
             this._renderDatas.base     = '../'
             this._renderDatas.filePath = relativeOutputPath
-            const pageHtml             = this.renderPage( this._renderDatas, [
+
+            const pageHtml = this.renderPage( this._renderDatas, [
                 React.createElement( category.component, data )
             ] )
 
@@ -325,18 +348,6 @@ class Renderer {
         }
 
     }
-
-    renderPage ( props, children = [] ) {
-
-        // Throws : FATAL: Unable to load template: Unexpected token '<'
-        //    const html = ReactDOMServer.renderToStaticMarkup(<LoremIpsum name="Yougourt" />)
-        const html = ReactDOMServer.renderToStaticMarkup(
-            React.createElement( Page, props, children )
-        )
-        return `<!DOCTYPE html>${ html }`
-
-    }
-
 }
 
 module.exports = Renderer

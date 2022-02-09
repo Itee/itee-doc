@@ -65,10 +65,38 @@ function getFilesInDirectory ( directoryPath, recursive = true ) {
 
 }
 
+/**
+ * Get the coding language for the given file extension.
+ * @param {String} extension - The file extension we are checking for underlying coding language
+ * @returns {String} - The coding language, else null
+ * @example
+ *  const lang = GetCodeLonguageFromExtension('.js')
+ *  console.log(lang)
+ *  // Output: javascript
+ */
+function getCodeLanguageFromExtension ( extension ) {
+
+    let language = null
+
+    switch (extension) {
+
+        case '.js':
+            language = 'javascript'
+            break
+
+        default:
+            throw new RangeError(`Invalid switch parameter: ${ex}`)
+
+    }
+
+    return language
+
+}
 
 module.exports = {
     isString,
     isDefined,
     isNotDefined,
-    getFilesInDirectory
+    getFilesInDirectory,
+    getCodeLanguageFromExtension
 }

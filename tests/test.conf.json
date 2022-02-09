@@ -8,14 +8,14 @@
       "./tests/README.md"
     ],
     "exclude": [
-      "./tests/_results"
+      "./tests/builds"
     ]
   },
   "plugins": [],
   "opts": {
     "encoding": "utf8",
     "template": "./builds",
-    "destination": "./tests/_results/",
+    "destination": "./tests/builds/",
     "recurse": true,
     "verbose": false
   },

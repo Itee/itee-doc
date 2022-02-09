@@ -1,11 +1,12 @@
 const { v4: uuidv4 } = require( 'uuid' )
 const React          = require( 'react' )
+const PropTypes      = require( 'prop-types' )
 const Col            = require( 'react-bootstrap/Col' )
 const Row            = require( 'react-bootstrap/Row' )
 const Nav            = require( 'react-bootstrap/Nav' )
 const Navbar         = require( 'react-bootstrap/Navbar' )
 const NavDropdown    = require( 'react-bootstrap/NavDropdown' )
-const PropTypes      = require( 'prop-types' )
+const MoveToAnchor   = require( '../Others/MoveToAnchor' )
 
 function Menu () {
     return null
@@ -34,6 +35,9 @@ class MainContent extends React.Component {
         //        const menu         = children.find( child => child.type === Menu )
         //        const content      = children.find( child => child.type === Content )
 
+        const anchorId   = 'anchor-top'
+        const anchorLink = `${ this.props.path }#${ anchorId }`
+
         return (
             <Row id={ this.props.uuid } className="flex-fill m-0 mh-0">
                 <Col md={ 2 } className="mh-100 overflow-auto p-0">
@@ -41,9 +45,12 @@ class MainContent extends React.Component {
                     { this._renderSideMenu() }
                 </Col>
                 <Col md={ 10 } className="mh-100 overflow-auto p-0">
+                    <div id={ anchorId }></div>
                     {/*{ content ? content.props.children : null }*/ }
                     { this.props.children }
                 </Col>
+
+                <MoveToAnchor anchor={ anchorLink }>🚀</MoveToAnchor>
             </Row>
         )
 
@@ -51,6 +58,7 @@ class MainContent extends React.Component {
 
     _renderSideMenu () {
 
+        // Keep this until index have its own component
         const child = ( this.props.children && this.props.children.length > 0 ) ? this.props.children[ 0 ] : null
         if ( !child ) { return null }
 

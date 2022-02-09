@@ -13,6 +13,25 @@ html, body {
   min-height: 0;
 }
 
+// Move-To anchors
+.move-to-anchor {
+  border: 1px solid #aaaaaa;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 50px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  font-size: x-large;
+  transform: rotateZ(
+                  315deg
+  );
+  align-items: center;
+}
+
 /* Scroll bar overide */
 ::-webkit-scrollbar {
   height: 5px;

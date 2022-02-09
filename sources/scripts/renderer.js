@@ -154,7 +154,7 @@ class Renderer {
         const navbarBrand = {
             type:  'brand',
             link:  'index.html',
-            label: 'Itee-Doc'
+            label: '👽 Itee-Doc'
         }
         navbar.items.push( navbarBrand )
 
@@ -184,7 +184,7 @@ class Renderer {
                 variant: 'dark',
                 sticky:  true
             },
-            copyright: `Build with itee-doc v${ packageJson.version }`
+            copyright: `Build with Itee-doc v${ packageJson.version }`
         }
 
     }

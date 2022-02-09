@@ -26,7 +26,7 @@ class RequiresList extends LabeledList {
 
         if ( !url && !label ) {
 
-            link = null
+            link = value
 
         } else if ( !url && label ) {
 
